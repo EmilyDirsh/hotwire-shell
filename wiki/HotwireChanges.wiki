@@ -1,0 +1,87 @@
+#summary Hotwire change log
+== Changes in Hotwire 0.590 ==
+
+Visible changes:
+
+ * Better completion of executables in cwd (#83)
+ * FilePath listing trims common prefix
+ * FilePath listing includes owner/group/permissions
+ * Tabs are reorderable via drag and drop (with new enough GTK+)
+
+Notable bugfixes:
+
+ * .desktop file references correct icon
+ * Fix race condition in persistence framework (#81)
+ * Correctly interrupt entire subprocess group with Cancel/Ctrl-C
+ * Window resizing (#80)
+ * Completion window should behave better (#88 and others)
+ * Fix bold color in term (#85)
+ * Start autoscrolling output again if scroll is at end
+ * Tab close button draws correctly
+
+== Changes in Hotwire 0.575 ==
+
+Notable bugfixes:
+
+ * Suck in Python 2.5's webbrowser.py so we work better on Python 2.4
+ * Include hotwire icon
+ * Don't lose on EPIPE from subprocesses
+ * Ctrl-c cancel updates statusbar
+
+== Changes in Hotwire 0.567 ==
+
+Visible changes:
+
+ * Support for creating new windows (in addition to new tabs)
+ * Ctrl-c now Does The Right Thing; if you have a selection it copies, otherwise cancels last command
+ * Tab switching is now Ctrl-# and not Alt-# to match gnome-terminal and Firefox (#74)
+ * There is a basic menubar now for some discoverability
+ * Alt-Left and Alt-Right keybindings are gone; I want to use these later for directory nav.  Use Ctrl-PageUp/PageDn or Ctrl-# instead.
+ * Ctrl-Up and Ctrl-Down are convenient ways to cycle through previous command displays
+ * The help display gains a link to the tutorial on the wiki
+ * Wrap lines checkbox for unicode renderer (should this be persistent?)
+ * `man` and `top` are now run with '''term''' by default
+ 
+Notable bugfixes:
+ 
+ * Headers in '''ls''' display work better (#76)
+ * Shell command cancellation works much better now (pid was a global variable, oops!)
+ * Some memory usage reduction fixes
+ * Completion window hides itself appropriately in more situations now
+
+== Changes in Hotwire 0.556 ==
+
+ * Hotwire keeps track of "hot" working directories and offers them as completions when using 'cd'.
+ * Completions now have icons (useful to distinguish real files from history completions)
+ * New builtin 'fsearch' is like fgrep -R, but cooler.
+ * New builtin 'prop' for accessing object properties
+ * The completion window should flash a lot less during completion
+ * Escape hides the completion window
+ * Fix shell commands using [] and {}
+ * Terminal supports copy/paste with Ctrl-Shift-C, Ctrl-Shift-V.
+ * Terminal uses system colors and monospace font
+ * Terminal closes when command exits
+ * Hotwire is now a singleton on Linux (support for new windows coming soon)
+
+== Changes in Hotwire 0.554 ==
+
+ * Native windows installer with no external dependencies on Python or GTK+.
+ * Completion engine redone again.  You can now drill down into directories using SHIFT.
+ * There is now interactive Firefox-style search over command output.  Try typing Ctrl-s.   Very handy for output of 'make'!
+ * 'rm' and friends are implemented for Windows.
+ * Default aliases (i.e. 'vi' -> 'term vi', 'ssh' -> 'term ssh').
+ * Progress meters for 'rm' and friends.
+ * On Linux, 'ls' now shows miniature pixbufs for files (like Nautilus)
+ * On Windows, basic icons for files/directories work.
+ * 'ls' now has size and last modified date
+ * On Linux, 'ls' has right click menu to do 'Open with...', same list as Nautilus
+ * 'ls' now requires '-a' to show hidden files
+ * Completion window is fixed size so it doesn't go crazy on long commands; this one needs work still.
+ * Cancelling shell subprocesses should be more reliable on Unix
+ * 'cd' now only offers directories as completions (and infrastructure is there for other command-specific completions)
+ * Executable completion handles current directory too (typing ./autogen.sh does the right thing)
+ * Better code internally; it should be getting easier to port Hotwire to other platforms like BSD and Mac OS X.
+
+----
+
+Jump to: HotwireDevelopment
