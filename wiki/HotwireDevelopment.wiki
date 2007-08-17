@@ -1,0 +1,61 @@
+#summary How to develop Hotwire
+
+= Source Code =
+
+Hotwire is developed using [http://www.selenic.com/mercurial/ Mercurial].  You can clone the source tree:
+{{{
+hg clone http://submind.verbum.org/hg/hotwire
+}}}
+
+= Architecture =
+
+See HotwireArchitecture for a technical overview.
+
+= Communication =
+
+Discussion happens on the [http://groups.google.com/group/hotwire-shell Hotwire Google Group].
+You can send patches or links to cloned trees there, or create a Trac ticket.
+
+= Dependencies =
+
+Hotwire requires [http://python.org Python >= 2.4], [http://pygtk.org PyGTK] at a minimum.
+
+== Linux/Unix ==
+On Unix you will need the Python GNOME libraries, though Hotwire should work (with reduced
+functionality) without them.
+
+== Windows ==
+
+See HotwireWindows.
+
+= Getting started =
+
+{{{
+python ui/hotwire
+}}}
+
+== Using Hotwire to hack Hotwire ==
+
+Use the ''-n'' option to tell Hotwire not to save anything; this avoids the instances overwriting each
+other's history and in the future other things.
+
+{{{
+python ui/hotwire -n
+}}}
+
+= What to hack on? =
+
+DiveIntoHotwireCode is a page dedicated to relatively easy things to start on to get
+your feet wet with the Hotwire code.
+
+There is also the full the list of open tickets: {1}
+
+Some open project areas: HotwireSyntax HotwireRemoting HotwireWindows
+
+= The Hotwire philosophy =
+
+See BeingHot.
+
+= Related Projects and Sources of Ideas =
+
+See RelatedProjectsAndIdeas.
