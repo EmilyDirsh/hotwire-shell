@@ -1,0 +1,96 @@
+#summary Getting started using Hotwire
+
+== File Management ==
+
+To start out, try using '''ls''' to list the contents of your home directory:
+
+{{{
+ls
+}}}
+
+Next, use '''cd''' to change to a subdirectory.  While you are typing, note you can hit `TAB`
+to choose completions.
+
+{{{
+cd ~/Pictures
+}}}
+
+Use '''rm''' to remove a file of your choice:
+
+{{{
+rm SomePicture.png
+}}}
+
+Verify the file is gone using '''ls''' again if you like.  Note you have an ''Undo'' option for '''rm'''!
+Also note that unlike Unix ''rm'', Hotwire's bulitin '''rm''' takes no options (it automatically removes
+directories for example, no need for `-r`).
+
+Other builtin file management commands are '''mv''' and '''cp'''.
+
+== Executing System commands ==
+
+The above are all builtin commands; they are written in pure Python and are portable to all platforms
+Hotwire runs on (currently Linux and Windows).  Now you can try running some system commands:
+
+{{{
+sh ifconfig
+}}}
+
+However, because typing '''sh''' a lot would be annoying, Hotwire allows you to omit it:
+
+{{{
+ifconfig
+}}}
+
+Now, try typing '''Ctrl-s''' to search the output.  Press ''ESC'' when you're done.
+
+This mode is the default - the vast majority of system commands on Unix or Windows do some operation and output text.  Hotwire therefore defaults to assuming this, and gives you a searchable output stream.  You currently can not give input to commands in this mode.
+
+== Pipelines ==
+
+Hotwire supports more than simple commands; you can string together chains of them via the '''|''' symbol,
+just like in Unix shell.  For example:
+
+{{{
+ipconfig | filter Link
+}}}
+
+'''filter''' is a Hotwire builtin that outputs objects which match a regular expression.  But note the
+bold match highlighting!
+
+== Other Hotwire builtins ==
+
+Try typing:
+
+{{{
+ps
+}}}
+
+'''ps''' is a Hotwire builtin that outputs '''Process''' objects, not text strings.  Thus, we can display
+their object properties neatly into columns.  Now, try:
+
+{{{
+ps | filter python cmd
+}}}
+
+Note the extra argument ''cmd'' for '''filter'''.  What that means is to apply the filter to a particular
+property of an object.  See HotwireArchitecture for a detailed explanation of this example.
+
+
+== Creating terminals == 
+
+{{{
+term less textfile.txt
+}}}
+ 
+The above command will create a new tab with a terminal (Press `q` to exit `less` by the way).
+
+If you want a plain login shell, you can do:
+
+{{{
+term
+}}}
+
+If a command doesn't behave as you think it should, it may require a terminal.  Some common Unix
+commands like `vi`, `ssh`, `less`, and others do.  Hotwire actually has a set of ''aliases'' for
+some commands.  For example, '''vi''' by default is aliased to '''term vi'''.
