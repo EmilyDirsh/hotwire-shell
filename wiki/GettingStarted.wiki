@@ -66,11 +66,11 @@ Try typing:
 ps
 }}}
 
-'''ps''' is a Hotwire builtin that outputs '''Process''' objects, not text strings.  Thus, we can display
+'''proc''' is a Hotwire builtin that outputs '''Process''' objects, not text strings.  Thus, we can display
 their object properties neatly into columns.  Now, try:
 
 {{{
-ps | filter python cmd
+proc | filter python cmd
 }}}
 
 Note the extra argument ''cmd'' for '''filter'''.  What that means is to apply the filter to a particular
