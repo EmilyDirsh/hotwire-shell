@@ -2,10 +2,7 @@
 
 = Source Code =
 
-Hotwire is developed using [http://www.selenic.com/mercurial/ Mercurial].  You can clone the source tree:
-{{{
-hg clone http://submind.verbum.org/hg/hotwire
-}}}
+See [http://code.google.com/p/hotwire-shell/source Source page].
 
 = Architecture =
 
