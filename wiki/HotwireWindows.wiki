@@ -1,0 +1,48 @@
+#summary Hotwire on Windows
+
+
+The Windows port is in fairly decent shape now.
+
+= Getting a development environment setup =
+
+== Python Downloads ==
+
+ * [[http://python.org/download/ Python]].  Get the MSI.
+ * [[http://python.net/crew/mhammond/win32/Downloads.html Python Win32 Extensions]].  Follow the link to Sourceforge.  You need to match the extension installer version to your Python version; at the time of this writing current Python is 2.5, so you'd download '''pywin32-210.win32-py2.5.exe'''.
+
+== PyGTK ==
+
+There are a few choices here; I used the [[http://live.gnome.org/PyGTK/FAQ/Win32AndPygtk PyGTK FAQ]] instructions, but
+there is work on a [[http://aruiz.typepad.com/siliconisland/2007/05/tango_and_gtk_l.html new PyGTK installer]].
+
+You can initially run Hotwire from cmd.exe or powershell.exe as you choose.  I use
+[ftp://ftp.gnu.org/gnu/emacs/windows/ Emacs] for development, but of course there are hundreds of other choices.
+Here's my setup for Powershell:
+
+{{{
+$env:path += ';C:\Python25'
+cd My Documents\hotwire
+python ui/hotwire
+}}}
+
+= Building an installer =
+
+Just now got [[http://www.py2exe.org/ Py2exe]] to work.  In particular see [[http://www.py2exe.org/index.cgi/Py2exeAndPyGTK Py2exe PyGTK page]].
+
+== Initial setup ==
+
+{{{
+mkdir dist
+}}}
+
+Copy the `lib` and `etc` directories from `C:\Program Files\Common Files\GTK\2.0` into the new `dist` directory.
+
+== Running py2exe ==
+
+{{{
+python setup.py py2exe
+}}}
+
+----
+
+See also: HotwireDevelopment
