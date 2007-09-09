@@ -16,14 +16,14 @@ whereas Hotwire only pipes Python objects (HotwireVsBinSh).
 Here's a simple example:
 
 {{{
-ps | filter walters owner_name
+proc | filter walters owner_name
 }}}
 
 (''Don't be fooled by the similarity to shell syntax, there is no `/bin/sh` or in fact any external processes involved here'')
 
-This pipeline is composed of two components, the '''ps''' builtin and the '''filter''' builtin.  The ''walters'' and ''owner_name''
-are arguments for '''filter'''.  The '''ps''' builtin command generates a list of all processes on the system (instances of '''Process''').  If we had omitted
-the second part, we would have seen this list displayed.  The '''filter''' command takes a regular expression and (optionally) a property
+This pipeline is composed of two components, the *proc* builtin and the *filter* builtin.  The ''walters'' and ''owner_name''
+are arguments for *filter*.  The *proc* builtin command generates a list of all processes on the system (instances of *Process*).  If we had omitted
+the second part, we would have seen this list displayed.  The *filter* command takes a regular expression and (optionally) a property
 name.  Here, it is filtering the process list to objects whose ''owner_name'' attribute matches the regular expression
 ''walters''.  Note that unlike a traditional text-line based `/bin/sh` pipeline, this will not be misled by other extraneous text
 which happens to match the input (no `grep -v grep`).
@@ -38,18 +38,18 @@ for process in sys.get_processes():
 }}}
 
 Internally there are other details: Hotwire actually creates a thread for each pipeline component, has some static type checking, etc.
-Of course the biggest thing glossed over in the above is that Python actually has no builtin way to list system processes; that's part of Hotwire's '''Platform''' object.
+Of course the biggest thing glossed over in the above is that Python actually has no builtin way to list system processes; that's part of Hotwire's *Platform* object.
 
 This may also be a bit clearer from looking at the [http://submind.verbum.org/hotwire/browser/hotwire/builtins/ps.py ps source] and the [http://submind.verbum.org/hotwire/browser/hotwire/builtins/filter.py filter source].
 
 == Renderers ==
 
 Besides just generating lists of objects, Hotwire knows how to display them.
-If you try the '''ls''' command in Hotwire, you will likely notice that Hotwire displays the appropriate icons for the file, and
-turns the file name into a clickable link to open.  This is because the '''ls''' command generates a list of '''!FilePath''' objects.
-The '''!ObjectRendererMapping''' registry tells Hotwire to render '''!FilePath''' objects using '''!FilePathRenderer'''.
-Renderers are unlimited in power (they're just GTK+ widgets); e.g. you could define a renderer for the '''Process''' class which dynamically shows its CPU usage,
-add an '''Edit''' link to the !FilePathRenderer, and a lot more. 
+If you try the *ls* command in Hotwire, you will likely notice that Hotwire displays the appropriate icons for the file, and
+turns the file name into a clickable link to open.  This is because the *ls* command generates a list of *!FilePath* objects.
+The *ObjectRendererMapping* registry tells Hotwire to render *!FilePath* objects using *!FilePathRenderer*.
+Renderers are unlimited in power (they're just GTK+ widgets); e.g. you could define a renderer for the *Process* class which dynamically shows its CPU usage,
+add an ''Edit'' link to the !FilePathRenderer, and a lot more. 
 
 == Remoting ==
 
