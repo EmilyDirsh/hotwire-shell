@@ -6,7 +6,7 @@ Visible changes:
 
  * Ctrl-t now opens a new Hotwire tab
  * Ctrl-T (uppercase) now opens a terminal tab
- * '''ps''' is now renamed '''proc'''.
+ * *ps* is now renamed *proc*.
  * When a terminal tab ends, if you have not switched tabs since its creation, the new selected tab will be the one from which the terminal tab was created.  In other words, "vi foo.c" works more smoothly.
  * The current directory selector is now a combo box of recent directories
  * The history view from the up arrow is now per-tab.  History search is still global.
