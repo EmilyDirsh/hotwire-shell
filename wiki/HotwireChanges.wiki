@@ -1,6 +1,6 @@
 #summary Hotwire change log
 
-== Changes in Hotwire 0.595
+== Changes in Hotwire 0.595 ==
 
 Visible changes:
 
