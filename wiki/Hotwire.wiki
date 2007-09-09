@@ -13,7 +13,9 @@ See the [wiki:Screenshots], join the [http://groups.google.com/group/hotwire-she
 
 = Downloads =
 
-The current version of Hotwire is 0.590 (HotwireChanges).  Download for:
+The current version of Hotwire is 0.595 (HotwireChanges). 
+
+ * Source Code: [http://code.google.com/p/hotwire-shell/downloads/list Downloads]
 
  * Fedora: You should be able to '''yum install hotwire''' on Fedora 7.
  * Ubuntu: Looks to be available [http://www.getdeb.net/app.php?name=Hotwire here], also I imagine the Debian package will migrate through?
@@ -21,9 +23,7 @@ The current version of Hotwire is 0.590 (HotwireChanges).  Download for:
  * Archlinux: The [http://aur.archlinux.org/packages.php?do_Details=1&ID=12103 package] lives in AUR, so you can 'makepkg' it or just use Yaourt to install it.
  * Debian: Looks like Hotwire is [http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=428147 currently being packaged].
  
- * Windows: [http://hotwire-shell.org/download/hotwire-0.556-win32inst.exe Windows Installer (for 0.567 - getting old now, will do new version sometime)].
-
- * Source Code: [http://hotwire-shell.org/download/hotwire-0.590.zip Source Code].
+ * Windows: [http://code.google.com/p/hotwire-shell/downloads/list Downloads], but this version is getting old now.  We need a hacker who can help bring the Windows support up to par.
 
 = Development =
 
