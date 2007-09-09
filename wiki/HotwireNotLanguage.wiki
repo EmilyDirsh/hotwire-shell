@@ -1,6 +1,6 @@
 #summary Why Hotwire is not a programming language
 
-If you want to write multi-line scripts with variables, flow control, data structures etc., '''write them in Python'''.
+If you want to write multi-line scripts with variables, flow control, data structures etc., *write them in Python*.
 
 It may make sense to import Hotwire's command pipeline code for parts of a Python program:
 
