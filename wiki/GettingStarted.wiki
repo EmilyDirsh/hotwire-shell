@@ -52,7 +52,7 @@ Hotwire supports more than simple commands; you can string together chains of th
 just like in Unix shell.  For example:
 
 {{{
-ipconfig | filter Link
+ifconfig | filter Link
 }}}
 
 *filter* is a Hotwire builtin that outputs objects which match a regular expression.  But note the
@@ -94,3 +94,4 @@ term
 If a command doesn't behave as you think it should, it may require a terminal.  Some common Unix
 commands like `vi`, `ssh`, `less`, and others do.  Hotwire actually has a set of _aliases_ for
 some commands.  For example, *vi* by default is aliased to *term vi*.
+ 
