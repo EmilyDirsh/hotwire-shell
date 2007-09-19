@@ -8,19 +8,13 @@ HotwireVsPowerShell is dedicated to the Hotwire's influence from Windows PowerSh
 
 = Other projects =
 
-[http://www.wickedshell.net/ Wicked Shell] - Shell integration for Eclipse.  Looks like they have some basic
-completion and crossplatform functionality.  Might be worth investigating.
-
 [http://www.stanford.edu/~dramage/gci/ Gnome Command Interface] - GCI has some similarites (Python, GNOME
 basis, backgrounding jobs).  However, a big push GCI seems to be implementing strongly reliable completion, with a lot of work
 on grammar.  In contrast Hotwire has a simpler completion scheme (basically just like Unix shell, assuming
 file names).  Hotwire's syntax is ridiculously simple:  `pipeline.split(" | ")`  Other differences are
 Hotwire's interest in being crossplatform.
 
-[http://en.wikipedia.org/wiki/XMLTerm XMLTerm] - Old, but highly innovative for the time.  Definitely worth
-studying more closely.
-
-[http://www.geocities.com/ResearchTriangle/Forum/6751/ LinuXML] Looks like they picked a Big Idea (XML), rather than trying to be practical.
+[http://web.archive.org/web/20050207072807/xmlterm.sourceforge.net/ XMLTerm] - Old, but highly innovative for the time.
 
 [http://linux.pte.hu/~pipas/CUI/ CUI] - Looks based around having parsers for the output
 of various shell commands, and doing things like colorization, linkification of file names, etc.  Related, but I think 
@@ -31,9 +25,14 @@ but still allowing callouts to `/bin/sh`.
 [http://anthias.sourceforge.net/ Anthias] Similar idea to Hotwire; targets KDE, written in C++.  They chose to
 do a frontend/backend separation from the start using a custom protocol.  Development looks stalled.
 
-[http://www.cs.indiana.edu/~kinzler/vshnu/ vshnu] Attempt at tty-based shell in Perl. Quite old now but may have some ideas.
+[http://personal.atl.bellsouth.net/v/c/vcato/gsh/ gsh] *Very* similar ideas to Hotwire. Fairly old. Written in TCL/TK.  TODO: Download source and investigate this more.
 
-[http://personal.atl.bellsouth.net/v/c/vcato/gsh/ gsh] *Very* similar ideas to Hotwire.  Written in TCL/TK.  TODO: Download source and investigate this more.
+[http://www.wickedshell.net/ Wicked Shell] - Shell integration for Eclipse.  Looks like they have some basic
+completion and crossplatform functionality.  Might be worth investigating.
+
+[http://www.geocities.com/ResearchTriangle/Forum/6751/ LinuXML] Looks like they picked a Big Idea (XML), rather than trying to be practical.
+
+[http://www.cs.indiana.edu/~kinzler/vshnu/ vshnu] Attempt at tty-based shell in Perl. Quite old now but may have some ideas.
 
 [http://www.fishshell.org/ Fish shell] - Interested in fixing some of the same problems we are (e.g. features not on by default), although they 
 are limited by their choice of being just a login shell instead of combination "terminal"+shell.
@@ -48,5 +47,6 @@ probably code.  Might want to look at their "distributed computing" stuff - mayb
 
 [http://quasi-shell.sourceforge.net/ Quasi] - no GUI, seems to have syntax ideas
 
- 
- 
+= Articles =
+
+[http://www.advogato.org/article/242.html Advogato entry] - Someone wondering why the Unix shell isn't better.
