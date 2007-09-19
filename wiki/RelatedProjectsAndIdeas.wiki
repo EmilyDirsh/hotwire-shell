@@ -49,4 +49,6 @@ probably code.  Might want to look at their "distributed computing" stuff - mayb
 
 = Articles =
 
+[http://polylithic.net/cli/ CLI] - Website devoted to the CLI.
 [http://www.advogato.org/article/242.html Advogato entry] - Someone wondering why the Unix shell isn't better.
+ 
