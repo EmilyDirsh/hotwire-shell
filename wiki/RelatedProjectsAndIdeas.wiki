@@ -20,6 +20,8 @@ Hotwire's interest in being crossplatform.
 [http://en.wikipedia.org/wiki/XMLTerm XMLTerm] - Old, but highly innovative for the time.  Definitely worth
 studying more closely.
 
+[http://www.geocities.com/ResearchTriangle/Forum/6751/ LinuXML] Looks like they picked a Big Idea (XML), rather than trying to be practical.
+
 [http://linux.pte.hu/~pipas/CUI/ CUI] - Looks based around having parsers for the output
 of various shell commands, and doing things like colorization, linkification of file names, etc.  Related, but I think 
 the approach (C, parsing shell commands instead of implementing them natively) is going to be too restrictive.
@@ -46,4 +48,5 @@ probably code.  Might want to look at their "distributed computing" stuff - mayb
 
 [http://quasi-shell.sourceforge.net/ Quasi] - no GUI, seems to have syntax ideas
 
+ 
  
