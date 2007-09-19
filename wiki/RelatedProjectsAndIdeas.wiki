@@ -29,6 +29,10 @@ but still allowing callouts to `/bin/sh`.
 [http://anthias.sourceforge.net/ Anthias] Similar idea to Hotwire; targets KDE, written in C++.  They chose to
 do a frontend/backend separation from the start using a custom protocol.  Development looks stalled.
 
+[http://www.cs.indiana.edu/~kinzler/vshnu/ vshnu] Attempt at tty-based shell in Perl. Quite old now but may have some ideas.
+
+[http://personal.atl.bellsouth.net/v/c/vcato/gsh/ gsh] *Very* similar ideas to Hotwire.  Written in TCL/TK.  TODO: Download source and investigate this more.
+
 [http://www.fishshell.org/ Fish shell] - Interested in fixing some of the same problems we are (e.g. features not on by default), although they 
 are limited by their choice of being just a login shell instead of combination "terminal"+shell.
 
@@ -42,3 +46,4 @@ probably code.  Might want to look at their "distributed computing" stuff - mayb
 
 [http://quasi-shell.sourceforge.net/ Quasi] - no GUI, seems to have syntax ideas
 
+ 
