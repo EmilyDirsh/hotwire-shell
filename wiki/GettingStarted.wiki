@@ -63,7 +63,7 @@ bold match highlighting!
 Try typing:
 
 {{{
-ps
+proc
 }}}
 
 *proc* is a Hotwire builtin that outputs *Process* objects, not text strings.  Thus, we can display
@@ -94,4 +94,5 @@ term
 If a command doesn't behave as you think it should, it may require a terminal.  Some common Unix
 commands like `vi`, `ssh`, `less`, and others do.  Hotwire actually has a set of _aliases_ for
 some commands.  For example, *vi* by default is aliased to *term vi*.
+ 
  
