@@ -1,7 +1,11 @@
 #summary Hotwire on Windows
 
 
-The Windows port is in fairly decent shape now.
+The Windows port worked some time ago as a proof of concept, but many internal changes since then have regressed it.  One of the main issues right now is:
+
+http://code.google.com/p/hotwire-shell/issues/detail?id=6
+
+Basically we need to decide whether Hotwire on Windows will be a shell with Unix-like syntax or Windows cmd syntax.
 
 = Getting a development environment setup =
 
