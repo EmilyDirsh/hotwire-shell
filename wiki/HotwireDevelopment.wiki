@@ -6,6 +6,8 @@ See [http://code.google.com/p/hotwire-shell/source Source page].
 
 = Getting started =
 
+Run this command after having checked out from Subversion or unpacking the Zip file:
+
 {{{
 python ui/hotwire
 }}}
