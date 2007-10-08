@@ -4,6 +4,21 @@
 
 See [http://code.google.com/p/hotwire-shell/source Source page].
 
+= Getting started =
+
+{{{
+python ui/hotwire
+}}}
+
+== Using Hotwire to hack Hotwire ==
+
+Use the ''-n'' option to tell Hotwire not to save anything; this avoids the instances overwriting each
+other's history and in the future other things.
+
+{{{
+python ui/hotwire -n
+}}}
+
 = Architecture =
 
 See HotwireArchitecture for a technical overview.
@@ -24,21 +39,6 @@ functionality) without them.
 == Windows ==
 
 See HotwireWindows.
-
-= Getting started =
-
-{{{
-python ui/hotwire
-}}}
-
-== Using Hotwire to hack Hotwire ==
-
-Use the ''-n'' option to tell Hotwire not to save anything; this avoids the instances overwriting each
-other's history and in the future other things.
-
-{{{
-python ui/hotwire -n
-}}}
 
 = What to hack on? =
 
