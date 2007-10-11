@@ -1,6 +1,8 @@
 #summary Hotwire change log
 
-== Changes in Hotwire 0.595 ==
+= Current =
+
+== Changes in Hotwire 0.595 (Current Release) ==
 
 Visible changes:
 
@@ -14,6 +16,31 @@ Visible changes:
 Notable bugfixes:
 
  * Shell quotation should work better
+
+== Changes in Hotwire SVN (Not yet released) ==
+
+Visible changes:
+
+ * Menu items added.
+ * New display UI for commands; there is an "overview" mode, and old commands don't always take up space.
+ * Completed commands are now automatically removed 5 minutes after completion
+ * Add support for user plugins in ~/.hotwire/custom
+ * Added builtin editor for when subprocesses invoke $EDITOR but the variable isn't set, because the default editor on most platforms requires a terminal.
+ * Support for common-prefix completion; if you have several files named foo-x.c, foo-y.c, TAB will fill in from f to foo-.
+ * Allocate a PTY when executing subprocesses; this forces them to be line-buffered so Hotwire gets output immediately.
+ * Initial support for terminal codes (right now just backspace); this makes progress bars drawn by e.g. rpm work.
+ * "ls" outputs filenames in locale order
+
+Notable bugfixes:
+
+ * Disable Ctrl-T/Ctrl-N keybindings when in terminal tab.
+ * Avoid passing through Ctrl-shift-C to terminal (i.e. copy/paste won't interrupt subprocesses)
+ * Correctly handle globs for non-current directories (Issue #10).
+ * Make first path item clickable (issue #9).
+ * Work on older PyGTK releases
+ * Require exact matches for automatic command resolution (e.g. typing "foo RET" won't auto-expand to /usr/bin/foomatic)
+
+= Older releases =
 
 == Changes in Hotwire 0.590 ==
 
