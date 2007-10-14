@@ -16,6 +16,7 @@ Visible changes:
  * Initial support for terminal codes (right now just backspace); this makes progress bars drawn by e.g. rpm work.
  * "ls" outputs filenames in locale order
  * Copy is now always Ctrl-C; Cancel is now Ctrl-Shift-C
+ * Use monospace font for file renderer; this makes permissions column look nicer
 
 Notable bugfixes:
 
