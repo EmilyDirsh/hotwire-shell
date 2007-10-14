@@ -15,7 +15,7 @@ Visible changes:
  * Allocate a PTY when executing subprocesses; this forces them to be line-buffered so Hotwire gets output immediately.
  * Initial support for terminal codes (right now just backspace); this makes progress bars drawn by e.g. rpm work.
  * "ls" outputs filenames in locale order
- * Copy is now always Ctrl-C and Cancel is now always Ctrl-Shift-C
+ * Copy is now always Ctrl-C; Cancel is now Ctrl-Shift-C
 
 Notable bugfixes:
 
