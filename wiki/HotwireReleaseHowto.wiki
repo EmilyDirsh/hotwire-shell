@@ -7,6 +7,7 @@ Hello world,
 Hotwire VERSION is out (ONE SENTENCE SUMMARY)
 
 Source Download link: http://hotwire-shell.googlecode.com/files/hotwire-VERSION.zip
+
 Changes: http://code.google.com/p/hotwire-shell/wiki/HotwireChanges
 
 Hotwire is:
