@@ -1,4 +1,5 @@
 #summary How to develop Hotwire
+#labels Featured
 
 = Source Code =
 
