@@ -2,29 +2,14 @@
 
 = Current =
 
-== Changes in Hotwire 0.595 (Current Release) ==
-
-Visible changes:
-
- * Ctrl-t now opens a new Hotwire tab
- * Ctrl-T (uppercase) now opens a terminal tab
- * *ps* builtin is now renamed *proc*.
- * When a terminal tab ends, if you have not switched tabs since its creation, the new selected tab will be the one from which the terminal tab was created.  In other words, "vi foo.c" works more smoothly.
- * The current directory selector is now a combo box of recent directories
- * The history view from the up arrow is now per-tab.  History search is still global.
-
-Notable bugfixes:
-
- * Shell quotation should work better
-
-== Changes in Hotwire SVN (Not yet released) ==
+== Changes in Hotwire 0.599 (Current Release) ==
 
 Visible changes:
 
  * Menu items added.
  * New display UI for commands; there is an "overview" mode, and old commands don't always take up space.
  * Completed commands are now automatically removed 5 minutes after completion
- * Add support for user plugins in ~/.hotwire/custom
+ * Add basic support for user plugins in ~/.hotwire/plugins
  * Added builtin editor for when subprocesses invoke $EDITOR but the variable isn't set, because the default editor on most platforms requires a terminal.
  * Support for common-prefix completion; if you have several files named foo-x.c, foo-y.c, TAB will fill in from f to foo-.
  * Allocate a PTY when executing subprocesses; this forces them to be line-buffered so Hotwire gets output immediately.
@@ -40,7 +25,26 @@ Notable bugfixes:
  * Work on older PyGTK releases
  * Require exact matches for automatic command resolution (e.g. typing "foo RET" won't auto-expand to /usr/bin/foomatic)
 
+== Changes in Hotwire SVN (Not released) ==
+
+None yet.
+
 = Older releases =
+
+== Changes in Hotwire 0.595 ==
+
+Visible changes:
+
+ * Ctrl-t now opens a new Hotwire tab
+ * Ctrl-T (uppercase) now opens a terminal tab
+ * *ps* builtin is now renamed *proc*.
+ * When a terminal tab ends, if you have not switched tabs since its creation, the new selected tab will be the one from which the terminal tab was created.  In other words, "vi foo.c" works more smoothly.
+ * The current directory selector is now a combo box of recent directories
+ * The history view from the up arrow is now per-tab.  History search is still global.
+
+Notable bugfixes:
+
+ * Shell quotation should work better
 
 == Changes in Hotwire 0.590 ==
 
