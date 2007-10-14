@@ -10,6 +10,8 @@ Source Download link: http://hotwire-shell.googlecode.com/files/hotwire-VERSION.
 
 Changes: http://code.google.com/p/hotwire-shell/wiki/HotwireChanges
 
+Home page: http://hotwire-shell.org
+
 Hotwire is:
   * A modern, hybrid text/graphical shell for developers and system administrators
   * A replacement for gnome-terminal/xterm + /bin/sh on Linux/Unix
