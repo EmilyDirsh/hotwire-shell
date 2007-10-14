@@ -17,7 +17,7 @@ Visible changes:
  * "ls" outputs filenames in locale order
  * Copy is now always Ctrl-C; Cancel is now Ctrl-Shift-C
  * Use monospace font for file renderer; this makes permissions column look nicer
- * '''cd''' command is not undoable, since that was just confusing
+ * *cd* command is not undoable, since that was just confusing
 
 Notable bugfixes:
 
