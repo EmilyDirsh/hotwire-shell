@@ -45,7 +45,7 @@ ifconfig
 
 Now, try typing *Ctrl-s* to search the output.  Press _ESC_ when you're done.
 
-This mode is the default - the vast majority of system commands on Unix or Windows do some operation and output text.  Hotwire therefore defaults to assuming this, and gives you a searchable output stream.  You currently can not give input to commands in this mode.
+This mode is the default - the vast majority of system commands on Unix or Windows do some operation and output text.  Hotwire therefore defaults to assuming this, and gives you a searchable output stream.  You currently can not give input to commands in this mode (see HotwireCommandInput).
 
 == Pipelines ==
 
