@@ -19,7 +19,7 @@ Here's a simple example:
 proc | filter walters owner_name
 }}}
 
-(''Don't be fooled by the similarity to shell syntax, there is no `/bin/sh` or in fact any external processes involved here'')
+(Don't be fooled by the similarity to shell syntax, there is no `/bin/sh` or in fact any external processes involved here)
 
 This pipeline is composed of two components, the *proc* builtin and the *filter* builtin.  The ''walters'' and ''owner_name''
 are arguments for *filter*.  The *proc* builtin command generates a list of all processes on the system (instances of *Process*).  If we had omitted
@@ -40,7 +40,7 @@ for process in sys.get_processes():
 Internally there are other details: Hotwire actually creates a thread for each pipeline component, has some static type checking, etc.
 Of course the biggest thing glossed over in the above is that Python actually has no builtin way to list system processes; that's part of Hotwire's *Platform* object.
 
-This may also be a bit clearer from looking at the [http://submind.verbum.org/hotwire/browser/hotwire/builtins/ps.py ps source] and the [http://submind.verbum.org/hotwire/browser/hotwire/builtins/filter.py filter source].
+This may also be a bit clearer from looking at the [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/builtins/proc.py proc source] and the [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/builtins/filter.py filter source].
 
 == Renderers ==
 
