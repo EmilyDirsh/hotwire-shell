@@ -36,7 +36,7 @@ You can send patches or links to cloned trees there, or create a Trac ticket.
 Hotwire requires [http://python.org Python >= 2.5], [http://pygtk.org PyGTK] at a minimum.
 
 == Linux/Unix ==
-On Linux you will want the Python GNOME libraries (`gconf`, `gnomevfs`), though Hotwire should work (with reduced functionality) without them.  You should also have `dbus` installed.
+On Linux you will want your operating system's packages of `gconf`, `gnomevfs`, `vte`, `dbus`, though Hotwire should work (with reduced functionality) without them.  You should also have `dbus` installed.
 
 == Windows ==
 
