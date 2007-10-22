@@ -42,19 +42,6 @@ On Linux you will want the Python GNOME libraries (`gconf`, `gnomevfs`), though 
 
 See HotwireWindows.
 
-= What to hack on? =
-
-DiveIntoHotwireCode is a page dedicated to relatively easy things to start on to get
-your feet wet with the Hotwire code.
-
-There is also the full the list of open tickets: {1}
-
-Some open project areas: HotwireSyntax HotwireRemoting HotwireWindows
-
-= The Hotwire philosophy =
-
-See BeingHot.
-
 = Related Projects and Sources of Ideas =
 
 See RelatedProjectsAndIdeas.
