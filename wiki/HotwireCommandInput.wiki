@@ -3,6 +3,7 @@
 = Short answer =
 
 Type `term commandname`, for example: `term sudo vi /etc/foo.conf`
+Another alternative is to use a GUI version of the command `gksudo`, etc.
 
 = Long answer =
 
@@ -20,5 +21,6 @@ the above example.
 When you override a command like this, Hotwire remembers it.
 For example if you do `term xemacs filename.txt`, from then on you can just
 type `xemacs filename.txt`, and Hotwire will automatically prefix it with `term`.
-To change back, you can manually prefix the command with `sh` again.  We're trying
-to design a better system; but this is the way the current one works.
+To change back, you can manually prefix the command with `sh` again.  
+
+We're trying to design a better system; but this is the way the current one works.
