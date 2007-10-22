@@ -1,7 +1,7 @@
 #summary Getting started using Hotwire
 #labels Featured
 
-(Please use the [http://groups.google.com/group/hotwire-shell Discussion Group] for any questions or bug reports)
+(Please use the [http://groups.google.com/group/hotwire-shell Discussion Group] for any questions or issues)
 
 == File Management ==
 
