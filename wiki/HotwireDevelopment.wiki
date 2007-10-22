@@ -1,6 +1,30 @@
 #summary How to develop Hotwire
 #labels Featured
 
+= Dependencies =
+
+Hotwire requires [http://python.org Python >= 2.5], [http://pygtk.org PyGTK] at a minimum.
+
+== Linux/Unix ==
+On Linux you will want your operating system's packages of the Python bindings for `gconf`, `gnomevfs`, `vte`, `dbus`, though Hotwire should work (with reduced functionality) without them.  
+
+
+=== Fedora ===
+{{{
+yum install gnome-python2-gnomevfs python-dbus gnome-python2-desktop gnome-python2-gconf vte
+}}}
+
+=== Debian/Ubuntu ===
+
+{{{
+apt-get install python-vte python-dbus python-gnome2
+}}}
+
+== Windows ==
+
+See HotwireWindows.
+
+
 = Source Code =
 
 See [http://code.google.com/p/hotwire-shell/source Source page].
@@ -30,29 +54,6 @@ See HotwireArchitecture for a technical overview.
 
 Discussion happens on the [http://groups.google.com/group/hotwire-shell Hotwire Google Group].
 You can send patches or links to cloned trees there, or create a Trac ticket.
-
-= Dependencies =
-
-Hotwire requires [http://python.org Python >= 2.5], [http://pygtk.org PyGTK] at a minimum.
-
-== Linux/Unix ==
-On Linux you will want your operating system's packages of the Python bindings for `gconf`, `gnomevfs`, `vte`, `dbus`, though Hotwire should work (with reduced functionality) without them.  
-
-
-=== Fedora ===
-{{{
-yum install gnome-python2-gnomevfs python-dbus gnome-python2-desktop gnome-python2-gconf vte
-}}}
-
-=== Debian/Ubuntu ===
-
-{{{
-apt-get install python-vte python-dbus python-gnome2
-}}}
-
-== Windows ==
-
-See HotwireWindows.
 
 = Related Projects and Sources of Ideas =
 
