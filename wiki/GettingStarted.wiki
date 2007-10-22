@@ -1,6 +1,8 @@
 #summary Getting started using Hotwire
 #labels Featured
 
+(Please use the [http://groups.google.com/group/hotwire-shell Discussion Group] for any questions or bug reports)
+
 == File Management ==
 
 To start out, try using *ls* to list the contents of your home directory:
