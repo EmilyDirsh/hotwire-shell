@@ -31,7 +31,23 @@ Notable bugfixes:
 
 == Changes in Hotwire SVN (Not released) ==
 
-None yet.
+Visible changes:
+
+ * Files in FilePathRenderer (ls/cd) are now draggable
+ * Command displays and terminal widgets can be turned into toplevel windows (Ctrl-Shift-N)
+ * Rebind Home/End to change input position; Control-Home/End now scroll output.
+ * Right click menu on files gains "Move to trash" item.
+ * Secondary tabs and new windows inherit default working directory from creating tab
+ * Secondary tabs and new windows show "ls" as initial display
+ * Terminal foreground and background colors may now be configured
+
+Notable bugfixes:
+
+ * Should run again without gnomevfs bindings (to help the OS X port)
+
+Important other changes:
+
+ * State (history and preferences) are now stored in a SQLite database.
 
 = Older releases =
 
