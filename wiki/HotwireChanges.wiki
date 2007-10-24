@@ -33,13 +33,14 @@ Notable bugfixes:
 
 Visible changes:
 
- * Files in FilePathRenderer (ls/cd) are now draggable
+ * Drag and drop works for files in FilePathRenderer (ls/cd)
  * Command displays and terminal widgets can be turned into toplevel windows (Ctrl-Shift-N)
  * Rebind Home/End to change input position; Control-Home/End now scroll output.
  * Right click menu on files gains "Move to trash" item.
  * Secondary tabs and new windows inherit default working directory from creating tab
  * Secondary tabs and new windows show "ls" as initial display
  * Terminal foreground and background colors may now be configured
+ * Improved internal Python interactive evaluator (currently on Ctrl-Alt-S, will make this more prominent)
 
 Notable bugfixes:
 
