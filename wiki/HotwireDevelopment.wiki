@@ -24,7 +24,6 @@ apt-get install python-vte python-dbus python-gnome2
 
 See HotwireWindows.
 
-
 = Source Code =
 
 See [http://code.google.com/p/hotwire-shell/source Source page].
@@ -45,6 +44,10 @@ other's history and in the future other things.
 {{{
 python ui/hotwire -n
 }}}
+
+= What to hack on? =
+
+See issues tagged with "HotwireLoveBug" for a bug that a new developer could start on.
 
 = Architecture =
 
