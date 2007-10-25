@@ -16,6 +16,8 @@ Hotwire's interest in being crossplatform.
 
 [http://web.archive.org/web/20050207072807/xmlterm.sourceforge.net/ XMLTerm] - Old, but highly innovative for the time.
 
+[http://software.jessies.org/terminator/ Terminator] - A terminal with a few added features like find and unlimited scrollback by default.
+
 [http://linux.pte.hu/~pipas/CUI/ CUI] - Looks based around having parsers for the output
 of various shell commands, and doing things like colorization, linkification of file names, etc.  Related, but I think 
 the approach (C, parsing shell commands instead of implementing them natively) is going to be too restrictive.
