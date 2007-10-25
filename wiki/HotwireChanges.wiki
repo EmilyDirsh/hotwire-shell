@@ -41,7 +41,7 @@ Visible changes:
  * Secondary tabs and new windows show "ls" as initial display
  * Terminal foreground and background colors may now be configured
  * Improved internal Python interactive evaluator (currently on Ctrl-Alt-S, will make this more prominent)
- * Improved internal text editor with cancel dialog, better keybindings [Owen Taylor]
+ * Improved internal text editor with cancel dialog, better keybindings [ Owen Taylor ]
 
 Notable bugfixes:
 
