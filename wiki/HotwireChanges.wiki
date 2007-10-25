@@ -29,7 +29,7 @@ Notable bugfixes:
  * Work on older PyGTK releases
  * Require exact matches for automatic command resolution (e.g. typing "foo RET" won't auto-expand to /usr/bin/foomatic)
 
-== Changes in Hotwire SVN (Not released) ==
+== Changes in Hotwire SVN as of r174 (Not released) ==
 
 Visible changes:
 
@@ -41,14 +41,17 @@ Visible changes:
  * Secondary tabs and new windows show "ls" as initial display
  * Terminal foreground and background colors may now be configured
  * Improved internal Python interactive evaluator (currently on Ctrl-Alt-S, will make this more prominent)
+ * Improved internal text editor with cancel dialog, better keybindings [Owen Taylor]
 
 Notable bugfixes:
 
  * Should run again without gnomevfs bindings (to help the OS X port)
+ * Support cd to symbolic links to directories (issue #20).
+ * Fixed fallback application launching to work with xarchiver and other apps (issue #34)
 
 Important other changes:
 
- * State (history and preferences) are now stored in a SQLite database.
+ * State (history and preferences) are now stored in a SQLite database.  This change should be transparent, but may impact usage on NFS for example, so is noted here.
 
 = Older releases =
 
