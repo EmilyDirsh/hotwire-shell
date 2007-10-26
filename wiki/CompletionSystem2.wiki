@@ -1,0 +1,18 @@
+#summary Whiteboard for a new completion system
+
+= Need for a new system =
+
+The current system has a number of flaws.
+
+* It only shows you at most 4 matches, and wastes a lot of horizontal space.
+* You can't click on items to choose.
+* It's constantly trying to complete, but you may want to see what's underneath it.
+* There is no way to have it use more space for when you do want that.
+
+= Initial thoughts =
+
+Initially, completions will be a single line multi-column display.  This will
+make them relatively unobtrusive.  When you hit TAB, it gets somewhat larger, perhaps
+equivalent to the current size.  
+
+We also want to support a navigation mode where we take up a lot more space.  When you hit TAB TAB in bash, it shows you a big list.  Perhaps the design here overlaps with what we want to fix issue 14.
