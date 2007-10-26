@@ -4,10 +4,10 @@
 
 The current system has a number of flaws.
 
-* It only shows you at most 4 matches, and wastes a lot of horizontal space.
-* You can't click on items to choose.
-* It's constantly trying to complete, but you may want to see what's underneath it.
-* There is no way to have it use more space for when you do want that.
+ * It only shows you at most 4 matches, and wastes a lot of horizontal space.
+ * You can't click on items to choose.
+ * It's constantly trying to complete, but you may want to see what's underneath it.
+ * There is no way to have it use more space for when you do want that.
 
 = Initial thoughts =
 
