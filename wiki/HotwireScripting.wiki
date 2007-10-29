@@ -1,0 +1,25 @@
+#summary Ideas about how we could create a Hotwire language
+
+= Creating a variation of Python designed for system scripts =
+
+One major item of feedback from a Hotwire presentation at FOSSCamp 2007 was that we should try to create a language.  It was felt that system scripting in Python wasn't ideal.
+
+Here are some examples from Alexander Larsson about what a Hotwire language could do:
+
+{{{
+ There is a set of basic types with things like filename, process, user
+ These come in two forms, "references" and "info about" where the later is a "subclass" of the other (i.e. can be used in place of)
+ operators:
+ | - pipe 
+ \ - grep
+ () - sub command
+ * - "dereference"
+ (ie. turn ref object into info
+}}}
+
+Examples:
+
+{{{
+kill (procs \ user = alex cpu_use > 0.5)
+* /tmp
+}}}
