@@ -23,3 +23,8 @@ Examples:
 kill (procs \ user = alex cpu_use > 0.5)
 * /tmp
 }}}
+
+= Issues =
+
+* How can we take advantage of Hotwire's capability for rich user interaction via the window system?
+* How much can we leverage Python (specifically the syntax, the libraries?)
