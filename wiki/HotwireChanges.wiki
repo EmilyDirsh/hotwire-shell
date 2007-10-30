@@ -29,22 +29,26 @@ Notable bugfixes:
  * Work on older PyGTK releases
  * Require exact matches for automatic command resolution (e.g. typing "foo RET" won't auto-expand to /usr/bin/foomatic)
 
-== Changes in Hotwire SVN as of r174 (Not released) ==
+== Changes in Hotwire SVN as of r209 (Not released) ==
+
+Hotwire now runs again at a basic level on Windows.
 
 Visible changes:
 
  * Drag and drop works for files in FilePathRenderer (ls/cd)
  * Command displays and terminal widgets can be turned into toplevel windows (Ctrl-Shift-N)
+ * Can click on completions to choose them (future CompletionSystem2 will handle this better)
+ * Improved internal Python interactive evaluator (now available in the menu)
  * Rebind Home/End to change input position; Control-Home/End now scroll output.
  * Right click menu on files gains "Move to trash" item.
  * Secondary tabs and new windows inherit default working directory from creating tab
  * Secondary tabs and new windows show "ls" as initial display
  * Terminal foreground and background colors may now be configured
- * Improved internal Python interactive evaluator (currently on Ctrl-Alt-S, will make this more prominent)
  * Improved internal text editor with cancel dialog, better keybindings [ Owen Taylor ]
 
 Notable bugfixes:
 
+ * Add workaround for terminal sizing issues that mainly affected vi (issue #35)
  * Should run again without gnomevfs bindings (to help the OS X port)
  * Support cd to symbolic links to directories (issue #20).
  * Fixed fallback application launching to work with xarchiver and other apps (issue #34)
