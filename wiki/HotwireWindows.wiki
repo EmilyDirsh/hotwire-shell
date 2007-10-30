@@ -1,11 +1,12 @@
 #summary Hotwire on Windows
 
+The Windows port functions in current SVN; however there is a good deal of further integration work such as file icons, application launching, using Recycle Bin, etc.
 
-The Windows port worked some time ago as a proof of concept, but many internal changes since then have regressed it.  One of the main issues right now is:
+= Being a shell on Windows =
 
-http://code.google.com/p/hotwire-shell/issues/detail?id=6
+One key thing to understand is that on Windows, Hotwire always uses forward slashes (/) as directory separators, not backslashes (\).  This resolves a conflict between the backslash as directory separator, and Hotwire's use of it as a quotation mechanism. 
 
-Basically we need to decide whether Hotwire on Windows will be a shell with Unix-like syntax or Windows cmd syntax.
+To implement this, there are special path manipulation functions in `hotwire/fs.py` which you must generally use in all crossplatform Hotwire code.
 
 = Getting a development environment setup =
 
