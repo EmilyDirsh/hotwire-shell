@@ -1,0 +1,9 @@
+#summary Ideas for ways in which people may want to extend Hotwire
+
+Hotwire currently has only the bare minimum for hackability.  Here's a random list of ideas:
+
+ * Add a new system object
+ * Add a new builtin
+ * Extend right click menu on objects
+ * Extend right click menus
+ * Add alternate renderers?
