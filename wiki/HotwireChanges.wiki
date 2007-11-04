@@ -29,13 +29,15 @@ Notable bugfixes:
  * Work on older PyGTK releases
  * Require exact matches for automatic command resolution (e.g. typing "foo RET" won't auto-expand to /usr/bin/foomatic)
 
-== Changes in Hotwire SVN as of r209 (Not released) ==
+== Changes in Hotwire SVN as of r253 (Not released) ==
 
-Hotwire now runs again at a basic level on Windows.
+Hotwire now runs again at a basic level on Windows, though this is very much a work in progress.
 
 Visible changes:
 
+ * Basic input to system commands is now supported (press Ctrl-I)
  * Drag and drop works for files in FilePathRenderer (ls/cd)
+ * Remove `SHIFT` keybinding for choosing completions; it was confusing
  * Command displays and terminal widgets can be turned into toplevel windows (Ctrl-Shift-N)
  * Can click on completions to choose them (future CompletionSystem2 will handle this better)
  * Improved internal Python interactive evaluator (now available in the menu)
@@ -45,7 +47,10 @@ Visible changes:
  * Secondary tabs and new windows show "ls" as initial display
  * Terminal foreground and background colors may now be configured
  * Improved internal text editor with cancel dialog, better keybindings [ Owen Taylor ]
-
+ * Default "term" more commands like `irssi` and `mutt`
+ * Use `gksudo` for `sudo` if available
+ * New *sechash* builtin for creating secure hashes
+ 
 Notable bugfixes:
 
  * Add workaround for terminal sizing issues that mainly affected vi (issue #35)
