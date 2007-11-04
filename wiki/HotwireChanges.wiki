@@ -40,6 +40,7 @@ Visible changes:
  * Remove `SHIFT` keybinding for choosing completions; it was confusing
  * Command displays and terminal widgets can be turned into toplevel windows (Ctrl-Shift-N)
  * Can click on completions to choose them (future CompletionSystem2 will handle this better)
+ * New *current* builtin replaces *last*
  * Improved internal Python interactive evaluator (now available in the menu)
  * Rebind Home/End to change input position; Control-Home/End now scroll output.
  * Right click menu on files gains "Move to trash" item.
