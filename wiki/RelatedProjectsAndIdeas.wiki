@@ -24,6 +24,8 @@ the approach (C, parsing shell commands instead of implementing them natively) i
 Hotwire tries to implement a lot of useful functionality inside the core (fixing it along the way, e.g. `rm`),
 but still allowing callouts to `/bin/sh`.
 
+[http://www.scsh.net/resources/commander-s.html SCSH] - Scheme and ncurses based enhanced interactive shell, very interesting ideas in there - see the PDF.
+
 [http://anthias.sourceforge.net/ Anthias] Similar idea to Hotwire; targets KDE, written in C++.  They chose to
 do a frontend/backend separation from the start using a custom protocol.  Development looks stalled.
 
