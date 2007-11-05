@@ -45,10 +45,10 @@ Visible changes:
  * Rebind Home/End to change input position; Control-Home/End now scroll output.
  * Right click menu on files gains "Move to trash" item.
  * Secondary tabs and new windows inherit default working directory from creating tab
- * Secondary tabs and new windows show "ls" as initial display
+ * Secondary tabs and new windows show *ls* as initial display
  * Terminal foreground and background colors may now be configured
  * Improved internal text editor with cancel dialog, better keybindings [ Owen Taylor ]
- * Default "term" more commands like `irssi` and `mutt`
+ * Default *term* more commands like `irssi` and `mutt`
  * Use `gksudo` for `sudo` if available
  * New *sechash* builtin for creating secure hashes
  
