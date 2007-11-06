@@ -27,3 +27,7 @@ type `xemacs filename.txt`, and Hotwire will automatically prefix it with `term`
 To change back, you can manually prefix the command with `sh` again.  
 
 We're trying to design a better system; but this is the way the current one works.
+
+== Upcoming changes ==
+
+In the upcoming 0.600 release, basic input will be supported with `Ctrl-I`.
