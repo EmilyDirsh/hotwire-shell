@@ -29,7 +29,7 @@ Notable bugfixes:
  * Work on older PyGTK releases
  * Require exact matches for automatic command resolution (e.g. typing "foo RET" won't auto-expand to /usr/bin/foomatic)
 
-== Changes in Hotwire SVN as of r253 (Not released) ==
+== Changes in Hotwire SVN as of r277 (Not released) ==
 
 Hotwire now runs again at a basic level on Windows, though this is very much a work in progress.
 
@@ -40,20 +40,28 @@ Visible changes:
  * Remove `SHIFT` keybinding for choosing completions; it was confusing
  * Command displays and terminal widgets can be turned into toplevel windows (Ctrl-Shift-N)
  * Can click on completions to choose them (future CompletionSystem2 will handle this better)
+ * New *write* builtin writes pipelines to files (with -p option for pickling)
+ * New *py* builtin allows running arbitrary Python code on current pipeline output (issue 46)
  * New *current* builtin replaces *last*
+ * Can start a pipeline with `| ` as a shortcut for `current | `.
+ * New *sechash* builtin for creating secure hashes
+ * New *mkdir* builtin, creates directories.
  * Improved internal Python interactive evaluator (now available in the menu)
  * Rebind Home/End to change input position; Control-Home/End now scroll output.
  * Right click menu on files gains "Move to trash" item.
  * Secondary tabs and new windows inherit default working directory from creating tab
  * Secondary tabs and new windows show *ls* as initial display
+ * Reworked command header display to be cleaner
  * Terminal foreground and background colors may now be configured
  * Improved internal text editor with cancel dialog, better keybindings [ Owen Taylor ]
- * Default *term* more commands like `irssi` and `mutt`
+ * Default *term* more commands like `irssi`, `mutt`, `powertop`, `more`
  * Use `gksudo` for `sudo` if available
- * New *sechash* builtin for creating secure hashes
- 
+ * `Escape` key at toplevel should grab input focus
+ * *help* builtin shows available options
+
 Notable bugfixes:
 
+ * Support for gtksourceview2 in addition to gtksourceview
  * Add workaround for terminal sizing issues that mainly affected vi (issue #35)
  * Should run again without gnomevfs bindings (to help the OS X port)
  * Support cd to symbolic links to directories (issue #20).
