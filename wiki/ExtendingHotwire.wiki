@@ -99,3 +99,7 @@ class FruitRenderer(TreeObjectsRenderer):
 ## Finally, tell Hotwire to use our FruitRenderer for objects of type Fruit.
 ClassRendererMapping.getInstance().register(Fruit, FruitRenderer)
 }}}
+
+To play with this, save it to `~/.hotwire/plugins/fruit.py`.  You currently must restart Hotwire for plugins to be loaded.  Future plans include a Firefox-style extension mechanism.
+
+That's it for now; for hacking Hotwire further, you should probably just get a checkout out of the source tree and dive into HotwireDevelopment.
