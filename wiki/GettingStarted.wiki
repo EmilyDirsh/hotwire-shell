@@ -3,6 +3,10 @@
 
 (Please use the [http://groups.google.com/group/hotwire-shell Discussion Group] for any questions or issues)
 
+This tutorial corresponds with Hotwire 0.600.
+
+= Hotwire Basics =
+
 == File Management ==
 
 To start out, try using *ls* to list the contents of your home directory:
@@ -15,25 +19,31 @@ Next, use *cd* to change to a subdirectory.  While you are typing, note you can 
 to choose completions.
 
 {{{
-cd ~/Pictures
+cd ~/Desktop
 }}}
 
-Use *rm* to remove a file of your choice:
+Use *cp* to copy a file of your choice to another name
 
 {{{
-rm SomePicture.png
+cp SomePicture.png AnotherName.png
 }}}
 
-Verify the file is gone using *ls* again if you like.  Note you have an _Undo_ option for *rm*!
-Also note that unlike Unix _rm_, Hotwire's bulitin *rm* takes no options (it automatically removes
+Note Hotwire's file operation commands have progress bars.
+
+Another thing to try is Hotwire's _undo_ support for *rm*.
+
+{{{
+rm SomeFile.txt
+}}}
+
+Verify the file is gone using *ls* again if you like.  Now look under the _Control_ menu; note there is an _Undo_ option available.  Try that now, and verify that your file reappeared.  Also note that unlike Unix _rm_, Hotwire's bulitin *rm* takes no options (it automatically removes
 directories for example, no need for `-r`).
 
-Other builtin file management commands are *mv* and *cp*.
+There are a number of builtins related to files, such as *mv*, *edit*, and *mkdir*.
 
 == Executing System commands ==
 
-The above are all builtin commands; they are written in pure Python and are portable to all platforms
-Hotwire runs on (currently Linux and Windows).  Now you can try running some system commands:
+The above are all builtin commands; they are written in pure Python and are portable to all platforms Hotwire runs on (currently Linux and Windows).  Now you can try running some system commands:
 
 {{{
 sh ifconfig
@@ -47,7 +57,17 @@ ifconfig
 
 Now, try typing *Ctrl-s* to search the output.  Press _ESC_ when you're done.
 
-This mode is the default - the vast majority of system commands on Unix or Windows do some operation and output text.  Hotwire therefore defaults to assuming this, and gives you a searchable output stream.  You currently can not give input to commands in this mode (see HotwireCommandInput).
+This mode is the default - the vast majority of system commands on Unix or Windows do some operation and output text.  Hotwire therefore defaults to assuming this, and gives you a searchable output stream.  
+
+At this point it is important to understand that some commands on your system may require input or a complete terminal.  Hotwire also has a builtin called *term* which creates a full Unix terminal for commands.  For example, try typing:
+
+{{{
+term top
+}}}
+
+This will create another tab with the command; when the command exits, the tab is removed.  By default, Hotwire includes a set of aliases for common Unix commands which do require a full terminal (including `top`; above it would have worked to just say `top`).
+
+For more on command compatibility, see HotwireCommandInput.
 
 == Pipelines ==
 
@@ -59,7 +79,7 @@ ifconfig | filter Link
 }}}
 
 *filter* is a Hotwire builtin that outputs objects which match a regular expression.  But note the
-bold match highlighting!
+bold match highlighting!  This is because *filter* outputs *TextMatch* objects, which subclass Python's *str* class with match indices.
 
 == Other Hotwire builtins ==
 
@@ -79,23 +99,6 @@ proc | filter python cmd
 Note the extra argument _cmd_ for *filter*.  What that means is to apply the filter to a particular
 property of an object.  See HotwireArchitecture for a detailed explanation of this example.
 
+= Programming and Extending =
 
-== Creating terminals == 
-
-{{{
-term less textfile.txt
-}}}
- 
-The above command will create a new tab with a terminal (Press `q` to exit `less` by the way).
-
-If you want a plain login shell, you can do:
-
-{{{
-term
-}}}
-
-If a command doesn't behave as you think it should, it may require a terminal.  Some common Unix
-commands like `vi`, `ssh`, `less`, and others do.  Hotwire actually has a set of _aliases_ for
-some commands.  For example, *vi* by default is aliased to *term vi*.
- 
- 
+At this point, you should take a while to play around and just get a feel for the system.  Once you're ready to move on, see ProgrammingAndExtending.
