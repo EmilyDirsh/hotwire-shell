@@ -2,7 +2,7 @@
 
 = Programming and Extending =
 
-The goal of Hotwire is more than just being a somewhat nicer interface for running system commands; the intent is to be a fully programmable and extensible shell.
+The goal of Hotwire is more than just being a somewhat nicer interface for running system commands; the intent is to be a fully programmable and extensible shell, using the Python language.
 
 == Learning Python ==
 
