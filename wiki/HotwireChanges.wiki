@@ -2,7 +2,53 @@
 
 = Current =
 
-== Changes in Hotwire 0.599 (Current Release) ==
+== Changes in Hotwire 0.600 (Current Release) ==
+
+Hotwire now runs again at a basic level on Windows, though this is very much a work in progress.  
+
+Visible changes:
+
+ * Basic input to system commands is now supported (press Ctrl-I)
+ * Drag and drop works for files in FilePathRenderer (ls/cd)
+ * Remove `SHIFT` keybinding for choosing completions; it was confusing
+ * Command displays and terminal widgets can be turned into toplevel windows (Ctrl-Shift-N)
+ * Can click on completions to choose them (future CompletionSystem2 will handle this better)
+ * New *write* builtin writes pipelines to files (with -p option for pickling)
+ * New *py* builtin allows running arbitrary Python code on current pipeline output (issue 46)
+ * New *current* builtin replaces *last*
+ * Can start a pipeline with `| ` as a shortcut for `current | `.
+ * New *sechash* builtin for creating secure hashes
+ * New *mkdir* builtin, creates directories.
+ * Improved internal Python interactive evaluator (now available in the menu)
+ * Rebind Home/End to change input position; Control-Home/End now scroll output.
+ * Right click menu on files gains "Move to trash" item.
+ * Secondary tabs and new windows inherit default working directory from creating tab
+ * Secondary tabs and new windows show *ls* as initial display
+ * Reworked command header display to be cleaner
+ * Terminal foreground and background colors may now be configured
+ * Improved internal text editor with cancel dialog, better keybindings [ Owen Taylor ]
+ * Default *term* more commands like `sudo`, `irssi`, `mutt`, `powertop`, `more`
+ * `Escape` key at toplevel should grab input focus
+ * *help* builtin shows available options
+ * *proc* builtin defaults to showing your processes, new `-a` option for all
+
+Notable bugfixes:
+
+ * Support for gtksourceview2 in addition to gtksourceview
+ * Add workaround for terminal sizing issues that mainly affected vi (issue #35)
+ * Should run again without gnomevfs bindings (to help the OS X port)
+ * Support cd to symbolic links to directories (issue #20).
+ * Fixed fallback application launching to work with xarchiver and other apps (issue #34)
+
+Important other changes:
+
+ * State (history and preferences) are now stored in a SQLite database.  This change should be transparent, but may impact usage on NFS for example, so is noted here.
+
+== Changes in Hotwire SVN as of r307 (Not released) ==
+
+None yet.
+
+== Changes in Hotwire 0.599 ==
 
 Visible changes:
 
@@ -28,48 +74,6 @@ Notable bugfixes:
  * Make first path item clickable (issue #9).
  * Work on older PyGTK releases
  * Require exact matches for automatic command resolution (e.g. typing "foo RET" won't auto-expand to /usr/bin/foomatic)
-
-== Changes in Hotwire SVN as of r277 (Not released) ==
-
-Hotwire now runs again at a basic level on Windows, though this is very much a work in progress.
-
-Visible changes:
-
- * Basic input to system commands is now supported (press Ctrl-I)
- * Drag and drop works for files in FilePathRenderer (ls/cd)
- * Remove `SHIFT` keybinding for choosing completions; it was confusing
- * Command displays and terminal widgets can be turned into toplevel windows (Ctrl-Shift-N)
- * Can click on completions to choose them (future CompletionSystem2 will handle this better)
- * New *write* builtin writes pipelines to files (with -p option for pickling)
- * New *py* builtin allows running arbitrary Python code on current pipeline output (issue 46)
- * New *current* builtin replaces *last*
- * Can start a pipeline with `| ` as a shortcut for `current | `.
- * New *sechash* builtin for creating secure hashes
- * New *mkdir* builtin, creates directories.
- * Improved internal Python interactive evaluator (now available in the menu)
- * Rebind Home/End to change input position; Control-Home/End now scroll output.
- * Right click menu on files gains "Move to trash" item.
- * Secondary tabs and new windows inherit default working directory from creating tab
- * Secondary tabs and new windows show *ls* as initial display
- * Reworked command header display to be cleaner
- * Terminal foreground and background colors may now be configured
- * Improved internal text editor with cancel dialog, better keybindings [ Owen Taylor ]
- * Default *term* more commands like `irssi`, `mutt`, `powertop`, `more`
- * Use `gksudo` for `sudo` if available
- * `Escape` key at toplevel should grab input focus
- * *help* builtin shows available options
-
-Notable bugfixes:
-
- * Support for gtksourceview2 in addition to gtksourceview
- * Add workaround for terminal sizing issues that mainly affected vi (issue #35)
- * Should run again without gnomevfs bindings (to help the OS X port)
- * Support cd to symbolic links to directories (issue #20).
- * Fixed fallback application launching to work with xarchiver and other apps (issue #34)
-
-Important other changes:
-
- * State (history and preferences) are now stored in a SQLite database.  This change should be transparent, but may impact usage on NFS for example, so is noted here.
 
 = Older releases =
 
