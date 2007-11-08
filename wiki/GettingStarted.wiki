@@ -43,6 +43,8 @@ There are a number of builtins related to files, such as *mv*, *edit*, and *mkdi
 
 == Executing System commands ==
 
+(The rest of this tutorial is written assuming you are on Unix)
+
 The above are all builtin commands; they are written in pure Python and are portable to all platforms Hotwire runs on (currently Linux and Windows).  Now you can try running some system commands:
 
 {{{
@@ -57,9 +59,15 @@ ifconfig
 
 Now, try typing *Ctrl-s* to search the output.  Press _ESC_ when you're done.
 
-This mode is the default - the vast majority of system commands on Unix or Windows do some operation and output text.  Hotwire therefore defaults to assuming this, and gives you a searchable output stream.  
+This mode is the default - the vast majority of system commands on Unix or Windows do some operation and output text.  Hotwire therefore defaults to assuming this, runs commands in the background.  For example, type
 
-At this point it is important to understand that some commands on your system may require input or a complete terminal.  Hotwire also has a builtin called *term* which creates a full Unix terminal for commands.  For example, try typing:
+{{{
+sleep 10
+}}}
+
+Note that while the command is executing, you can go on and do other things.  The author has found this very convenient for processes such as `make`.  At any point, you can also press `Ctrl-Shift-o` (View->Overview) to get a high-level view of the state of your commands.
+
+At this point it is important to understand that this default Hotwire mode for system commands (called *sh*) may not work for all of them; some commands on your system may require input or a complete terminal.  Hotwire also has a builtin called *term* which creates a full Unix terminal for commands.  For example, try typing:
 
 {{{
 term top
