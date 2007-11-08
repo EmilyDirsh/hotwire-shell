@@ -4,7 +4,7 @@
 
 == Changes in Hotwire 0.600 (Current Release) ==
 
-Hotwire now runs again at a basic level on Windows, though this is very much a work in progress.  
+Hotwire now runs again at a basic level on Windows, though this is very much a work in progress.  See HotwireWindows.
 
 Visible changes:
 
@@ -48,6 +48,8 @@ Important other changes:
 
 None yet.
 
+= Older releases =
+
 == Changes in Hotwire 0.599 ==
 
 Visible changes:
@@ -74,8 +76,6 @@ Notable bugfixes:
  * Make first path item clickable (issue #9).
  * Work on older PyGTK releases
  * Require exact matches for automatic command resolution (e.g. typing "foo RET" won't auto-expand to /usr/bin/foomatic)
-
-= Older releases =
 
 == Changes in Hotwire 0.595 ==
 
