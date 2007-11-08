@@ -1,4 +1,5 @@
 #summary Ideas for ways in which people may want to extend Hotwire
+#labels Featured
 
 = Extending Hotwire with custom Python =
 
