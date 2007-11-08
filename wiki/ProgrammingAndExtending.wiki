@@ -26,8 +26,10 @@ proc
 py
 }}}
 
+The *py* builtin is new - it allows you to manipulate the results of the current pipeline with arbitarry Python code.
+
 You should have a `sleep` process running in the background, a list of processes displayed in the main window, and a new editor window, ready to accept Python code.
-Note here that hotwire says:
+Note here that Hotwire says:
 
 {{{
 # input type: <class 'hotwire.sysdep.proc.Process'>
