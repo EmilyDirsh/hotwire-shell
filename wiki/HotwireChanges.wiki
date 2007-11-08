@@ -36,7 +36,7 @@ Notable bugfixes:
 
  * Support for gtksourceview2 in addition to gtksourceview
  * Add workaround for terminal sizing issues that mainly affected vi (issue #35)
- * Should run again without gnomevfs bindings (to help the OS X port)
+ * Should run again without gnomevfs or GConf bindings on Unix (to help the OS X port)
  * Support cd to symbolic links to directories (issue #20).
  * Fixed fallback application launching to work with xarchiver and other apps (issue #34)
 
