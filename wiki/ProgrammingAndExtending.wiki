@@ -33,4 +33,41 @@ Note here that hotwire says:
 # input type: <class 'hotwire.sysdep.proc.Process'>
 }}}
 
-This is telling us that our code is manipulating *Process* objects.  
+This is telling us that our code is manipulating *Process* objects.  As a first try, let's use the builtin *outln* function to print things to the output window:
+
+{{{
+for obj in curshell.get_current_output():
+  outln(obj)
+}}}
+
+Now, press `Control-Return` (or _Tools_ -> _Eval_ ).  You will currently get a text output window.  In the near future, there are plans to extend this so that you can get the same nice object display that pipelines typed in the main Hotwire window have.
+
+Extending our code a bit to find our `sleep` process:
+
+{{{
+for obj in curshell.get_current_output():
+  if obj.owner_name == 'walters' and obj.cmd.find('sleep') >= 0:
+    outln(obj)
+}}}
+
+Be sure to change `walters` to your user name, of course.
+
+Of course, you aren't limited to just printing out things; you can type any Python code you can think of.  For example, get a list, turn them all into uppercase, and write them to a file:
+
+{{{
+import tempfile
+objs = map(lambda x: x.cmd.upper(), curshell.get_current_output())
+(fd,tmppath) = tempfile.mkstemp('.tmp', 'hotwireout')
+f = os.fdopen(fd, 'w')
+for x in objs:
+  f.write(x)
+  f.write('\n')
+f.close()
+outln(tmppath)
+}}}
+
+Then press `Control-Return` again, and copy-paste the resulting filename back into the main Hotwire window, and type:
+
+{{{
+cat /tmp/hotwireout85So3e.tmp
+}}}
