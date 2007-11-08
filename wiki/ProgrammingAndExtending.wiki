@@ -71,3 +71,7 @@ Then press `Control-Return` again, and copy-paste the resulting filename back in
 {{{
 cat /tmp/hotwireout85So3e.tmp
 }}}
+
+= Extending Hotwire =
+
+Ready to move on to ExtendingHotwire with permanent Python code?
