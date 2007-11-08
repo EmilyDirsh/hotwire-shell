@@ -822,8 +822,8 @@ class HotWindow(gtk.Window):
             ('ControlMenu', None, 'Control'),
             ('PrefsMenu', None, 'Preferences'),                            
             ('ToolsMenu', None, 'Tools'),
-            ('PythonWorkpad', 'gtk-execute', '_Python Workpad', '<control><alt>s', 'Launch Python evaluator', self.__python_workpad_cb),
-            ('HelpCommand', 'gtk-help', '_Help', '<control><alt>h', 'Display help command', self.__help_cb),                       
+            ('PythonWorkpad', 'gtk-execute', '_Python Workpad', '<control><shift>p', 'Launch Python evaluator', self.__python_workpad_cb),
+            ('HelpCommand', 'gtk-help', '_Help', None, 'Display help command', self.__help_cb),                       
             ('About', gtk.STOCK_ABOUT, '_About', None, 'About Hotwire', self.__help_about_cb),
             ]
         self.__nonterm_actions = [
