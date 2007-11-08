@@ -11,8 +11,6 @@ Visible changes:
  * Basic input to system commands is now supported (press Ctrl-I)
  * Drag and drop works for files in FilePathRenderer (ls/cd)
  * Remove `SHIFT` keybinding for choosing completions; it was confusing
- * Command displays and terminal widgets can be turned into toplevel windows (Ctrl-Shift-N)
- * Can click on completions to choose them (future CompletionSystem2 will handle this better)
  * New *write* builtin writes pipelines to files (with -p option for pickling)
  * New *py* builtin allows running arbitrary Python code on current pipeline output (issue 46)
  * New *current* builtin replaces *last*
@@ -24,6 +22,8 @@ Visible changes:
  * Right click menu on files gains "Move to trash" item.
  * Secondary tabs and new windows inherit default working directory from creating tab
  * Secondary tabs and new windows show *ls* as initial display
+ * Command displays and terminal widgets can be turned into toplevel windows (Ctrl-Shift-N)
+ * Can click on completions to choose them (future CompletionSystem2 will handle this better)
  * Reworked command header display to be cleaner
  * Terminal foreground and background colors may now be configured
  * Improved internal text editor with cancel dialog, better keybindings [ Owen Taylor ]
