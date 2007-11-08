@@ -1,0 +1,36 @@
+#summary Introduction to Programming and Extending Hotwire
+
+= Programming and Extending =
+
+The goal of Hotwire is more than just being a somewhat nicer interface for running system commands; the intent is to be a fully programmable and extensible shell.
+
+== Learning Python ==
+
+This tutorial assumes that you have a rudimentary familiarity with the [http://python.org Python] programming langauge; if that's not the case, you can try [http://docs.python.org/tut/tut.html The Python Tutorial].  Note that tutorial assumes you're running it from a system terminal; you can do `Ctrl-Shift-T` to get one.  However, you may also find Hotwire's builtin Python workpad to be useful (menu item _Tools_ -> _Python Workpad_).
+
+== How Hotwire works ==
+
+You've seen how Hotwire can display nicer icons for files and such; how does this work?  The answer is that *ls* is a Hotwire builtin which doesn't output raw text; instead, it outputs *FilePath* objects.  All hotwire commands are object pipelines.  
+
+For a better description of this, browse HotwireArchitecture.
+
+At this point, you should be ready to code some Python.
+
+== Combining Hotwire pipelines with Python code ==
+
+Type the following:
+
+{{{
+sleep 10000
+proc
+py
+}}}
+
+You should have a `sleep` process running in the background, a list of processes displayed in the main window, and a new editor window, ready to accept Python code.
+Note here that hotwire says:
+
+{{{
+# input type: <class 'hotwire.sysdep.proc.Process'>
+}}}
+
+This is telling us that our code is manipulating *Process* objects.  
