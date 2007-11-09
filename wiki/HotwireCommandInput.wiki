@@ -2,7 +2,9 @@
 
 = Short answer =
 
-Type `term commandname`, for example: `term sudo vi /etc/foo.conf`
+If the command requires simple text input, type `Ctrl-I`.  This is sufficient for applications such as the `mysql` commandline tool.
+
+For real terminal applications (e.g. `top`), you can type `term top`.
 
 You only need to specify `term` once; after that, Hotwire will remember to use `term` for that commandname.
 
