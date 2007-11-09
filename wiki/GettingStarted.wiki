@@ -113,6 +113,21 @@ proc | filter python cmd
 Note the extra argument _cmd_ for *filter*.  What that means is to apply the filter to a particular
 property of an object.  See HotwireArchitecture for a detailed explanation of this example.
 
+== History and Completion ==
+
+As you've followed the tutorial up until now, you've probably noticed the completion popup appearing over the text entry.  The completion area is divided into two sections:
+
+ * Token completions
+ * Command history
+
+Token completions are available via the `TAB` key; they only expand one part of your command.  So if you're typing a command which takes a file name, Hotwire will offer you files that seem to match your current "token".
+
+The command history area is more simplistic and global; as you type, Hotwire is doing a plain text search over all of your previously-entered commands.  You access this area with the `Up` and `Down` arrows.  
+
+A good strategy is that if you want to repeat a command you entered earlier, try to think of a unique substring that would find it, then hit the `Up` arrow followed by `Return`.
+
 = Programming and Extending =
 
-At this point, you should take a while to play around and just get a feel for the system.  Once you're ready to move on, see ProgrammingAndExtending.
+At this point, you should take a while to play around and just get a feel for the system.  Look at the *help* output to see what builtins are available, try creating some new tabs, play around with the command history, etc.
+
+Once you're ready to move on, see ProgrammingAndExtending.
