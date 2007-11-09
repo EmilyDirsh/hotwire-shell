@@ -9,7 +9,7 @@ try:
         from gtksourceview2 import Buffer as SourceBuffer, View as SourceView
         gtksourceview2_avail = True
     except ImportError, e:
-        import gtksourceview
+        from gtksourceview import SourceBuffer, SourceView
         gtksourceview2_avail = False
     gtksourceview_avail = True
     _logger.debug("gtksourceview available")
