@@ -47,6 +47,8 @@ are limited by their choice of being just a login shell instead of combination "
 being a tool for Python programming.  Still though a pretty big project with some interesting ideas and
 probably code.  Might want to look at their "distributed computing" stuff - maybe a better way to run pipelines?
 
+[http://geophile.com/osh/ osh] - Pipes objects.  May be interesting for syntax ideas?
+
 [http://www.emacswiki.org/cgi-bin/emacs/CategoryEshell EShell] - Highly programmable with Emacs Lisp, targets Emacs UI.  Also worth pulling ideas from.
 
 [http://www.sun.com/service/sharedshell/userguide.jsp Sun Shared Shell] - is shared interesting for us?
