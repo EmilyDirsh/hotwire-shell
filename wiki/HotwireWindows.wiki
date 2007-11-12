@@ -22,7 +22,7 @@ To implement this, there are special path manipulation functions in `hotwire/fs.
 
 == PyGTK ==
 
-There are a few choices here; I used the [[http://live.gnome.org/PyGTK/FAQ/Win32AndPygtk PyGTK FAQ]] instructions, but
+There are a few choices here; I used the [[http://faq.pygtk.org/index.py?req=show&file=faq21.001.htp PyGTK FAQ]] instructions, but
 there is work on a [[http://aruiz.typepad.com/siliconisland/2007/05/tango_and_gtk_l.html new PyGTK installer]].
 
 You can initially run Hotwire from cmd.exe or powershell.exe as you choose.  I use
