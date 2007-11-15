@@ -13,6 +13,9 @@ from hotwire.builtin import Builtin, BuiltinRegistry, InputStreamSchema, OutputS
 from hotwire.sysdep import is_windows, is_unix
 from hotwire.sysdep.proc import ProcessManager
 
+if is_unix():
+    import signal
+
 _logger = logging.getLogger("hotwire.builtin.Sh")
 
 class ShBuiltin(Builtin):
@@ -148,7 +151,10 @@ class ShBuiltin(Builtin):
             # future, we want to implement replacements for both of these,
             # and execute the command directly.
             subproc_args['close_fds'] = True
-            subproc_args['preexec_fn'] = os.setsid
+            def preexec():
+                os.setsid()
+                signal.signal(signal.SIGHUP, signal.SIG_IGN)
+            subproc_args['preexec_fn'] = preexec
             subproc = subprocess.Popen(['/bin/sh', '-c', arg], **subproc_args)
         else:
             assert(False)
