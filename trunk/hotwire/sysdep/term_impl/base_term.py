@@ -32,15 +32,13 @@ class TerminalWidget(gtk.VBox):
 <ui>
   <menubar name='Menubar'>
     <menu action='EditMenu'>
-      <menuitem action='Copy'/>
-      <menuitem action='Paste'/>
+      <placeholder name='EditMenuAdditions'>
+        <menuitem action='Copy'/>
+        <menuitem action='Paste'/>
+      </placeholder>
     </menu>
     <menu action='ViewMenu'>
       <menuitem action='ToWindow'/>
-    </menu>
-    <menu action='PrefsMenu'>
-      <menuitem action='SetForeground'/>
-      <menuitem action='SetBackground'/>      
     </menu>
     <!-- <menu action='ControlMenu'>
       <menuitem action='SplitWindow'/>
@@ -72,7 +70,7 @@ class TerminalWidget(gtk.VBox):
 
         self.__term = None
         prefs = Preferences.getInstance()
-        prefs.connect('tree-changed', self.__on_prefs_tree)        
+        prefs.monitor_prefs('term.', self.__on_pref_changed)        
         
     def get_ui(self):
         return (self.__ui_string, self.__action_group)
@@ -94,9 +92,7 @@ class TerminalWidget(gtk.VBox):
     def __set_background_cb(self, a):
         self.__colorpick(False)
         
-    def __on_prefs_tree(self, prefs, root):
-        if root != 'term':
-            return
+    def __on_pref_changed(self, prefs, key, value):
         self.__sync_prefs()    
     
     def __sync_prefs(self, *args):

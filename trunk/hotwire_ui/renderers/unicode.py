@@ -283,7 +283,7 @@ class UnicodeRenderer(ObjectsRenderer):
         have_sel = self._buf.get_has_selection()
         if have_sel == self.__have_selection:
             return
-        self.context.get_ui().get_action('/Menubar/EditMenu/Copy').set_sensitive(have_sel)
+        self.context.get_ui().get_action('/Menubar/EditMenu/EditMenuAdditions/Copy').set_sensitive(have_sel)
         self.__have_selection = have_sel
 
     def __update_cursor_for_coords(self, x, y):

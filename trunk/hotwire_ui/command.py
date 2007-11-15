@@ -354,10 +354,12 @@ class CommandExecutionControl(gtk.VBox):
 <ui>
   <menubar name='Menubar'>
     <menu action='EditMenu'>
-      <menuitem action='Copy'/>
-      <separator/>
-      <menuitem action='Search'/>
-      <menuitem action='Input'/> 
+      <placeholder name='EditMenuAdditions'>
+        <menuitem action='Copy'/>
+        <separator/>
+        <menuitem action='Search'/>
+        <menuitem action='Input'/> 
+      </placeholder>
     </menu>
     <menu action='ViewMenu'>
       <menuitem action='Overview'/>
