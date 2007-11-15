@@ -154,14 +154,12 @@ class History(Singleton):
     
 _prefinstance = None
 class Preferences(gobject.GObject):
-    __gsignals__ = {
-        "tree-changed" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,)),
-    }    
     def __init__(self):
         super(Preferences, self).__init__()
         path = _get_state_path('prefs.sqlite')
         _logger.debug("opening connection to prefs db: %s", path)
         self.__conn = sqlite3.connect(path, isolation_level=None)
+        self.__monitors = []
         
         cursor = self.__conn.cursor()
         cursor.execute('''CREATE TABLE IF NOT EXISTS Prefs (dbid INTEGER PRIMARY KEY AUTOINCREMENT, keyName TEXT UNIQUE, keyValue, modtime DATETIME)''')
@@ -179,7 +177,15 @@ class Preferences(gobject.GObject):
         cursor.execute('''BEGIN TRANSACTION''')
         cursor.execute('''INSERT OR REPLACE INTO Prefs VALUES (NULL, ?, ?, ?)''', [key, value, datetime.datetime.now()])
         cursor.execute('''COMMIT''')
-        self.emit('tree-changed', root)
+        self.__notify(key, value)
+        
+    def __notify(self, key, value):
+        for prefix, handler, args in self.__monitors:
+            if key.startswith(prefix):
+                handler(self, key, value, *args)
+    
+    def monitor_prefs(self, prefix, handler, *args):
+        self.__monitors.append((prefix, handler, args))
     
     @staticmethod
     def getInstance():

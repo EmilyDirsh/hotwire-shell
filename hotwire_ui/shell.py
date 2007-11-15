@@ -15,14 +15,10 @@ from hotwire.gutil import *
 from hotwire.util import markup_for_match, quote_arg
 from hotwire.fs import path_unexpanduser
 from hotwire.sysdep.fs import Filesystem
-try:
-    from hotwire.minion import SshMinion
-    minion_available = True
-except:
-    minion_available = False
-from hotwire.state import History
+from hotwire.state import History, Preferences
 from hotwire_ui.command import CommandExecutionDisplay,CommandExecutionControl
 from hotwire_ui.completion import PopupDisplay
+from hotwire_ui.prefs import PrefsWindow
 from hotwire.logutil import log_except
 
 _logger = logging.getLogger("hotwire.ui.Shell")
@@ -87,54 +83,6 @@ class HotwireClientContext(hotwire.command.HotwireContext):
     def get_ui(self):
         return self.__hotwire.get_global_ui()
 
-class DownloadStatus(gtk.HBox):
-    def __init__(self, fname):
-        super(DownloadStatus, self).__init__()
-        self.fname = fname
-        bname = os.path.basename(fname)
-        self.__fname = gtk.Label(bname)
-        self.pack_start(self.__fname, expand=False)
-        self.__progress = gtk.ProgressBar()
-        self.pack_start(self.__progress, expand=True)
-        self.__status = gtk.Label()
-        self.pack_start(self.__status, expand=False)
-
-    def notify_progress(self, bytes_read, bytes_total, err):
-        if err:
-            self.__status.set_text(err)
-        elif bytes_total:
-            self.__progress.set_fraction((bytes_read*1.0)/bytes_total)
-            self.__status.set_text("%d/%d" % (bytes_read, bytes_total))
-        else:
-            self.__status.set_text("(unknown)")
-
-class Downloads(gtk.VBox):
-    def __init__(self, **args):
-        super(Downloads, self).__init__(**args)
-        self.__idle_removes = {}
-
-    def __idle_remove_completed(self, child):
-        self.remove(child)
-        del self.__idle_removes[child.fname]
-        if len(self.get_children()) == 0:
-            self.hide()
-
-    def notify_progress(self, fname, bytes_read, bytes_total, err):
-        ds = None
-        for child in self.get_children():
-            if child.fname == fname:
-                ds = child
-                break
-        if not ds:
-            ds = DownloadStatus(fname)
-            self.pack_start(ds, expand=True)
-        ds.notify_progress(bytes_read, bytes_total, err)
-        if bytes_read == bytes_total and not self.__idle_removes.has_key(fname):
-            self.__idle_removes[fname] = (gobject.timeout_add(7000,
-                                                              self.__idle_remove_completed,
-                                                              ds))
-        self.show_all()
-
 class Hotwire(gtk.VBox):
     __gsignals__ = {
         "title" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_STRING,)),
@@ -156,9 +104,6 @@ class Hotwire(gtk.VBox):
 
         self.__cwd = self.context.get_cwd()
 
-        self.__minion = None
-        self.__minion_cwd = None
-
         self.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT | gtk.DEST_DEFAULT_DROP,
                            [('text/uri-list', 0, 0)],
                            gtk.gdk.ACTION_COPY) 
@@ -175,9 +120,6 @@ class Hotwire(gtk.VBox):
         self.__outputs = CommandExecutionControl(self.context)
         self.__outputs.connect("new-window", self.__on_commands_new_window)        
         self.__topbox.pack_start(self.__outputs, expand=True)
-
-        self.__downloads = Downloads()
-        self.__topbox.pack_start(self.__downloads, expand=False)
 
         self.__bottom = gtk.VBox()
         self.__paned.pack_end(hotwidgets.Align(self.__bottom, xscale=1.0, yalign=1.0), expand=False)
@@ -258,19 +200,8 @@ for obj in curshell.get_current_output():
         else:
             self.__msgline.set_markup(msg)
 
-    def ssh(self, host):
-        if not minion_available:
-            raise NotImplementedError()
-        _logger.debug("entering ssh mode host: '%s'", host)
-        self.__minion = SshMinion(host)
-        self.__minion.set_lcwd(self.__cwd)
-        self.__minion.connect("cwd", self.__on_minion_cwd)
-        self.__minion.connect("download", self.__on_download_progress)
-
     def __sync_cwd(self):
         max_recentdir_len = 10
-        if self.__minion:
-            self.__minion.set_lcwd(self.__cwd)
         model = self.__recentdirs.get_model()
         if model.iter_n_children(None) == max_recentdir_len:
             model.remove(model.iter_nth_child(None, max_recentdir_len-1))
@@ -320,23 +251,6 @@ for obj in curshell.get_current_output():
         sel_data = selection.data
         self.do_copy_url_drag_to_dir(sel_data, self.context.get_cwd())
         
-    def __on_minion_cwd(self, minion, cwd):
-        _logger.debug("minion cwd: '%s'", cwd)
-        self.__minion_cwd = cwd
-        self.__update_status()
-
-    def __on_download_progress(self, minion, fname, bytes_read, bytes_total, err):
-        _logger.debug("download progress '%s' %s %s %s", fname, bytes_read, bytes_total, err)
-        self.__downloads.notify_progress(fname, bytes_read, bytes_total, err)
-
-    def remote_active(self):
-        return not not self.__minion
-
-    def remote_exit(self):
-        _logger.debug("remote exit")
-        self.__minion.close()
-        self.__minion = None
-
     def get_entry(self):
         return self.__input
     
@@ -445,8 +359,6 @@ for obj in curshell.get_current_output():
         History.getInstance().record_pipeline(self.__cwd, self.__pipeline_tree)
 
         text = self.__input.get_property("text")
-        if self.__minion and pipeline.get_locality() != 'local':
-            pipeline = MinionPipeline.parse(self.__minion, text, context=self.context)
 
         self.execute_pipeline(pipeline)
 
@@ -722,16 +634,14 @@ for obj in curshell.get_current_output():
 
     def __on_scroll_offset(self, i, offset):
         offset = i.get_property('scroll-offset')
-
-    def show_all(self):
-        super(Hotwire, self).show_all()
-        self.__downloads.hide()
             
 class HotWindow(gtk.Window):
     ascii_nums = [long(x+ord('0')) for x in xrange(10)]
 
     def __init__(self, factory=None, is_initial=False, subtitle='', **kwargs):
         super(HotWindow, self).__init__()
+
+        self.__prefs_dialog = None
 
         vbox = gtk.VBox()
         self.add(vbox)
@@ -746,13 +656,14 @@ class HotWindow(gtk.Window):
       <menuitem action='Close'/>
     </menu>
     <menu action='EditMenu'>
+      <placeholder name='EditMenuAdditions'/>
+      <separator/>
+      <menuitem action='Preferences'/>
     </menu>
     <menu action='ViewMenu'>
     </menu>
     <menu action='ControlMenu'>
     </menu>
-    <menu action='PrefsMenu'>
-    </menu>    
     <menu action='ToolsMenu'>
       <menuitem action='PythonWorkpad'/>
       <separator/>
@@ -791,6 +702,10 @@ class HotWindow(gtk.Window):
         self.set_title('Hotwire' + subtitle)
 
         self.set_icon_name('hotwire')
+        
+        prefs = Preferences.getInstance()
+        prefs.monitor_prefs('ui.', self.__on_pref_changed)
+        self.__sync_prefs(prefs)
 
         self.connect("delete-event", lambda w, e: False)
 
@@ -805,6 +720,13 @@ class HotWindow(gtk.Window):
             self.new_tab_widget(*kwargs['initwidget'])
         else:
             self.new_tab_hotwire(**kwargs)
+            
+    def __on_pref_changed(self, prefs, key, value):
+        self.__sync_prefs(prefs)
+        
+    def __sync_prefs(self, prefs):
+        _logger.debug("syncing prefs")
+        accels = prefs.get_pref('ui.menuaccels', default=True)
 
     def get_ui(self):
         return self.__ui
@@ -820,7 +742,8 @@ class HotWindow(gtk.Window):
             ('EditMenu', None, 'Edit'),                
             ('ViewMenu', None, 'View'),       
             ('ControlMenu', None, 'Control'),
-            ('PrefsMenu', None, 'Preferences'),                            
+            ('PrefsMenu', None, 'Preferences'), 
+            ('Preferences', 'gtk-preferences', 'Preferences', None, 'Change preferences', self.__preferences_cb),                                       
             ('ToolsMenu', None, 'Tools'),
             ('PythonWorkpad', 'gtk-execute', '_Python Workpad', '<control><shift>p', 'Launch Python evaluator', self.__python_workpad_cb),
             ('HelpCommand', 'gtk-help', '_Help', None, 'Display help command', self.__help_cb),                       
@@ -880,6 +803,11 @@ class HotWindow(gtk.Window):
 
     def __close_cb(self, action):
         self.__remove_page_widget(self.__notebook.get_nth_page(self.__notebook.get_current_page()))         
+
+    def __preferences_cb(self, action):
+        if not self.__prefs_dialog:
+            self.__prefs_dialog = PrefsWindow()
+        self.__prefs_dialog.show_all()
 
     def __python_workpad_cb(self, action):
         self.__show_pyshell()
