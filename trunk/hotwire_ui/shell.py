@@ -13,7 +13,7 @@ from hotwire.singletonmixin import Singleton
 from hotwire.sysdep.term import Terminal
 from hotwire.gutil import *
 from hotwire.util import markup_for_match, quote_arg
-from hotwire.fs import path_unexpanduser
+from hotwire.fs import path_unexpanduser, unix_basename
 from hotwire.sysdep.fs import Filesystem
 from hotwire.state import History, Preferences
 from hotwire_ui.command import CommandExecutionDisplay,CommandExecutionControl
@@ -270,7 +270,8 @@ for obj in curshell.get_current_output():
         self.emit("title", self.get_title())
 
     def get_title(self):
-        return '%s' % (os.path.basename(self.context.get_cwd()),)
+        cwd = self.context.get_cwd()
+        return unix_basename(cwd)
 
     def execute_internal_str(self, pipeline_str):
         tree = Pipeline.parse(pipeline_str, self.context)
@@ -1016,6 +1017,25 @@ along with Hotwire; if not, write to the Free Software Foundation, Inc.,
                     actionitem.disconnect_accelerator()
             self.__nonterm_accels_installed = install_accels
             
+        self.__sync_title(pn)
+            
+    def __sync_title(self, pn=None):
+        if pn is not None:
+            pagenum = pn
+        else:
+            pagenum = self.__notebook.get_current_page()
+        widget = self.__notebook.get_nth_page(pagenum)
+        tl = widget.get_data('hotwire-tab-label')
+        if not tl:
+            return
+        title = '%s - Hotwire' % (tl.get_text(),)
+        # Totally gross hack; this avoids the current situation of
+        # 'sudo blah' showing up with a title of 'term -w sudo blah'.
+        # Delete this if we revisit the term -w situation.
+        if title.startswith('term -w'):
+            title = title[7:]
+        self.set_title(title)
+            
     def new_tab_hotwire(self, is_initial=False, **kwargs):
         hw = Hotwire(window=self, ui=self.__ui, **kwargs)
         hw.set_data('hotwire-is-hotwire', True)
@@ -1025,8 +1045,11 @@ along with Hotwire; if not, write to the Free Software Foundation, Inc.,
             self.__notebook.set_tab_reorderable(hw, True)
         label = self.__add_widget_title(hw)
 
-        hw.connect('title', lambda h, title: label.set_text(title))
-        label.set_text(hw.get_title())
+        def on_title(h, title):
+            label.set_text(title)
+            self.__sync_title()
+        hw.connect('title', on_title)
+        on_title(hw, hw.get_title())
 
         hw.connect('new-tab-widget', lambda h, *args: self.new_tab_widget(*args))
         hw.connect('new-window-cmd', lambda h, cmd: self.new_win_hotwire(initcmd_widget=cmd))        
@@ -1086,6 +1109,7 @@ along with Hotwire; if not, write to the Free Software Foundation, Inc.,
         hbox.pack_start(close, expand=False)
         hbox.show_all()
         self.__notebook.set_tab_label(w, hbox)
+        w.set_data('hotwire-tab-label', label)
         self.__notebook.set_tab_label_packing(w, True, True, gtk.PACK_START)
         self.__sync_tabs_visible()
         return label
