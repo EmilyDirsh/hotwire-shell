@@ -66,11 +66,14 @@ class VteTerminalWidget(TerminalWidget):
 
         # Use Gnome font 
         if gconf_available:
-            gconf_client = gconf.client_get_default() 
-            mono_font = gconf_client.get_string('/desktop/gnome/interface/monospace_font_name')
-            _logger.debug("Using font '%s'", mono_font)
-            font_desc = pango.FontDescription(mono_font)
-            self.__term.set_font(font_desc)
+            gconf_client = gconf.client_get_default()
+            def on_font_change(*args):
+                mono_font = gconf_client.get_string('/desktop/gnome/interface/monospace_font_name')
+                _logger.debug("Using font '%s'", mono_font)
+                font_desc = pango.FontDescription(mono_font)
+                self.__term.set_font(font_desc)                
+            gconf_client.notify_add('/desktop/gnome/interface/monospace_font_name', on_font_change)
+            on_font_change()
 
         self._selection_changed(False)
 
