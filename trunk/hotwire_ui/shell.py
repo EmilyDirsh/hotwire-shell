@@ -130,6 +130,7 @@ class Hotwire(gtk.VBox):
         self.__msgline.unset_flags(gtk.CAN_FOCUS)
         self.__bottom.pack_start(hotwidgets.Align(self.__msgline), expand=False)
 
+        self.__emacs_bindings = None
         self.__active_input_completers = []
         self.__input = gtk.Entry()
         self.__input.connect("notify::scroll-offset", self.__on_scroll_offset)
@@ -164,6 +165,10 @@ class Hotwire(gtk.VBox):
 
         self.__sync_cwd()
         self.__update_status()
+
+        prefs = Preferences.getInstance()
+        prefs.monitor_prefs('ui.', self.__on_pref_changed)
+        self.__sync_prefs(prefs)
 
         if initcmd_widget:
             self.__unset_welcome()            
@@ -514,8 +519,33 @@ for obj in curshell.get_current_output():
         elif e.keyval == gtk.gdk.keyval_from_name('Escape'):
             self.__completions.hide()
             return True
+        elif self.__emacs_bindings and self.__handle_emacs_binding(e):
+            return True     
         else:
             return False
+        
+    def __handle_emacs_binding(self, e):
+        if e.keyval == gtk.gdk.keyval_from_name('f') \
+             and e.state & gtk.gdk.MOD1_MASK:
+            self.__input.emit('move-cursor', gtk.MOVEMENT_WORDS, 1, False)
+            return True
+        elif e.keyval == gtk.gdk.keyval_from_name('b') \
+             and e.state & gtk.gdk.MOD1_MASK:
+            self.__input.emit('move-cursor', gtk.MOVEMENT_WORDS, -1, False)
+            return True        
+        elif e.keyval == gtk.gdk.keyval_from_name('a') \
+             and e.state & gtk.gdk.CONTROL_MASK:
+            self.__input.emit('move-cursor', gtk.MOVEMENT_BUFFER_ENDS, -1, False)
+            return True
+        elif e.keyval == gtk.gdk.keyval_from_name('e') \
+             and e.state & gtk.gdk.CONTROL_MASK:
+            self.__input.emit('move-cursor', gtk.MOVEMENT_BUFFER_ENDS, 1, False)
+            return True
+        elif e.keyval == gtk.gdk.keyval_from_name('k') \
+             and e.state & gtk.gdk.CONTROL_MASK:
+            self.__input.emit('delete-from-cursor', gtk.MOVEMENT_PARAGRAPH_ENDS, 1)
+            return True                
+        return False           
 
     def __open_prev_output(self):
         self.__outputs.open_output(do_prev=True)
@@ -634,6 +664,17 @@ for obj in curshell.get_current_output():
 
     def __on_scroll_offset(self, i, offset):
         offset = i.get_property('scroll-offset')
+        
+    def __on_pref_changed(self, prefs, key, value):
+        self.__sync_prefs(prefs)
+        
+    def __sync_prefs(self, prefs):
+        _logger.debug("syncing prefs")
+        emacs = prefs.get_pref('ui.emacs', default=False)
+        if self.__emacs_bindings == emacs:
+            return
+        self.__emacs_bindings = emacs
+        _logger.debug("using Emacs keys: %s", emacs)
             
 class HotWindow(gtk.Window):
     ascii_nums = [long(x+ord('0')) for x in xrange(10)]
@@ -727,24 +768,39 @@ class HotWindow(gtk.Window):
     def __sync_prefs(self, prefs):
         _logger.debug("syncing prefs")
         accels = prefs.get_pref('ui.menuaccels', default=True)
+        if self.__using_accels == accels:
+            return
+        self.__using_accels = accels
+        for action in self.__actions:
+            name = action[0]
+            if not name.endswith('Menu'):
+                continue
+            uiname = action[2]
+            menuitem = self.__ui.get_widget('/Menubar/' + name)
+            label = menuitem.get_child()
+            if accels:
+                label.set_text_with_mnemonic(uiname)
+            else:
+                noaccel = uiname.replace('_', '')
+                label.set_text(noaccel)
 
     def get_ui(self):
         return self.__ui
 
     def __create_ui(self):
+        self.__using_accels = True
         self.__ag = ag = gtk.ActionGroup('WindowActions')
-        actions = [
-            ('FileMenu', None, 'File'),
+        self.__actions = actions = [
+            ('FileMenu', None, '_File'),
             ('NewTermTab', gtk.STOCK_NEW, 'New T_erminal Tab', '<control><shift>T',
              'Open a new terminal tab', self.__new_term_tab_cb),
             ('Close', gtk.STOCK_CLOSE, '_Close', '<control><shift>W',
              'Close the current tab', self.__close_cb),
-            ('EditMenu', None, 'Edit'),                
-            ('ViewMenu', None, 'View'),       
-            ('ControlMenu', None, 'Control'),
-            ('PrefsMenu', None, 'Preferences'), 
+            ('EditMenu', None, '_Edit'),        
+            ('ViewMenu', None, '_View'),
+            ('ControlMenu', None, '_Control'),
             ('Preferences', 'gtk-preferences', 'Preferences', None, 'Change preferences', self.__preferences_cb),                                       
-            ('ToolsMenu', None, 'Tools'),
+            ('ToolsMenu', None, '_Tools'),
             ('PythonWorkpad', 'gtk-execute', '_Python Workpad', '<control><shift>p', 'Launch Python evaluator', self.__python_workpad_cb),
             ('HelpCommand', 'gtk-help', '_Help', None, 'Display help command', self.__help_cb),                       
             ('About', gtk.STOCK_ABOUT, '_About', None, 'About Hotwire', self.__help_about_cb),
