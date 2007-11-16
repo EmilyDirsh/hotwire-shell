@@ -151,7 +151,6 @@ def main():
         ipc.register_window(w)
 
     # Random global GTK+-related initialization
-    gtk.settings_get_default().set_property('gtk-key-theme-name',  'Emacs')
     gtk.about_dialog_set_url_hook(on_about_dialog_url)
     gtk.rc_parse_string('''
 style "hotwire-tab-close" {

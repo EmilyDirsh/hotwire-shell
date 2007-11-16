@@ -180,9 +180,13 @@ class Preferences(gobject.GObject):
         self.__notify(key, value)
         
     def __notify(self, key, value):
+        _logger.debug("doing notify for key %s new value: %s", key, value)
         for prefix, handler, args in self.__monitors:
             if key.startswith(prefix):
-                handler(self, key, value, *args)
+                try:
+                    handler(self, key, value, *args)
+                except:
+                    _logger.error('Failed to invoke handler for preference %s', key, exc_info=True)
     
     def monitor_prefs(self, prefix, handler, *args):
         self.__monitors.append((prefix, handler, args))
