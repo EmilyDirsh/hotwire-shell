@@ -66,16 +66,20 @@ class HotwireClientContext(hotwire.command.HotwireContext):
     def remote_exit(self):
         self.__hotwire.remote_exit()
 
-    def open_term(self, cwd, pipeline, arg):
-        gobject.idle_add(self.__idle_open_term, cwd, pipeline, arg)
+    def open_term(self, cwd, pipeline, arg, window=False):
+        gobject.idle_add(self.__idle_open_term, cwd, pipeline, arg, window)
 
     def open_pyshell(self):
         gobject.idle_add(self.__idle_open_pyshell)
 
-    def __idle_open_term(self, cwd, pipeline, arg):
+    def __idle_open_term(self, cwd, pipeline, arg, do_window):
         title = str(pipeline)
+        window = locate_current_window(self.__hotwire)
         term = Terminal.getInstance().get_terminal_widget_cmd(cwd, arg, title)
-        self.__hotwire.append_tab(term, title)
+        if do_window:
+            window.new_win_widget(term, title)
+        else:
+            window.new_tab_widget(term, title)
         
     def __idle_open_pyshell(self):
         self.__hotwire.open_pyshell()
@@ -1050,7 +1054,17 @@ along with Hotwire; if not, write to the Free Software Foundation, Inc.,
         elif savedidx >= 0:
             if idx < savedidx:
                 savedidx -= 1
-            self.__notebook.set_current_page(savedidx)        
+            self.__notebook.set_current_page(savedidx)
+            
+    def __on_widget_closed(self, w):
+        if w in self.__closesigs:
+            w.disconnect(self.__closesigs[w])
+            del self.__closesigs[w]
+        # If a terminal exits and we're the only window, don't automatically
+        # exit the app.
+        if self.__notebook.get_n_pages() == 1:
+            return
+        self.__remove_page_widget(w)
 
     def __add_widget_title(self, w):
         hbox = gtk.HBox()
@@ -1090,7 +1104,7 @@ along with Hotwire; if not, write to the Free Software Foundation, Inc.,
         label.set_text(title)
         widget.show_all()
         self.__notebook.set_current_page(idx)
-        self.__closesigs[widget] = widget.connect('closed', self.__remove_page_widget)
+        self.__closesigs[widget] = widget.connect('closed', self.__on_widget_closed)
         _logger.debug("preautoswitch idx: %d", savedidx)
         self.__preautoswitch_index = savedidx
 

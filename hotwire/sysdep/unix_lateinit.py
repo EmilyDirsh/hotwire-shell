@@ -2,11 +2,11 @@ import os,sys
 
 from hotwire.cmdalias import AliasRegistry
 
-default_aliases = {'sudo': 'term sudo',
-                   'su': 'term su',                   
+default_aliases = {'sudo': 'term -w sudo',
+                   'su': 'term -w su',                   
                    'vi': 'term vi',
                    'vim': 'term vim',
-                   'ssh': 'term ssh',
+                   'ssh': 'term -w ssh',
                    'man': 'term man',
                    'info': 'term info',
                    'less': 'term less',
@@ -15,8 +15,8 @@ default_aliases = {'sudo': 'term sudo',
                    'powertop': 'term powertop',                   
                    'nano': 'term nano',
                    'pico': 'term pico',
-                   'irssi': 'term irssi',
-                   'mutt': 'term mutt',
+                   'irssi': 'term -w irssi',
+                   'mutt': 'term -w mutt',
                   }
 aliases = AliasRegistry.getInstance()
 for name,value in default_aliases.iteritems():
