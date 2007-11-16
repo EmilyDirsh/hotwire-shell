@@ -145,11 +145,6 @@ def main():
         
     hotwire.pluginsystem.load_plugins()
 
-    w = HotWindowFactory.getInstance().create_initial_window(subtitle=(no_persist and ' (Unshared)' or ''))
-    w.show()
-    if ipc_avail and (not no_persist):
-        ipc.register_window(w)
-
     # Random global GTK+-related initialization
     gtk.about_dialog_set_url_hook(on_about_dialog_url)
     gtk.rc_parse_string('''
@@ -159,6 +154,17 @@ style "hotwire-tab-close" {
 }
 widget "*hotwire-tab-close" style "hotwire-tab-close"
 ''')
+
+    if os.getenv('HOTWIRE_UNINSTALLED'):
+        theme = gtk.icon_theme_get_default()
+        imgpath = os.path.join(os.getenv('HOTWIRE_UNINSTALLED'), 'images')
+        _logger.debug("appending to icon theme: %s", imgpath)
+        theme.append_search_path(imgpath)
+
+    w = HotWindowFactory.getInstance().create_initial_window(subtitle=(no_persist and ' (Unshared)' or ''))
+    w.show()
+    if ipc_avail and (not no_persist):
+        ipc.register_window(w)
 
     gtk.gdk.notify_startup_complete()
 
