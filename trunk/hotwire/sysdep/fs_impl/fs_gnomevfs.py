@@ -66,12 +66,42 @@ class GnomeVfsFile(UnixFile):
         except gnomevfs.NotFoundError, e:
             _logger.debug("Failed to get file info for '%s'", self.uri, exc_info=True)
 
+class GnomeVfsMonitor(object):
+    """Avoid some locking oddities in gnomevfs monitoring"""
+    def __init__(self, path, montype, cb):
+        super(GnomeVfsMonitor, self).__init__()
+        self.__path = path
+        self.__cb = cb
+        self.__idle_id = 0
+        self.__monid = gnomevfs.monitor_add(path, montype, self.__on_vfsmon)
+  
+    def __idle_emit(self):
+        self.__idle_id = 0
+        self.__cb()
+
+    def __on_vfsmon(self, *args):
+        if not self.__monid:
+            return
+        if self.__idle_id == 0:
+            self.__idle_id = gobject.timeout_add(300, self.__idle_emit)
+
+    def cancel(self):
+        if self.__idle_id:
+            gobject.source_remove(self.__idle_id)
+            self.__idle_id = 0
+        if self.__monid:
+            gnomevfs.monitor_cancel(self.__monid)
+            self.__monid = Nones
+
 class GnomeVFSFilesystem(UnixFilesystem):
     def __init__(self):
         super(GnomeVFSFilesystem, self).__init__()
         self.__thumbnails = gnome.ui.ThumbnailFactory(gnome.ui.THUMBNAIL_SIZE_NORMAL)
         self.__itheme = gtk.icon_theme_get_default() 
         _logger.debug("gnomevfs initialized")
+
+    def get_monitor(self, path, cb):
+        return GnomeVfsMonitor(path, gnomevfs.MONITOR_EVENT_CHANGED, cb)
 
     def get_file(self, path):
         fobj = GnomeVfsFile(path)

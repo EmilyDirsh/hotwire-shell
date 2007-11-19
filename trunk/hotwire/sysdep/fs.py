@@ -20,6 +20,9 @@ class BaseFilesystem(object):
 
     def get_basename_is_ignored(self, bn):
         return bn.startswith('.')
+    
+    def get_monitor(self, path, cb):
+        raise NotImplementedError()
 
     def get_file(self, path):
         f = File(path)
