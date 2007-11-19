@@ -16,7 +16,7 @@ class MiniThreadPool(Singleton):
         self.__queue = []
         self.__avail_threads = 0
         self.__thread_count = 0
-        self.__max_threads = 30
+        self.__max_threads = 7
 
     def run(self, callable, args=()):
         self.__queue_cond.acquire()
