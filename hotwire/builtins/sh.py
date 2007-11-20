@@ -111,9 +111,8 @@ class ShBuiltin(Builtin):
             # control the buffering used by subprocesses.
             (master_fd, slave_fd) = pty.openpty()
             
-            # These lines prevent us from having newlines converted to CR+NL.            
-            # Honestly, I have no idea why the ONLCR flag appears to be set by default.
-            # This was happening on Fedora 7, glibc-2.6-4, kernel-2.6.22.9-91.fc7.            
+            # Ideally there would be a flag to tell a terminal to be completely 
+            # "8-bit clean".          
             attrs = termios.tcgetattr(master_fd)
             attrs[1] = attrs[1] & (~termios.ONLCR)
             attrs[3] = attrs[3] & (~termios.ECHO)
