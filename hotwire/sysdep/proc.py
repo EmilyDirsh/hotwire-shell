@@ -1,14 +1,26 @@
 # -*- tab-width: 4 -*-
-import sys,os,logging,platform
+import sys,os,logging,platform,time
 
 from hotwire.sysdep import is_windows, is_unix, is_linux
 
 class BaseProcessManager(object):
+    def __init__(self):
+        super(BaseProcessManager, self).__init__()
+        self.__proc_snapshot_time = None
+        self.__proc_snapshot = []
+    
     def get_extra_subproc_args(self):
         return {}
 
     def get_processes(self):
         raise NotImplementedError()
+
+    def get_cached_processes(self, timeout_secs=2):
+        curtime = time.time()
+        if self.__proc_snapshot_time is None or self.__proc_snapshot_time+timeout_secs < curtime:
+            self.__proc_snapshot = list(self.get_processes())
+            self.__proc_snapshot_time = curtime
+        return self.__proc_snapshot
 
     def interrupt_pid(self, pid):
         raise NotImplementedError()
