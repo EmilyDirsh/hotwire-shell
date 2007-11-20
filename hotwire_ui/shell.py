@@ -548,7 +548,7 @@ for obj in curshell.get_current_output():
             return True
         elif e.keyval == gtk.gdk.keyval_from_name('k') \
              and e.state & gtk.gdk.CONTROL_MASK:
-            self.__input.emit('delete-from-cursor', gtk.MOVEMENT_PARAGRAPH_ENDS, 1)
+            self.__input.emit('delete-from-cursor', gtk.DELETE_PARAGRAPH_ENDS, 1)
             return True                
         return False           
 
