@@ -47,7 +47,8 @@ class HotSshBuiltin(Builtin):
     """Execute a system command in a new terminal."""
     def __init__(self):
         super(HotSshBuiltin, self).__init__('ssh', nostatus=True,
-                                            parseargs='shglob')
+                                            parseargs='shglob',
+                                            threaded=True)
 
     def get_completer(self, argpos, context):
         return OpenSshKnownHostCompleter.getInstance()
@@ -55,7 +56,7 @@ class HotSshBuiltin(Builtin):
     def execute(self, context, args, options=[]):
         argv = ['hotssh']
         argv.extend(args)
-        subprocess.call(argv)
+        subprocess.Popen(argv)
         return []
         
 BuiltinRegistry.getInstance().register(HotSshBuiltin())
