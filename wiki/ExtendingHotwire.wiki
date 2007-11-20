@@ -14,6 +14,13 @@ import os
 os.environ['JAVA_HOME'] = '/usr/java/jdk1.5.0_13'
 }}}
 
+= Creating an alias =
+
+{{{
+from hotwire.cmdalias import AliasRegistry
+AliasRegistry.getInstance().insert('make', 'sh make -j 3')
+}}}
+
 = Adding a new builtin =
 
 Here is a sample file called `fruit.py` which demonstrates many of Hotwire's current extension points:
