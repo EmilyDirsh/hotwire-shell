@@ -27,6 +27,8 @@ class History(Singleton):
         cursor.execute('''CREATE TABLE IF NOT EXISTS Autoterm (dbid INTEGER PRIMARY KEY AUTOINCREMENT, cmd TEXT UNIQUE, modtime DATETIME)''')
         cursor.execute('''CREATE TABLE IF NOT EXISTS Directories (dbid INTEGER PRIMARY KEY AUTOINCREMENT, path TEXT UNIQUE, count INTEGER, modtime DATETIME)''')  
         cursor.execute('''CREATE TABLE IF NOT EXISTS Tokens (dbid INTEGER PRIMARY KEY AUTOINCREMENT, token TEXT UNIQUE, count INTEGER, modtime DATETIME)''')
+        cursor.execute('''CREATE TABLE IF NOT EXISTS CmdInput (dbid INTEGER PRIMARY KEY AUTOINCREMENT, cmd TEXT, line TEXT, modtime DATETIME)''')
+        cursor.execute('''CREATE INDEX IF NOT EXISTS CmdInputIndex on CmdInput (cmd, line, modtime)''')        
         cursor.execute('''CREATE TABLE IF NOT EXISTS Meta (keyName TEXT UNIQUE, keyValue)''')
         self.__convert_from_persist('history', 'Commands', '(NULL, ?, 0, NULL)')
         self.__convert_from_persist('autoterm', 'Autoterm', '(NULL, ?, 0)')
@@ -64,7 +66,7 @@ class History(Singleton):
         cursor.execute('''INSERT INTO Commands VALUES (NULL, ?, ?, ?)''', vals)
         cursor.execute('''COMMIT''')
         
-    def __search_limit_query(self, tablename, column, orderval, searchterm, limit, countmin=0):
+    def __search_limit_query(self, tablename, column, orderval, searchterm, limit, countmin=0, filters=[]):
         queryclauses = []
         args = []        
         if searchterm:
@@ -72,6 +74,8 @@ class History(Singleton):
             args.append('%' + searchterm.replace('%', '%%') + '%')            
         if countmin > 0:
             queryclauses.append("count > %d " % (countmin,))
+        queryclauses.extend(map(lambda x: x[0], filters))
+        args.extend(map(lambda x: x[1], filters))
         if queryclauses:
             queryclause = ' WHERE ' + ' AND '.join(queryclauses)
         else:
@@ -151,6 +155,22 @@ class History(Singleton):
 
             for arg in cmd[1:]:
                 self.append_token_usage(arg.text)
+
+    def search_command_input(self, cmd, searchterm, limit=20):
+        cursor = self.__conn.cursor()
+        (sql, args) = self.__search_limit_query('CmdInput', 'line', 'modtime', searchterm, limit,
+                                                filters=[('cmd = ?', cmd)])         
+        _logger.debug("execute using args %s: %s", args, sql)
+        for v in cursor.execute(sql, args):
+            yield v[2]
+        
+    def record_command_input(self, cmd, input):
+        cursor = self.__conn.cursor()
+        cursor.execute('''BEGIN TRANSACTION''')
+        vals = (cmd, input, datetime.datetime.now())
+        _logger.debug("doing insert of %s", vals)
+        cursor.execute('''INSERT INTO CmdInput VALUES (NULL, ?, ?, ?)''', vals)
+        cursor.execute('''COMMIT''')
     
 _prefinstance = None
 class Preferences(gobject.GObject):
