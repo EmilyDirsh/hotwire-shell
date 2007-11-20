@@ -15,7 +15,7 @@ class HelpItemRenderer(UnicodeRenderer):
         
     def __help_all(self):
         self._buf.insert_markup('Hotwire <i>%s</i>\n\n' % (__version__,))
-        self._buf.insert_markup('New to hotwire? ')
+        self._buf.insert_markup('New to Hotwire? ')
         self.append_link('View Tutorial', 'http://hotwire-shell.org/trac/wiki/GettingStarted')
         self._buf.insert_markup('\n\n')
         self._buf.insert_markup('<larger>Important Keybindings:</larger>\n')
