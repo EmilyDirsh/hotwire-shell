@@ -6,7 +6,7 @@ from hotwire.fs import FilePath
 from hotwire.sysdep.fs import Filesystem
 
 class SecHashBuiltin(Builtin):
-    """Create a secure hash from objects or file arguments"""
+    """Create a secure hash (default SHA1) from objects or file arguments."""
     def __init__(self):
         super(SecHashBuiltin, self).__init__('sechash', idempotent=True,
                                              input=InputStreamSchema('any', optional=True),
