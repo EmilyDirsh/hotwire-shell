@@ -11,6 +11,7 @@ _logger = logging.getLogger("hotwire.ui.ODisp")
 class ObjectsDisplay(gtk.VBox):
     __gsignals__ = {
         "object-input" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,)),
+        "status-changed" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),        
     }      
     def __init__(self, output_spec, context, **kwargs):
         super(ObjectsDisplay, self).__init__(**kwargs)
@@ -41,10 +42,15 @@ class ObjectsDisplay(gtk.VBox):
         if not self.__display and force:
             self.__display = DefaultObjectsRenderer(self.__context)        
         if self.__display:
+            self.__display.connect('status-changed', self.__on_status_changed)
             self.__display_widget = self.__display.get_widget()
             self.__display_widget.show_all()
             self.__scroll.add(self.__display_widget)
-            self.__output_type = output_spec            
+            self.__output_type = output_spec
+            
+    def __on_status_changed(self, renderer):
+        self.emit('status-changed')
+        self.do_autoscroll()
 
     def __on_keypress(self, e):
         if e.keyval in (gtk.gdk.keyval_from_name('s'), gtk.gdk.keyval_from_name('f')) and e.state & gtk.gdk.CONTROL_MASK:
@@ -228,6 +234,7 @@ class MultiObjectsDisplay(gtk.Notebook):
             if name is None:
                 self.__default_odisp = odisp
                 odisp.connect('object-input', self.__on_object_input)
+                odisp.connect('status-changed', self.__on_status_change)                
                 self.__default_odisp
                 self.insert_page(odisp, position=0)
                 self.set_tab_label_text(odisp, name or 'Default')
@@ -260,7 +267,10 @@ class MultiObjectsDisplay(gtk.Notebook):
     
     def __on_object_input(self, odisp, obj):
         self.__inputqueue.put(obj)
-
+        
+    def __on_status_change(self, odisp):
+        self.emit("changed")
+        
     def __idle_handle_output(self, queue):
         if self.__cancelled:
             return False
