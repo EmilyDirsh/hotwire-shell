@@ -23,7 +23,7 @@ class ShBuiltin(Builtin):
     def __init__(self):
         super(ShBuiltin, self).__init__('sh',
                                         input=InputStreamSchema(str, optional=True),
-                                        output=OutputStreamSchema(str, opt_formats=['text/chunked']),
+                                        output=OutputStreamSchema(str, opt_formats=['x-filedescriptor/special', 'text/chunked']),
                                         parseargs=(is_windows() and 'shglob' or 'str-shquoted'),
                                         hasstatus=True,
                                         threaded=True)
@@ -84,15 +84,7 @@ class ShBuiltin(Builtin):
                     context.input.disconnect()
         except:
             _logger.debug("failed to disconnect from stdin", exc_info=True)               
-            pass
-        try:
-            if 'master_fd' in context.attribs:
-                _logger.debug("closing pty master")
-                os.close(context.attribs['master_fd'])
-                del context.attribs['master_fd']
-        except:
-            _logger.debug("failed to disconnect from stdin", exc_info=True)               
-            pass        
+            pass      
 
     def execute(self, context, arg, out_opt_format=None):
         # This function is complex.  There are two major variables.  First,
@@ -102,7 +94,7 @@ class ShBuiltin(Builtin):
         # output as lines (out_opt_format is None), or as unbuffered byte chunks
         # (determined by text/chunked).
         
-        using_pty_out = pty_available and out_opt_format == 'text/chunked'
+        using_pty_out = pty_available and (out_opt_format is not None)
         using_pty_in = pty_available and context.input_is_first
         _logger.debug("using pty in: %s out: %s", using_pty_in, using_pty_out)
         if using_pty_in or using_pty_out:
@@ -193,6 +185,8 @@ class ShBuiltin(Builtin):
                     yield buf
             except OSError, e:
                 pass
+        elif out_opt_format == 'x-filedescriptor/special':
+            yield stdout_fd
         else:
             assert(False)
         retcode = subproc.wait()

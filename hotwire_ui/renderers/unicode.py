@@ -1,4 +1,4 @@
-import sys
+import os,sys
 
 # Older webbrowser.py didn't check gconf
 if sys.version_info[0] == 2 and sys.version_info[1] < 6:
@@ -329,7 +329,7 @@ class UnicodeRenderer(ObjectsRenderer):
             iter.forward_char()
 
     def get_opt_formats(self):
-        return ['text/chunked']
+        return ['x-filedescriptor/special', 'text/chunked']
 
     def __append_chunk(self, obj):
         if self.__empty:
@@ -360,6 +360,9 @@ class UnicodeRenderer(ObjectsRenderer):
         if fmt == 'text/chunked':
             self.__append_chunk(obj)
             return
+        elif fmt == 'x-filedescriptor/special':
+            self.__monitor_fd(obj)
+            return        
         if self.__empty:
             self._buf.delete(self._buf.get_start_iter(), self._buf.get_end_iter())
             self.__empty = False
@@ -378,6 +381,20 @@ class UnicodeRenderer(ObjectsRenderer):
         else:
             self.__append_chunk(obj)
         self._buf.insert(self._buf.get_end_iter(), '\n')
+
+    def __on_fd(self, src, condition):
+        if (condition & gobject.IO_IN):
+            self.__append_chunk(os.read(src, 8192))
+        if ((condition & gobject.IO_HUP) or (condition & gobject.IO_ERR)):
+            try:
+                os.close(src)
+            except:
+                pass
+            return False
+        return True        
+        
+    def __monitor_fd(self, fd):
+        gobject.io_add_watch(fd, gobject.IO_IN | gobject.IO_ERR | gobject.IO_HUP, self.__on_fd, priority=gobject.PRIORITY_LOW)
 
     def get_autoscroll(self):
         return True
