@@ -83,5 +83,6 @@ class KillBuiltin(Builtin):
         argpids = map(int, args)
         for arg in argpids:
             os.kill(arg, signum)
+        return []
         
 BuiltinRegistry.getInstance().register(KillBuiltin())
