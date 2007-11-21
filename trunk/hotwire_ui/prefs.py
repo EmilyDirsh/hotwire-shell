@@ -25,7 +25,7 @@ class PrefsWindow(gtk.Dialog):
         self.set_border_width(5)
         
         self.__vbox = gtk.VBox()
-        self.vbox.add(self.__vbox)
+        self.vbox.add(self.__vbox)   
         self.vbox.set_spacing(2)
         self.__notebook = gtk.Notebook()
         self.__vbox.add(self.__notebook)
@@ -35,6 +35,8 @@ class PrefsWindow(gtk.Dialog):
         self.__notebook.set_tab_label_text(self.__general_tab, 'General')
         
         vbox = gtk.VBox()
+        vbox.set_border_width(12)
+        vbox.set_spacing(6)                   
         label = gtk.Label()
         label.set_markup('<b>%s</b>' % ('Interface',))
         label.set_alignment(0.0, 0.0)
@@ -55,6 +57,8 @@ class PrefsWindow(gtk.Dialog):
         self.__notebook.set_tab_label_text(self.__term_tab, 'Terminal')   
         
         vbox = gtk.VBox()
+        vbox.set_border_width(12)
+        vbox.set_spacing(6) 
         label = gtk.Label()
         label.set_markup('<b>%s</b>' % ('Interface',))
         label.set_alignment(0.0, 0.0)
