@@ -65,10 +65,10 @@ class ShBuiltin(Builtin):
             fdno = fd
         else:
             fdno = stream.fileno()
-        buf = os.read(fdno, 10)
+        buf = os.read(fdno, 512)
         while buf:
             yield buf
-            buf = os.read(fdno, 10)
+            buf = os.read(fdno, 512)
 
     def cancel(self, context):
         if context.attribs.has_key('pid'):
