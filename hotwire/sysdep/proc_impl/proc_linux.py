@@ -2,6 +2,9 @@
 import os,sys,re,string, pwd
 
 from hotwire.sysdep.proc_impl.proc_unix import UnixProcessManager, UnixProcess
+from hotwire.sysdep.unix import getpwuid_cached, getgrgid_cached
+
+_pwdcache = {}
 
 class LinuxProcess(UnixProcess):
     uid_re = re.compile(r'^Uid:\s+(\d+)')
@@ -13,7 +16,7 @@ class LinuxProcess(UnixProcess):
             match = self.uid_re.search(line)
             if match:
                 owner_uid = int(match.group(1))
-        super(LinuxProcess, self).__init__(pid, string.join(self.arguments, ' '), pwd.getpwuid(owner_uid)[0])
+        super(LinuxProcess, self).__init__(pid, string.join(self.arguments, ' '), getpwuid_cached(owner_uid).pw_name)
 
 class LinuxProcessManager(UnixProcessManager):
     def get_processes(self):

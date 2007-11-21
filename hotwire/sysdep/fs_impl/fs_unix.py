@@ -2,6 +2,7 @@ import os,sys,stat
 import pwd,grp
 
 from hotwire.sysdep.fs import BaseFilesystem, File
+from hotwire.sysdep.unix import getpwuid_cached, getgrgid_cached
 
 class UnixFilesystem(BaseFilesystem):
     def __init__(self):
@@ -44,7 +45,7 @@ class UnixFile(File):
         if uid is None:
             return
         try:
-            return pwd.getpwuid(uid).pw_name
+            return getpwuid_cached(uid).pw_name
         except KeyError, e:
             return str(uid)
 
@@ -53,7 +54,7 @@ class UnixFile(File):
         if gid is None:
             return
         try:
-            return grp.getgrgid(gid).gr_name
+            return getgrgid_cached(gid).gr_name
         except KeyError, e:
             return str(gid)         
 
