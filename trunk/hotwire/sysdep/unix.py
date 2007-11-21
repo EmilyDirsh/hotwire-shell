@@ -1,4 +1,4 @@
-import os
+import os, pwd, grp
 
 os.environ['HOTWIRE_SHELL'] = '1'
 
@@ -21,3 +21,20 @@ if 'EDITOR' not in os.environ:
 
 # Work around git bug
 os.environ['GIT_PAGER'] = 'cat'
+
+# This is stupid; Unix should just do this.
+_pwuid_cache = {}
+def getpwuid_cached(uid):
+    try:
+        return _pwuid_cache[uid]
+    except KeyError, e:
+        _pwuid_cache[uid] = result = pwd.getpwuid(uid)
+        return result
+
+_grgid_cache = {}
+def getgrgid_cached(gid):
+    try:
+        return _grgid_cache[gid]
+    except KeyError, e:
+        _grgid_cache[gid] = result = grp.getgrgid(gid)
+        return result
