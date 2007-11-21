@@ -33,6 +33,9 @@ class ClassRendererMapping(Singleton):
         self.__map[cls] = target_class
 
 class ObjectsRenderer(gobject.GObject):  
+    __gsignals__ = {
+        "status-changed" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+    }
     def __init__(self, context):
         super(ObjectsRenderer, self).__init__()
         self.context = context

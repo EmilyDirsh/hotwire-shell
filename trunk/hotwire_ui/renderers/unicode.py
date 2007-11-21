@@ -355,6 +355,7 @@ class UnicodeRenderer(ObjectsRenderer):
             buf.delete(end, buf.get_end_iter())
             start = idx
         buf.insert(buf.get_end_iter(), start and obj[start:] or obj)
+        self.emit('status-changed')
 
     def append_obj(self, obj, fmt=None):
         if fmt == 'text/chunked':
