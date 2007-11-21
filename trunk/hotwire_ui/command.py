@@ -171,12 +171,12 @@ class CommandExecutionHeader(gtk.VBox):
             ocount = self.__objects.get_ocount() or 0
             status_str = self.__objects.get_status_str()
             if status_str is None:
-                status_str = '%d objects' % (ocount,)
+                status_str = _('%d objects') % (ocount,)
         else:
             status_str = None
             
         if self.__objects:
-            self.__tooltips.set_tip(self.__titlebox_ebox, (status_str or '') + ' Output type: ' + str(self.__objects.get_default_output_type()))      
+            self.__tooltips.set_tip(self.__titlebox_ebox, (status_str or '') + _(' Output type: ') + str(self.__objects.get_default_output_type()))      
 
         def set_status_action(status_text_left, action_text='', status_markup=False):
             if action_text:
@@ -210,17 +210,17 @@ class CommandExecutionHeader(gtk.VBox):
             return '<span foreground="%s">%s</span>' % (color,gobject.markup_escape_text(str))            
         state = self.get_state()
         if state == 'waiting':
-            set_status_action('Waiting...')
+            set_status_action(_('Waiting...'))
         elif state == 'cancelled':
-            set_status_action(_color('Cancelled', "red"), '', status_markup=True)
+            set_status_action(_color(_('Cancelled'), "red"), '', status_markup=True)
         elif state == 'undone':
-            set_status_action(_color('Undone', "red"), '', status_markup=True)
+            set_status_action(_color(_('Undone'), "red"), '', status_markup=True)
         elif state == 'exception':
-            set_status_action(_color('Exception', "red"), '', status_markup=True) 
+            set_status_action(_color(_('Exception'), "red"), '', status_markup=True) 
         elif state == 'executing':
-            set_status_action('Executing', None)
+            set_status_action(_('Executing'), None)
         elif state == 'complete':
-            set_status_action('Complete', None)
+            set_status_action(_('Complete'), None)
 
     def __on_pipeline_metadata(self, pipeline, cmdidx, cmd, key, flags, meta):
         _logger.debug("got pipeline metadata idx=%d key=%s flags=%s", cmdidx, key, flags)
@@ -380,21 +380,21 @@ class CommandExecutionControl(gtk.VBox):
   <accelerator action='ScrollPgDown'/>  
 </ui>"""         
         self.__actions = [
-            ('Copy', None, '_Copy', '<control>c', 'Copy output', self.__copy_cb),                          
-            ('Cancel', None, '_Cancel', '<control><shift>c', 'Cancel current command', self.__cancel_cb),
-            ('Undo', None, '_Undo', None, 'Undo current command', self.__undo_cb),            
-            ('Search', None, '_Search', '<control>s', 'Search output', self.__search_cb),
-            ('Input', None, '_Input', '<control>i', 'Send input', self.__input_cb),                         
-            ('ScrollHome', None, 'Output _Top', '<control>Home', 'Scroll to output top', self.__view_home_cb),
-            ('ScrollEnd', None, 'Output _Bottom', '<control>End', 'Scroll to output bottom', self.__view_end_cb), 
-            ('ScrollPgUp', None, 'Output Page _Up', 'Page_Up', 'Scroll output up', self.__view_up_cb),
-            ('ScrollPgDown', None, 'Output Page _Down', 'Page_Down', 'Scroll output down', self.__view_down_cb),
-            ('ToWindow', None, '_To Window', '<control><shift>N', 'Create window from output', self.__to_window_cb),                         
-            ('PreviousCommand', gtk.STOCK_GO_UP, '_Previous', '<control>Up', 'View previous command', self.__view_previous_cb),
-            ('NextCommand', gtk.STOCK_GO_DOWN, '_Next', '<control>Down', 'View next command', self.__view_next_cb),
+            ('Copy', None, _('_Copy'), '<control>c', _('Copy output'), self.__copy_cb),                          
+            ('Cancel', None, _('_Cancel'), '<control><shift>c', _('Cancel current command'), self.__cancel_cb),
+            ('Undo', None, _('_Undo'), None, _('Undo current command'), self.__undo_cb),            
+            ('Search', None, _('_Search'), '<control>s', _('Search output'), self.__search_cb),
+            ('Input', None, _('_Input'), '<control>i', _('Send input'), self.__input_cb),                         
+            ('ScrollHome', None, _('Output _Top'), '<control>Home', _('Scroll to output top'), self.__view_home_cb),
+            ('ScrollEnd', None, _('Output _Bottom'), '<control>End', _('Scroll to output bottom'), self.__view_end_cb), 
+            ('ScrollPgUp', None, _('Output Page _Up'), 'Page_Up', _('Scroll output up'), self.__view_up_cb),
+            ('ScrollPgDown', None, _('Output Page _Down'), 'Page_Down', _('Scroll output down'), self.__view_down_cb),
+            ('ToWindow', None, _('_To Window'), '<control><shift>N', _('Create window from output'), self.__to_window_cb),                         
+            ('PreviousCommand', gtk.STOCK_GO_UP, _('_Previous'), '<control>Up', _('View previous command'), self.__view_previous_cb),
+            ('NextCommand', gtk.STOCK_GO_DOWN, _('_Next'), '<control>Down', _('View next command'), self.__view_next_cb),
         ]
         self.__toggle_actions = [
-            ('Overview', None, '_Overview', '<control><shift>o', 'Toggle overview', self.__overview_cb),                                   
+            ('Overview', None, _('_Overview'), '<control><shift>o', _('Toggle overview'), self.__overview_cb),                                   
         ]
         self.__action_group = gtk.ActionGroup('HotwireActions')
         self.__action_group.add_actions(self.__actions) 
@@ -681,9 +681,9 @@ class CommandExecutionControl(gtk.VBox):
                 container.hide_all()
                 return
             container.show_all()
-            label.set_label(' %d commands' % (n,))
+            label.set_label(_(' %d commands') % (n,))
             if n_exec > 0:
-                label_exec.set_label(' %d executing' % (n_exec,))
+                label_exec.set_label(_(' %d executing') % (n_exec,))
             else:
                 label_exec.set_label('')
         self.__prevcmd_count = 0
