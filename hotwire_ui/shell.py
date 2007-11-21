@@ -197,7 +197,7 @@ for obj in curshell.get_current_output():
         shell = hotwire_ui.pyshell.CommandShell({'curshell': self},
                                                 content=PYCMD_CONTENT)
         shell.set_icon_name('hotwire')        
-        shell.set_title('Hotwire Python Command')
+        shell.set_title(_('Hotwire Python Command'))
         shell.show_all()  
 
     def append_tab(self, widget, title):
@@ -322,7 +322,7 @@ for obj in curshell.get_current_output():
             try:
                 self.__do_parse(throw=True)
             except hotwire.command.PipelineParseException, e:
-                self.push_msg("Failed to parse pipeline: %s" % (e.args[0],))
+                self.push_msg(_("Failed to parse pipeline: %s") % (e.args[0],))
                 return
         _logger.debug("executing '%s'", self.__pipeline_tree)
         if not self.__pipeline_tree or len(self.__pipeline_tree) == 0:
@@ -347,7 +347,7 @@ for obj in curshell.get_current_output():
                 if resolution_match:
                     resolutions.append((cmd, verb.text, resolution_match.get_matchdata()[0]))
                 else:
-                    self.push_msg('No matches for <b>%s</b>' %(gobject.markup_escape_text(verb.text),), markup=True)
+                    self.push_msg(_('No matches for <b>%s</b>') % (gobject.markup_escape_text(verb.text),), markup=True)
                     return
         for cmd,verbtext,matchtext in resolutions:
             subtree = Pipeline.parse_tree(matchtext, context=self.context)[0]
@@ -356,9 +356,9 @@ for obj in curshell.get_current_output():
                 cmd.insert(i, arg)
 
         if resolutions:
-            resolutions = ['<tt>%s</tt> to <tt>%s</tt>' % (gobject.markup_escape_text(x[1]),
-                                                           gobject.markup_escape_text(x[2])) for x in resolutions]
-            self.push_msg('Resolved: ' + string.join(resolutions, ', '), markup=True)
+            resolutions = [_('<tt>%s</tt> to <tt>%s</tt>') % (gobject.markup_escape_text(x[1]),
+                                                              gobject.markup_escape_text(x[2])) for x in resolutions]
+            self.push_msg(_('Resolved: ') + string.join(resolutions, ', '), markup=True)
 
         try:
             pipeline = Pipeline.parse_from_tree(self.__pipeline_tree, context=self.context)
@@ -797,25 +797,25 @@ class HotWindow(gtk.Window):
         self.__using_accels = True
         self.__ag = ag = gtk.ActionGroup('WindowActions')
         self.__actions = actions = [
-            ('FileMenu', None, '_File'),
-            ('NewTermTab', gtk.STOCK_NEW, 'New T_erminal Tab', '<control><shift>T',
-             'Open a new terminal tab', self.__new_term_tab_cb),
-            ('Close', gtk.STOCK_CLOSE, '_Close', '<control><shift>W',
-             'Close the current tab', self.__close_cb),
-            ('EditMenu', None, '_Edit'),        
-            ('ViewMenu', None, '_View'),
-            ('ControlMenu', None, '_Control'),
-            ('Preferences', 'gtk-preferences', 'Preferences', None, 'Change preferences', self.__preferences_cb),                                       
-            ('ToolsMenu', None, '_Tools'),
-            ('PythonWorkpad', 'gtk-execute', '_Python Workpad', '<control><shift>p', 'Launch Python evaluator', self.__python_workpad_cb),
-            ('HelpCommand', 'gtk-help', '_Help', None, 'Display help command', self.__help_cb),                       
-            ('About', gtk.STOCK_ABOUT, '_About', None, 'About Hotwire', self.__help_about_cb),
+            ('FileMenu', None, _('_File')),
+            ('NewTermTab', gtk.STOCK_NEW, _('New T_erminal Tab'), '<control><shift>T',
+             _('Open a new terminal tab'), self.__new_term_tab_cb),
+            ('Close', gtk.STOCK_CLOSE, _('_Close'), '<control><shift>W',
+             _('Close the current tab'), self.__close_cb),
+            ('EditMenu', None, _('_Edit')),        
+            ('ViewMenu', None, _('_View')),
+            ('ControlMenu', None, _('_Control')),
+            ('Preferences', 'gtk-preferences', _('Preferences'), None, _('Change preferences'), self.__preferences_cb),                                       
+            ('ToolsMenu', None, _('_Tools')),
+            ('PythonWorkpad', 'gtk-execute', _('_Python Workpad'), '<control><shift>p', _('Launch Python evaluator'), self.__python_workpad_cb),
+            ('HelpCommand', 'gtk-help', _('_Help'), None, _('Display help command'), self.__help_cb),                       
+            ('About', gtk.STOCK_ABOUT, _('_About'), None, _('About Hotwire'), self.__help_about_cb),
             ]
         self.__nonterm_actions = [
-            ('NewWindow', gtk.STOCK_NEW, '_New Window', '<control>n',
-             'Open a new window', self.__new_window_cb),
-            ('NewTab', gtk.STOCK_NEW, 'New _Tab', '<control>t',
-             'Open a new tab', self.__new_tab_cb)]
+            ('NewWindow', gtk.STOCK_NEW, _('_New Window'), '<control>n',
+             _('Open a new window'), self.__new_window_cb),
+            ('NewTab', gtk.STOCK_NEW, _('New _Tab'), '<control>t',
+             _('Open a new tab'), self.__new_tab_cb)]
         ag.add_actions(actions)
         ag.add_actions(self.__nonterm_actions)
         self.__ui = gtk.UIManager()
@@ -833,7 +833,7 @@ class HotWindow(gtk.Window):
         self.__pyshell = hotwire_ui.pyshell.CommandShell({'curshell': lambda: locate_current_shell(self)},
                                                          savepath=os.path.join(Filesystem.getInstance().get_conf_dir(), 'pypad.py'))
         self.__pyshell.set_icon_name('hotwire')        
-        self.__pyshell.set_title('Hotwire PyShell')
+        self.__pyshell.set_title(_('Hotwire PyShell'))
         self.__pyshell.show_all()      
 
     def __on_buttonpress(self, s2, e):
@@ -902,7 +902,7 @@ You should have received a copy of the GNU General Public License
 along with Hotwire; if not, write to the Free Software Foundation, Inc.,
 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA''')
         dialog.set_property('name', "Hotwire")
-        comments = "A Python-based object oriented\ncrossplatform command execution shell\n\n"
+        comments = _("A Python-based object oriented\ncrossplatform command execution shell\n\n")
         if hotwire.version.svn_version_info:
             comments += "changeset: %s\ndate: %s\n" % (hotwire.version.svn_version_info['Revision'], hotwire.version.svn_version_info['Last Changed Date'],)
         dialog.set_property('comments', comments)
@@ -1029,7 +1029,7 @@ along with Hotwire; if not, write to the Free Software Foundation, Inc.,
         tl = widget.get_data('hotwire-tab-label')
         if not tl:
             return
-        title = '%s - Hotwire' % (tl.get_text(),)
+        title = _('%s - Hotwire') % (tl.get_text(),)
         # Totally gross hack; this avoids the current situation of
         # 'sudo blah' showing up with a title of 'term -w sudo blah'.
         # Delete this if we revisit the term -w situation.

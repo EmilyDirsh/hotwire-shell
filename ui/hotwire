@@ -138,6 +138,9 @@ def main():
     _logger.debug('initializing threads')
     gobject.threads_init()
 
+    import gettext
+    gettext.install('hotwire')
+
 	hotwire.sysdep.do_late_init()
 
     if no_persist:
@@ -161,7 +164,7 @@ widget "*hotwire-tab-close" style "hotwire-tab-close"
         _logger.debug("appending to icon theme: %s", imgpath)
         theme.append_search_path(imgpath)
 
-    w = HotWindowFactory.getInstance().create_initial_window(subtitle=(no_persist and ' (Unshared)' or ''))
+    w = HotWindowFactory.getInstance().create_initial_window(subtitle=(no_persist and _(' (Unshared)') or ''))
     w.show()
     if ipc_avail and (not no_persist):
         ipc.register_window(w)

@@ -6,6 +6,9 @@ from hotwire.version import __version__
 
 from distutils.core import setup
 
+sys.path.insert(0, '.')
+from DistUtilsExtra.command import *
+
 def svn_info(wd):
     import subprocess,StringIO
     tip = {}
@@ -74,4 +77,9 @@ setup(name='hotwire',
                 'hotwire.pycompat', 'hotwire.sysdep', 'hotwire.sysdep.fs_impl', 
                 'hotwire.sysdep.proc_impl',
                 'hotwire.sysdep.term_impl', 'hotwire.sysdep.ipc_impl'],
+      cmdclass = { "build" : build_extra.build_extra,
+                   "build_i18n" :  build_i18n.build_i18n,
+                   "build_help" :  build_help.build_help,
+                   "build_icons" :  build_icons.build_icons },
       **kwargs)
+
