@@ -55,7 +55,7 @@ class KillBuiltin(Builtin):
         options = []
         for num in sorted(_sigvalue_to_sym):
             options.append(['-' + str(num)])
-            options.append(['-' + _sigvalue_to_sym[num]])
+            options.append(['-' + _sigvalue_to_sym[num][3:]])
         super(KillBuiltin, self).__init__('kill',
                                           nostatus=True,
                                           options=options,
@@ -70,7 +70,7 @@ class KillBuiltin(Builtin):
         for opt in options:
             optval = opt[1:]
             if optval in _sigsym_to_value:
-                signum = _sigsym_to_value[optval]
+                signum = _sigsym_to_value['SIG' + optval]
                 break
             else:
                 try:
