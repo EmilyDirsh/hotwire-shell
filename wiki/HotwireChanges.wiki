@@ -53,9 +53,7 @@ Visible Changes:
  * Basic preferences dialog
  * Menu mnemonics added
  * Support for turning off menu mnemonics, and using Emacs keybindings for input
- * Change some system commands to open in new terminal window, which does not
-   close when the command exits.  Examples include 'sudo' and 'su' - often
-   you want to see the final output of the command after it exits.
+ * Change some system commands to open in new terminal window, which does not close when the command exits.  Examples include 'sudo' and 'su' - often you want to see the final output of the command after it exits.
  * Watch GConf for monospace font changes (if available)
  * Change window title based on tab name
  * New HotSshBuiltin (named 'ssh') which invokes hotssh (if available)
