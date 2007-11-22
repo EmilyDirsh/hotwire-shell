@@ -62,7 +62,7 @@ class KillBuiltin(Builtin):
                                           parseargs='shglob',                                        
                                           threaded=True)
         
-    def get_completer(self, argpos, context):
+    def get_completer(self, context, args, i):
         return ProcessCompleter.getInstance()        
 
     def execute(self, context, args, options=[]):

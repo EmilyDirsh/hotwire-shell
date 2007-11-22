@@ -22,3 +22,5 @@ default_aliases = {'sudo': 'term -w sudo',
 aliases = AliasRegistry.getInstance()
 for name,value in default_aliases.iteritems():
     aliases.insert(name, value)
+
+import hotwire.sysdep.unix_completers

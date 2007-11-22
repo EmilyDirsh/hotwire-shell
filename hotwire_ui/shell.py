@@ -11,6 +11,7 @@ import hotwire_ui.widgets as hotwidgets
 import hotwire_ui.pyshell
 from hotwire.singletonmixin import Singleton
 from hotwire.sysdep.term import Terminal
+from hotwire.builtin import BuiltinRegistry
 from hotwire.gutil import *
 from hotwire.util import markup_for_match, quote_arg
 from hotwire.fs import path_unexpanduser, unix_basename
@@ -609,7 +610,7 @@ for obj in curshell.get_current_output():
                     prev_token = token
                     continue
                 if verb.resolved:
-                    completer = verb.builtin.get_completer(i, self.context)
+                    completer = verb.builtin.get_completer(self.context, cmd, i)
                 else:
                     completer = None
                 if not completer:
@@ -619,10 +620,15 @@ for obj in curshell.get_current_output():
                 break
         if verb and not self.__completion_token:
             _logger.debug("position at end")
+            compl_token = self.__pipeline_tree[-1]
+            compl_idx = len(self.__pipeline_tree[-1])-1
             if verb and verb.resolved:
-                completer = verb.builtin.get_completer(-1, self.context)
-            else: 
-                completer = TokenCompleter.getInstance() 
+                completer = verb.builtin.get_completer(self.context, compl_token, compl_idx)
+            else:
+                # If we're not sure what it is, try assuming it's a system command.
+                completer = BuiltinRegistry.getInstance()['sh'].get_completer(self.context, compl_token, compl_idx)
+                if not completer:
+                    completer = TokenCompleter.getInstance() 
             self.__completion_token = hotwire.command.ParsedToken('', pos)
         completer = completer and CompletionPrefixStripProxy(completer, self.__cwd + os.sep, addprefix=addprefix)
         self.__completer = completer

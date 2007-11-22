@@ -9,6 +9,7 @@ except:
 import hotwire
 from hotwire.text import MarkupText
 from hotwire.async import MiniThreadPool
+from hotwire.singletonmixin import Singleton
 from hotwire.builtin import Builtin, BuiltinRegistry, InputStreamSchema, OutputStreamSchema
 from hotwire.sysdep import is_windows, is_unix
 from hotwire.sysdep.proc import ProcessManager
@@ -17,6 +18,10 @@ if is_unix():
     import signal
 
 _logger = logging.getLogger("hotwire.builtin.Sh")
+
+class ShellCompleters(dict, Singleton):
+    def __init__(self):
+        super(ShellCompleters, self).__init__()
 
 class ShBuiltin(Builtin):
     """Execute a system shell command, returning output as text."""
@@ -84,7 +89,16 @@ class ShBuiltin(Builtin):
                     context.input.disconnect()
         except:
             _logger.debug("failed to disconnect from stdin", exc_info=True)               
-            pass      
+            pass
+        
+    def get_completer(self, context, args, i):
+        verb = args[0].text
+        _logger.debug("looking for completion for: %s", verb)
+        for matcher,completer in ShellCompleters.getInstance().iteritems():
+            if isinstance(matcher, basestring):
+                if verb.startswith(matcher):
+                    _logger.debug("matched completer %s", matcher)
+                    return completer(context, args, i)
 
     def execute(self, context, arg, out_opt_format=None):
         # This function is complex.  There are two major variables.  First,
