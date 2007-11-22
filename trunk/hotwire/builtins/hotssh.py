@@ -50,7 +50,7 @@ class HotSshBuiltin(Builtin):
                                             parseargs='shglob',
                                             threaded=True)
 
-    def get_completer(self, argpos, context):
+    def get_completer(self, context, args, i):
         return OpenSshKnownHostCompleter.getInstance()
 
     def execute(self, context, args, options=[]):

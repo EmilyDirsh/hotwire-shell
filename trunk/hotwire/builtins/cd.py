@@ -13,7 +13,7 @@ class CdBuiltin(Builtin):
                                         idempotent=True,
                                         threaded=True)
 
-    def get_completer(self, argpos, context):
+    def get_completer(self, context, args, i):
         return CdCompleter.getInstance()
 
     def execute(self, context, dir=None):

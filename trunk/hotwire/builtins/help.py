@@ -13,7 +13,7 @@ class HelpBuiltin(Builtin):
                                           parseargs='shglob',
                                           idempotent=True)
 
-    def get_completer(self, argpos, context):
+    def get_completer(self, context, args, i):
         return BuiltinCompleter.getInstance()
 
     def execute(self, context, args):    
