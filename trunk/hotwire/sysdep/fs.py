@@ -42,7 +42,7 @@ class BaseFilesystem(object):
     def launch_edit_file(self, path):
         raise NotImplementedError()
 
-    def get_file_menuitems(self, file_obj):
+    def get_file_menuitems(self, file_obj, context=None):
         return []
 
     def get_conf_dir(self):
