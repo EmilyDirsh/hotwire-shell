@@ -36,7 +36,7 @@ class BaseFilesystem(object):
             return 'gtk-directory'
         return 'gtk-file'
 
-    def launch_open_file(self, path):
+    def launch_open_file(self, path, cwd=None):
         raise NotImplementedError()
 
     def launch_edit_file(self, path):

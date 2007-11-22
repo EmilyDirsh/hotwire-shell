@@ -14,7 +14,7 @@ class OpenBuiltin(Builtin):
     def execute(self, context, args):
         fs = Filesystem.getInstance()
         for arg in args:
-            fs.launch_open_file(FilePath(arg, context.cwd))
+            fs.launch_open_file(FilePath(arg, context.cwd), context.cwd)
         return [] 
 
 BuiltinRegistry.getInstance().register(OpenBuiltin())

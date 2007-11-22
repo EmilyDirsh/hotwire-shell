@@ -118,10 +118,10 @@ class GnomeVFSFilesystem(UnixFilesystem):
             return None
         return result
     
-    def launch_open_file(self, path):
+    def launch_open_file(self, path, cwd=None):
         _logger.debug("calling gnome-open '%s'", path)
-        # the easy way
-        subprocess.call(['gnome-open', path])
+        # the easy way 
+        subprocess.call(['gnome-open', path], cwd=cwd)
 
     def __launch_vfsmimeapp(self, app, uri):
         if uri.startswith('file://'):
