@@ -168,7 +168,7 @@ class FilePathRenderer(TreeObjectsRenderer):
 
     def _get_menuitems(self, iter):
         fobj = self._file_for_iter(self._model, iter)
-        items = self.__fs.get_file_menuitems(fobj)
+        items = self.__fs.get_file_menuitems(fobj, context=self.context)
         items.append(gtk.SeparatorMenuItem())
         menuitem = gtk.MenuItem('Move to Trash')
         menuitem.connect("activate", self.__on_remove_activated, fobj.path)
