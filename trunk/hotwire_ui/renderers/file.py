@@ -164,7 +164,7 @@ class FilePathRenderer(TreeObjectsRenderer):
         if obj.is_directory(follow_link=True):
             self.context.do_cd(obj.path)
         else:    
-            self.__fs.launch_open_file(obj.path)        
+            self.__fs.launch_open_file(obj.path, self.context.get_cwd())        
 
     def _get_menuitems(self, iter):
         fobj = self._file_for_iter(self._model, iter)
