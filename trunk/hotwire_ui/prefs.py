@@ -82,7 +82,7 @@ class PrefsWindow(gtk.Dialog):
         hbox.pack_start(bg_label, expand=False)
         bg_color = self.__bg_color = gtk.ColorButton(gtk.gdk.color_parse(prefs.get_pref('term.background', default='#FFF')))
         hbox.pack_start(bg_color, expand=False)
-        fg_color.connect('color-set', self.__on_fg_bg_changed)
+        bg_color.connect('color-set', self.__on_fg_bg_changed)
         
     def __on_fg_bg_changed(self, cb):
         prefs = Preferences.getInstance()        
