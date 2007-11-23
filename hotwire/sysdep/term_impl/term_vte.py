@@ -63,7 +63,9 @@ class VteTerminal(gtk.VBox):
         self.pack_start(self.__term, expand=True)
         self.__term.get_vte().connect('selection-changed', self.__on_selection_changed)
         self.__term.connect('child-exited', self.__on_child_exited)
-        self.__term.connect('fork-child', self.__on_fork_child) 
+        self.__term.connect('fork-child', self.__on_fork_child)
+         
+        self.__sync_prefs()        
         
     def get_ui(self):
         return (self.__ui_string, self.__action_group)
