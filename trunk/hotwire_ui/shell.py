@@ -531,14 +531,26 @@ for obj in curshell.get_current_output():
             return False
         
     def __handle_emacs_binding(self, e):
-        if e.keyval == gtk.gdk.keyval_from_name('f') \
+        if e.keyval == gtk.gdk.keyval_from_name('b') \
+             and e.state & gtk.gdk.CONTROL_MASK:
+            self.__input.emit('move-cursor', gtk.MOVEMENT_LOGICAL_POSITIONS, -1, 0)
+            return True
+        elif e.keyval == gtk.gdk.keyval_from_name('f') \
+             and e.state & gtk.gdk.CONTROL_MASK:
+            self.__input.emit('move-cursor', gtk.MOVEMENT_LOGICAL_POSITIONS, 1, 0)
+            return True        
+        elif e.keyval == gtk.gdk.keyval_from_name('f') \
              and e.state & gtk.gdk.MOD1_MASK:
             self.__input.emit('move-cursor', gtk.MOVEMENT_WORDS, 1, False)
             return True
         elif e.keyval == gtk.gdk.keyval_from_name('b') \
              and e.state & gtk.gdk.MOD1_MASK:
             self.__input.emit('move-cursor', gtk.MOVEMENT_WORDS, -1, False)
-            return True        
+            return True 
+        elif e.keyval == gtk.gdk.keyval_from_name('A') \
+             and e.state & gtk.gdk.CONTROL_MASK:
+            self.__input.emit('move-cursor', gtk.MOVEMENT_BUFFER_ENDS, -1, True)
+            return True               
         elif e.keyval == gtk.gdk.keyval_from_name('a') \
              and e.state & gtk.gdk.CONTROL_MASK:
             self.__input.emit('move-cursor', gtk.MOVEMENT_BUFFER_ENDS, -1, False)
@@ -547,10 +559,18 @@ for obj in curshell.get_current_output():
              and e.state & gtk.gdk.CONTROL_MASK:
             self.__input.emit('move-cursor', gtk.MOVEMENT_BUFFER_ENDS, 1, False)
             return True
+        elif e.keyval == gtk.gdk.keyval_from_name('E') \
+             and e.state & gtk.gdk.CONTROL_MASK:
+            self.__input.emit('move-cursor', gtk.MOVEMENT_BUFFER_ENDS, 1, True)
+            return True        
         elif e.keyval == gtk.gdk.keyval_from_name('k') \
              and e.state & gtk.gdk.CONTROL_MASK:
             self.__input.emit('delete-from-cursor', gtk.DELETE_PARAGRAPH_ENDS, 1)
-            return True                
+            return True
+        elif e.keyval == gtk.gdk.keyval_from_name('d') \
+             and e.state & gtk.gdk.MOD1_MASK:
+            self.__input.emit('delete-from-cursor', gtk.DELETE_WORD_ENDS, 1)
+            return True                       
         return False           
 
     def __open_prev_output(self):
