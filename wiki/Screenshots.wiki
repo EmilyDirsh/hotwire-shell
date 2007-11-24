@@ -1,0 +1,9 @@
+#summary Screenshots display
+
+[http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0619-1.png]
+
+[http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0619-2.png]
+
+[http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0619-3.png]
+
+[http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0619-4.png]
