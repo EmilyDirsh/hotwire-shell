@@ -55,6 +55,8 @@ probably code.  Might want to look at their "distributed computing" stuff - mayb
 
 [http://quasi-shell.sourceforge.net/ Quasi] - no GUI, seems to have syntax ideas
 
+[http://www.boddie.org.uk/david/Projects/Python/KDE/khpython/index.html KHPython] - Python worksheet program
+
 = Articles =
 
 [http://polylithic.net/cli/ CLI] - Website devoted to the CLI.
