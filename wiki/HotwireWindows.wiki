@@ -1,6 +1,6 @@
 #summary Hotwire on Windows
 
-The Windows port has basic functionality in the 0.600 release; however there is much to do.  It could use a good Windows Python hacker, especially one knowledgable in PyGTK, to help bring it up to par.
+The Windows port has basic functionality in the 0.600 release; however there is much to do.  It could use a good Windows Python hacker, especially one knowledgable in PyGTK, to help bring it up to par.  When we feel Hotwire is a "good enough" experience on Windows, there will be official binaries.
 
 There are a number of issues such as incomplete path adjustments (see below), as well as 
 missing system integration work such as file icons, application launching, using Recycle Bin, etc.
