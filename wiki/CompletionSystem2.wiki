@@ -9,10 +9,15 @@ The current system has a number of flaws.
  * It's constantly trying to complete, but you may want to see what's underneath it.
  * There is no way to have it use more space for when you do want that.
 
-= Initial thoughts =
+= Completion2 mockups =
 
 Initially, completions will be a single line multi-column display.  This will
-make them relatively unobtrusive.  When you hit TAB, it gets somewhat larger, perhaps
-equivalent to the current size.  
+make them relatively unobtrusive.  You know how many there are, but don't see a big list.  You can continue to refine the list by typing.  It will update on a timeout (we might want to have a status message for when the completions are stale).
 
-We also want to support a navigation mode where we take up a lot more space.  When you hit TAB TAB in bash, it shows you a big list.  Perhaps the design here overlaps with what we want to fix issue 14.
+[http://hotwire-shell.googlecode.com/svn/screenshots/Hotwire-Completion2-1.png]
+
+Now, when you hit TAB - if there is only one completion, we choose it.  If all completions have a common prefix, we fill in with that, and recomplete.  This matches `bash`.  If there are ambiguous completions, `TAB` expands the display:
+
+[http://hotwire-shell.googlecode.com/svn/screenshots/Hotwire-Completion2-2.png]
+
+See also issue 14.  We need a canvas/table layout for this.
