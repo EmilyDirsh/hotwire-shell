@@ -118,7 +118,7 @@ class VteTerminal(gtk.VBox):
     def __on_child_exited(self, term):
         _logger.debug("Caught child exited")
         self.__exited = True
-        self.__msg.set_markup('<span foreground="red">Exited</span>')
+        self.__msg.set_markup('Exited')
         self.emit('closed')
 
     # Used as a hack to avoid sizing issues in tabs
