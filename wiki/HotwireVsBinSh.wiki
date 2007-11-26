@@ -1,18 +1,22 @@
 #summary Hotwire compared to /bin/sh
 
-= Interactive shell =
-Hotwire is intended to replace the interactive command execution portion of a
-typical Unix _/bin/sh_ (HotwireNotLanguage).
+Hotwire is not a terminal emulator, nor is it something you can set as your Unix "login shell"; instead, Hotwire unifies the concepts of shell and terminal and can natively do about 80-90% of what one would normally do in a terminal+shell; for the rest, Hotwire can embed VTE.
 
-It includes much of the functionality found in the combination of a terminal
-emulator, a shell, and core utilities like _ls_ and _grep_ (called *filter*).  Most of the commands
-are named the same, and do basically the same thing.  
+= Modern interface =
 
-See HotwireArchitecture for an overview of how Hotwire works.
+The "not a terminal" aspect of Hotwire is key.  In real world usage today, there are very few applications that actually require a full `vt100` tty.  What Hotwire does is to simply [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/sysdep/unix_lateinit.py make a list] of them, and run them in a [http://developer.gnome.org/arch/gnome/widgets/vte.html VTE window].  
 
-== Commands oriented for interactive use ==
-Where it makes sense, Hotwire improves the commands to have better defaults, and makes things
-nicer, uses the mouse, etc.
+The vast majority of traditional Unix commands input or output human-readable text.  Think `make`, `dmesg`, `cat`, etc.  Hotwire places them into a text widget, which makes it easy to implement search and other features.  
+
+= Desktop integration =
+
+One major goal of Hotwire was to significantly improve the default experience of a command shell by integrating with the windowing system and desktop environment.
+
+For example, Hotwire integrates with the platform's preferred application framework, file thumbnailing, etc.
+
+= Designed to be a better interactive shell =
+
+Hotwire has builtins that are similar to many Unix commands, but have better defaults and are more oriented for interactive use.
 
  * *rm* moves files to `~/.Trash` (on Unix), `Recycle Bin` on Windows; also does not distinguish between removing directories and files (no `-r` option needed).
  * *cd* automatically lists the contents of the directory you change to
@@ -20,28 +24,20 @@ nicer, uses the mouse, etc.
  * *filter* (analogous to Unix _grep_) shows what text matched in bold, and can filter objects too
  * *proc* process list has right-click menu to kill, is not just big glob of text
 
+= Also working towards improving the scripting experience =
+
+Because Hotwire is written in pure Python, it is also extensible using this sane language that has futuristic programming features like arrays.   There is also some initial research on making Python closer to a system scripting language; see HotwireScripting.
+
 == Builtin `screen` ==
-One thing immediately noticeable is that Hotwire also has builtin `screen` type functionality. 
-All commands are asynchronous, and output is shown in individual windows.  Even if you execute
-*ls* on a big directory or *cat* on a big file, you can keep typing other commands\ without hitting `^Z;bg`. 
-There is never any problem with the output from different background commands being intermixed.
+One thing immediately noticeable is that Hotwire also has builtin `screen` type functionality.  All commands are asynchronous, and output is shown in individual windows.  Even if you execute *ls* on a big directory or *cat* on a big file, you can keep typing other commands\ without hitting `^Z;bg`.  There is never any problem with the output from different background commands being intermixed.
 
 The entire output of every command is saved by default.  This is useful for things like _make_.  Also, command output is searchable Firefox-style.
 
 == Object pipelines are mostly a superset of byte streams ==
-
-The vast majority of traditional Unix commands input or output human-readable text.  Hotwire recognizes this
+Hotwire recognizes this
 by having the *sh* builtin wrap shell commands by using Python *unicode* objects for
 input and output.  It's thus possible to easily intermix Unix commands and Hotwire builtins; for example, one can
 `sh ifconfig | filter inet`, and execute the system _ifconfig_, but get the bold match highlighting from Hotwire's bulitin *filter* command.
-
-== Easily allows creation of new terminal windows for terminal apps ==
-
-You can type *term* (or `Ctrl-Shift-T`) to create an embedded terminal to execute terminal applications like _top_; but
-Hotwire is better for the common case of programs which just output text.
-
-== Remoting in core ==
-Hotwire (used to) speak ssh natively as a proof of concept; this support has been disabled until it's more fully fleshed out.  See HotwireRemoting.
 
 ----
 See other RelatedProjectsAndIdeas.
