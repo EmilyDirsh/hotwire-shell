@@ -4,9 +4,13 @@ Hotwire is not a terminal emulator, nor is it something you can set as your Unix
 
 = Modern interface =
 
-The "not a terminal" aspect of Hotwire is key.  In real world usage today, there are very few applications that actually require a full `vt100` tty.  What Hotwire does is to simply [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/sysdep/unix_lateinit.py make a list] of them, and run them in a [http://developer.gnome.org/arch/gnome/widgets/vte.html VTE window].  
+The "not a terminal" aspect of Hotwire is very important to understand.  Hotwire is not fully compatible with the concept of a traditional Unix shell and terminal.  But in real world usage today, there are very few applications that actually require a full `vt100` terminal emulator.  What Hotwire does is to simply [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/sysdep/unix_lateinit.py make a list] of them, and run them in a [http://developer.gnome.org/arch/gnome/widgets/vte.html VTE window].
 
-The vast majority of traditional Unix commands input or output human-readable text.  Think `make`, `dmesg`, `cat`, etc.  Hotwire places them into a text widget, which makes it easy to implement search and other features.  
+Hotwire's command language is also different from the Unix shell; while Hotwire does support globs and pipes, other aspects such as environment variables, `for` loops etc. are not supported yet.  But you can do extended scripting in the full Python language using the *py* builtin.
+
+So Hotwire treats terminal applications specially, but the vast majority of traditional Unix commands generally output human-readable text, occasionally taking a line of input.  Think `make`, `dmesg`, `cat`, `tg-admin quickstart`, etc.  Hotwire makes all system commands asynchronous, and output is shown in individual windows.  Even if you execute *ls* on a big directory or *cat* on a big file, you can keep typing other commands\ without hitting `^Z;bg`.  There is never any problem with the output from different background commands being intermixed.
+
+The entire output of every command is saved by default.  This is useful for things like _make_.  Also, command output is searchable Firefox-style.
 
 = Desktop integration =
 
@@ -26,18 +30,7 @@ Hotwire has builtins that are similar to many Unix commands, but have better def
 
 = Also working towards improving the scripting experience =
 
-Because Hotwire is written in pure Python, it is also extensible using this sane language that has futuristic programming features like arrays.   There is also some initial research on making Python closer to a system scripting language; see HotwireScripting.
-
-== Builtin `screen` ==
-One thing immediately noticeable is that Hotwire also has builtin `screen` type functionality.  All commands are asynchronous, and output is shown in individual windows.  Even if you execute *ls* on a big directory or *cat* on a big file, you can keep typing other commands\ without hitting `^Z;bg`.  There is never any problem with the output from different background commands being intermixed.
-
-The entire output of every command is saved by default.  This is useful for things like _make_.  Also, command output is searchable Firefox-style.
-
-== Object pipelines are mostly a superset of byte streams ==
-Hotwire recognizes this
-by having the *sh* builtin wrap shell commands by using Python *unicode* objects for
-input and output.  It's thus possible to easily intermix Unix commands and Hotwire builtins; for example, one can
-`sh ifconfig | filter inet`, and execute the system _ifconfig_, but get the bold match highlighting from Hotwire's bulitin *filter* command.
+Because Hotwire is written in pure Python, it is also extensible using the same language - which has futuristic programming features like arrays.   There is also some initial research on making Python closer to a system scripting language; see HotwireScripting.
 
 ----
 See other RelatedProjectsAndIdeas.
