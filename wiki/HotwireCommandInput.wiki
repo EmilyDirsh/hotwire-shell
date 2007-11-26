@@ -8,7 +8,7 @@ Hotwire is not fully command-compatible with a traditional Unix terminal+shell; 
 
 If the command requires simple text input, type `Ctrl-I`.  This is sufficient for applications such as the `mysql` and `python` shells.
 
-For real terminal applications (e.g. `top`, `vi`), you can type `term top`.  Hotwire has a [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/sysdep/unix_lateinit.py default list] of terminal applications internally.
+For real terminal applications (e.g. `top`, `vi`), you can type `term top`.  Hotwire has a [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/sysdep/unix_lateinit.py default list] of terminal applications internally - if your application is public, please file an issue to get it added to this list.
 
 _You only need to specify `term` once_; after that, Hotwire will remember to use `term` for that commandname.
 
