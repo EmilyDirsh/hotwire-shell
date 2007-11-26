@@ -21,3 +21,5 @@ Now, when you hit TAB - if there is only one completion, we choose it.  If all c
 [http://hotwire-shell.googlecode.com/svn/screenshots/Hotwire-Completion2-2.png]
 
 See also issue 14.  We need a canvas/table layout for this.
+
+Should completions be case-insensitive?  See issue 61.
