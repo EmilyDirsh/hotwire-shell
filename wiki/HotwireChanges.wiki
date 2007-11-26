@@ -55,10 +55,12 @@ Visible Changes:
  * Support for turning off menu mnemonics, and using Emacs keybindings for input
  * Change some system commands to open in new terminal window, which does not close when the command exits.  Examples include 'sudo' and 'su' - often you want to see the final output of the command after it exits.
  * Watch GConf for monospace font changes (if available)
+ * Terminal supports Ctrl-click on URLs (issue #55)
  * Change window title based on tab name
- * New HotSshBuiltin (named 'ssh') which invokes hotssh (if available)
+ * New HotSshBuiltin (named *ssh*) which invokes hotssh (if available)
  * Add *kill* builtin, with completion on process list
  * Fix transparency of throbber
+ * `term iotop` for `iotop` by default.
 
 API Changes:
 
@@ -66,6 +68,7 @@ API Changes:
 
 Notable bugfixes:
 
+ * Ignore SIGHUP in subprocesses, because we close the pty when parent exits
  * Pass working directory onto programs run from menuitems (issue #58)
 
 = Older releases =
