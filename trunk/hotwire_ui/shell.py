@@ -1089,6 +1089,20 @@ along with Hotwire; if not, write to the Free Software Foundation, Inc.,
         self.__tabs_visible = len(self.__notebook.get_children()) > 1
         if self.__tabs_visible != oldvis:
             self.__notebook.set_show_tabs(self.__tabs_visible)
+        self.__sync_command_sensitivity()
+            
+    def __sync_command_sensitivity(self):
+        # This function is a hack - we should really have more of the UI factored up
+        # into here.
+        pagenum = self.__notebook.get_current_page()
+        widget = self.__notebook.get_nth_page(pagenum)
+        if not widget:
+            return    
+        (uistr, actiongroup) = widget.get_ui()
+        action = actiongroup.get_action('ToWindow')
+        if not action:
+            return
+        action.set_sensitive(self.__tabs_visible)          
 
     def __remove_page_widget(self, w):
         savedidx = self.__preautoswitch_index

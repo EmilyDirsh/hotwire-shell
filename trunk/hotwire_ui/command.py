@@ -365,7 +365,7 @@ class CommandExecutionControl(gtk.VBox):
       <menuitem action='Overview'/>
       <separator/>
       <menuitem action='ToWindow'/>      
-      <separator/>      
+      <separator/>
       <menuitem action='PreviousCommand'/>
       <menuitem action='NextCommand'/>
     </menu>
