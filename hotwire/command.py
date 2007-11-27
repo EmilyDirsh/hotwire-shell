@@ -367,6 +367,9 @@ class Pipeline(gobject.GObject):
             return state in ('undone',) and self.get_undoable()
         assert(False)
         
+    def is_complete(self):
+        return self.__state in ('complete', 'cancelled', 'exception', 'undone')
+        
     def __set_state(self, state):
         trans = self.validate_state_transition(state)
         if trans is None:
@@ -375,9 +378,9 @@ class Pipeline(gobject.GObject):
         elif not trans:
             raise ValueError("Invalid state transition %s to %s", self.__state, state)
         
-        if state in ('complete', 'cancelled'):
-            self.__completion_time = time.time() 
         self.__state = state
+        if self.is_complete():
+            self.__completion_time = time.time()         
         self.emit('state-changed')
 
     def execute(self, **kwargs):
