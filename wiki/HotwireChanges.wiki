@@ -7,6 +7,7 @@
 Visible Changes:
 
  * Change some system commands to open in new terminal window, which does not close when the command exits.  Examples include 'sudo' and 'su' - often you want to see the final output of the command after it exits.
+ * Complete commands are only removed after they've been viewed (nice for background `make`, etc.)
  * Command output is significantly faster
  * Cache uid/gid lookups, which speeds up file listings
  * Basic preferences dialog
