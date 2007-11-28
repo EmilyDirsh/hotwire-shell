@@ -1,4 +1,4 @@
-__version__ = '0.600'
+__version__ = '0.620'
 
 def svn_version_str():
     if not svn_version_info:
