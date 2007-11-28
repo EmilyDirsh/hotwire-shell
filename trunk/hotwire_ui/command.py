@@ -348,6 +348,9 @@ class CommandExecutionHistory(gtk.VBox):
     def remove_overview(self, oview):
         self.__cmd_overview.remove(oview)
         
+    def get_scroll(self):
+        return self.__cmd_overview_scroll
+        
     def scroll_to_bottom(self):
         vadjust = self.__cmd_overview_scroll.get_vadjustment()
         vadjust.value = max(vadjust.lower, vadjust.upper - vadjust.page_size)        
@@ -650,7 +653,26 @@ class CommandExecutionControl(gtk.VBox):
     def __overview_cb(self, a): 
         self.__toggle_history_expanded()
     
+    def __vadjust(self, scroll, pos, full):
+        adjustment = scroll.get_vadjustment()
+        if not full:
+            val = scroll.get_vadjustment().page_increment
+            if not pos:
+                val = 0 - val;
+            newval = adjustment.value + val
+        else:
+            if pos:
+                newval = adjustment.upper
+            else:
+                newval = adjustment.lower
+        newval = max(min(newval, adjustment.upper-adjustment.page_size), adjustment.lower)
+        adjustment.value = newval
+    
     def __do_scroll(self, prev, full):
+        if self.__history_visible:
+            scroll = self.__cmd_overview.get_scroll()
+            self.__vadjust(scroll, not prev, full)
+            return
         cmd = self.get_current_cmd()
         if prev:
             cmd.scroll_up(full)
