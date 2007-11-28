@@ -3,7 +3,7 @@
 
 (Please use the [http://groups.google.com/group/hotwire-shell Discussion Group] for any questions or issues)
 
-This tutorial corresponds with Hotwire 0.600.
+This tutorial corresponds with Hotwire 0.620 and 0.600.
 
 = Hotwire Basics =
 
