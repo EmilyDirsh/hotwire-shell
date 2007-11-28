@@ -22,6 +22,24 @@ _logger = logging.getLogger("hotwire.builtin.Sh")
 class ShellCompleters(dict, Singleton):
     def __init__(self):
         super(ShellCompleters, self).__init__()
+        
+# This object is necessary because we don't want the file object
+# to close the pty FD when it's unreffed.
+class BareFdStream(object):
+    def __init__(self, fd):
+        self.fd = fd
+        
+    def write(self, buf):
+        blen = len(buf)
+        offset = 0
+        count = 0
+        while blen:
+            count = os.write(self.fd, buf[offset:])
+            offset += count
+            blen -= count
+            
+    def close(self):
+        pass
 
 class ShBuiltin(Builtin):
     """Execute a system shell command, returning output as text."""
@@ -87,8 +105,16 @@ class ShBuiltin(Builtin):
                 _logger.debug("disconnecting from stdin")
                 if context.input:                
                     context.input.disconnect()
+                del context.attribs['input_connected']
         except:
             _logger.debug("failed to disconnect from stdin", exc_info=True)               
+            pass
+        try:
+            if 'master_fd' in context.attribs and (not 'master_fd_passed' in context.attribs):
+                os.close(context.attribs['master_fd'])
+                del context.attribs['master_fd']
+        except:
+            _logger.debug("failed to close master fd", exc_info=True)
             pass
         
     def get_completer(self, context, args, i):
@@ -175,7 +201,7 @@ class ShBuiltin(Builtin):
         context.status_notify('pid %d' % (context.attribs['pid'],))
         if context.input:
             if using_pty_in:
-                stdin_stream = os.fdopen(master_fd, 'w')
+                stdin_stream = BareFdStream(master_fd)
             else:
                 stdin_stream = subproc.stdin
             # FIXME hack - need to rework input streaming                
@@ -200,6 +226,7 @@ class ShBuiltin(Builtin):
             except OSError, e:
                 pass
         elif out_opt_format == 'x-filedescriptor/special':
+            context.attribs['master_fd_passed'] = True            
             yield stdout_fd
         else:
             assert(False)
