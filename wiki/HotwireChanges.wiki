@@ -2,7 +2,34 @@
 
 = Current =
 
-== Changes in Hotwire 0.600 (Current Release) ==
+== Changes in Hotwire 0.620 (Current Release) ==
+
+Visible Changes:
+
+ * Change some system commands to open in new terminal window, which does not close when the command exits.  Examples include 'sudo' and 'su' - often you want to see the final output of the command after it exits.
+ * Command output is significantly faster
+ * Cache uid/gid lookups, which speeds up file listings
+ * Basic preferences dialog
+ * Menu mnemonics added
+ * Support for turning off menu mnemonics, and using Emacs keybindings for input
+ * Watch GConf for monospace font changes (if available)
+ * Terminal supports Ctrl-click on URLs (issue #55)
+ * Change window title based on tab name
+ * New HotSshBuiltin (named *ssh*) which invokes hotssh (if available)
+ * Add *kill* builtin, with completion on process list
+ * Fix transparency of throbber
+ * `term iotop` for `iotop` by default.
+
+API Changes:
+
+ * New API for registering completers for system commands: ShellCompleters
+
+Notable bugfixes:
+
+ * Ignore SIGHUP in subprocesses, because we close the pty when parent exits
+ * Pass working directory onto programs run from menuitems (issue #58)
+
+== Changes in Hotwire 0.600 ==
 
 Hotwire now runs again at a basic level on Windows, though this is very much a work in progress.  See HotwireWindows.
 
@@ -46,30 +73,7 @@ Important other changes:
 
 == Changes in Hotwire SVN as of r357 (Not released) ==
 
-Visible Changes:
-
- * Command output is significantly faster
- * Cache uid/gid lookups, which speeds up file listings
- * Basic preferences dialog
- * Menu mnemonics added
- * Support for turning off menu mnemonics, and using Emacs keybindings for input
- * Change some system commands to open in new terminal window, which does not close when the command exits.  Examples include 'sudo' and 'su' - often you want to see the final output of the command after it exits.
- * Watch GConf for monospace font changes (if available)
- * Terminal supports Ctrl-click on URLs (issue #55)
- * Change window title based on tab name
- * New HotSshBuiltin (named *ssh*) which invokes hotssh (if available)
- * Add *kill* builtin, with completion on process list
- * Fix transparency of throbber
- * `term iotop` for `iotop` by default.
-
-API Changes:
-
- * New API for registering completers for system commands: ShellCompleters
-
-Notable bugfixes:
-
- * Ignore SIGHUP in subprocesses, because we close the pty when parent exits
- * Pass working directory onto programs run from menuitems (issue #58)
+None yet.
 
 = Older releases =
 
