@@ -4,7 +4,7 @@ Hotwire is not a terminal emulator, nor is it something you can set as your Unix
 
 = Modern interface =
 
-The "not a terminal" aspect of Hotwire is very important to understand.  Hotwire is not fully compatible with the concept of a traditional Unix shell and terminal.  But in real world usage today, there are very few applications that actually require a full `vt100` terminal emulator.  What Hotwire does is to simply [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/sysdep/unix_lateinit.py make a list] of them, and run them in something that is a real Uni terminal emulator - a [http://developer.gnome.org/arch/gnome/widgets/vte.html VTE window].
+The "not a terminal" aspect of Hotwire is very important to understand.  Hotwire is not fully compatible with the concept of a traditional Unix shell and terminal.  But in real world usage today, there are very few applications that actually require a full `vt100` terminal emulator.  What Hotwire does is to simply [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/sysdep/unix_lateinit.py make a list] of them, and run them in something that is a real Unix terminal emulator - a [http://developer.gnome.org/arch/gnome/widgets/vte.html VTE window].
 
 Hotwire's command language is also different from the Unix shell; while Hotwire does support globs and pipes, other aspects such as environment variables, `for` loops etc. are not supported yet.  But you can do extended scripting in the full Python language using the *py* builtin.
 
