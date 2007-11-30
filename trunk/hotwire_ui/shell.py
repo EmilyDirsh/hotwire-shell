@@ -772,9 +772,13 @@ class HotWindow(gtk.Window):
         
         self.set_default_size(720, 540)
         self.set_title('Hotwire' + subtitle)
-        # For some reason set_icon() started failing...do it manually.
-        iinf = gtk.icon_theme_get_default().lookup_icon('hotwire', 24, 0)
-        self.set_icon_from_file(iinf.get_filename())
+        if os.getenv("HOTWIRE_UNINSTALLED"):
+            # For some reason set_icon() doesn't work even though we extend the theme path
+            # do it manually.
+            iinf = gtk.icon_theme_get_default().lookup_icon('hotwire', 24, 0)
+            self.set_icon_from_file(iinf.get_filename())
+        else:
+            self.set_icon_name("hotwire")
         
         prefs = Preferences.getInstance()
         prefs.monitor_prefs('ui.', self.__on_pref_changed)
