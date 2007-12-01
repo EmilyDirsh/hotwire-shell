@@ -2,7 +2,7 @@
 
 = What not to do =
 
-Another UI written in Qt isn't that interesting; would be a significant amount of work for almost no real benefit.  But there are definitely useful things we can do to be a better KDE experience:
+Another UI written in Qt isn't that interesting; would be a significant amount of work for almost no real benefit. [http://www.freedesktop.org/wiki/Software/gtk-qt Gtk-Qt] is a better approach for visual integration. But there are definitely other useful things we can do to be a better KDE experience:
 
 = Preferred applications =
 
