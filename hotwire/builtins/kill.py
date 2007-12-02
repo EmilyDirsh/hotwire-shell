@@ -50,7 +50,7 @@ class ProcessCompleter(Singleton, BaseCompleter):
                     yield Completion(proc.cmd, idx, len(text), exact=False, default_icon='gtk-execute')
 
 class KillBuiltin(Builtin):
-    """Send a signal to a process."""
+    _("""Send a signal to a process.""")
     def __init__(self):
         options = []
         for num in sorted(_sigvalue_to_sym):

@@ -1,7 +1,7 @@
 from hotwire.builtin import Builtin, BuiltinRegistry
 
 class PyBuiltin(Builtin):
-    """Process objects using Python code."""
+    _("""Process objects using Python code.""")
     def __init__(self):
         super(PyBuiltin, self).__init__('py', 
                                         nostatus=True)

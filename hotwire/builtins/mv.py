@@ -7,7 +7,7 @@ from hotwire.builtin import BuiltinRegistry
 from hotwire.builtins.fileop import FileOpBuiltin
 
 class MvBuiltin(FileOpBuiltin):
-    """Rename initial arguments to destination."""
+    _("""Rename initial arguments to destination.""")
     def __init__(self):
         super(MvBuiltin, self).__init__('mv', aliases=['move'],
                                         parseargs='shglob',
@@ -16,7 +16,7 @@ class MvBuiltin(FileOpBuiltin):
 
     def execute(self, context, args):
         if not args:
-            raise ValueError("Need source and destination")
+            raise ValueError(_("Need source and destination"))
         target = FilePath(args[-1], context.cwd)
         try:
             target_is_dir = stat.S_ISDIR(os.stat(target).st_mode)
@@ -27,9 +27,9 @@ class MvBuiltin(FileOpBuiltin):
         
         sources = args[:-1]
         if not sources:
-            raise ValueError("Need source and destination")
+            raise ValueError(_("Need source and destination"))
         if (not target_is_dir) and len(sources) > 1:
-            raise ValueError("Can't move multiple items to non-directory")
+            raise ValueError(_("Can't move multiple items to non-directory"))
 
         sources_total = len(sources)
         self._status_notify(context, sources_total, 0)

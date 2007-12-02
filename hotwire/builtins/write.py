@@ -6,7 +6,7 @@ from hotwire.fs import FilePath
 from hotwire.sysdep.fs import Filesystem
 
 class WriteBuiltin(Builtin):
-    """Save stream to files."""
+    _("""Save stream to files.""")
     def __init__(self):
         super(WriteBuiltin, self).__init__('write',
                                            input=InputStreamSchema('any', optional=False),

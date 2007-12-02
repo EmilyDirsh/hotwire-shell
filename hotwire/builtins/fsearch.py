@@ -18,7 +18,7 @@ class FileStringMatch(object):
         self.match_end = end
 
 class FSearchBuiltin(FileOpBuiltin):
-    """Search directory tree for files matching a regular expression."""
+    _("""Search directory tree for files matching a regular expression.""")
     def __init__(self):
         super(FSearchBuiltin, self).__init__('fsearch',
                                              output=FileStringMatch,
@@ -49,5 +49,5 @@ class FSearchBuiltin(FileOpBuiltin):
                             yield FileStringMatch(fpath, line[:-1], match.start(), match.end())
                     fp.close()
                 except OSError, e:
-                    _logger.exception("Failed searching file")
+                    _logger.exception(_("Failed searching file"))
 BuiltinRegistry.getInstance().register(FSearchBuiltin())

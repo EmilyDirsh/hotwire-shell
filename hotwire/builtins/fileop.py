@@ -14,4 +14,4 @@ class FileOpBuiltin(Builtin):
             context.metadata('hotwire.fileop.basedir', 0, first_dn)
             
     def _status_notify(self, context, total, count):
-        context.status_notify('%d/%d files' % (count,total), int(100*(count*1.0/total)))
+        context.status_notify(_('%d/%d files') % (count,total), int(100*(count*1.0/total)))
