@@ -2,7 +2,7 @@
 # -*- mode: python; tab-width: 4; indent-tabs-mode: nil -*-
 
 import os, sys, unittest, logging, platform, getopt
-import tempfile, shutil
+import tempfile, shutil, locale
 
 basedir = os.path.dirname(os.path.abspath(__file__))
 up_basedir = os.path.dirname(basedir)
@@ -12,14 +12,6 @@ if os.path.basename(basedir) == 'ui':
 import hotwire
 import hotwire.logutil
 import hotwire.persist
-import hotwire.test_command
-if platform.system() == 'Linux':
-    import hotwire.test_command_unix
-    import hotwire.test_completion_unix
-    unix_avail = True
-else:
-    unix_avail = False
-import hotwire.test_completion
 from hotwire.fs import path_normalize
 import hotwire.sysdep
 import hotwire.sysdep.fs
@@ -54,7 +46,22 @@ def main():
     default_log_level = logging.ERROR
     if debug:
         default_log_level = logging.DEBUG
+    import hotwire
     hotwire.logutil.init(default_log_level, debug_modules, 'hotwire.')
+    
+    locale.setlocale(locale.LC_ALL, '') 
+    import gettext
+    gettext.install('hotwire')
+           
+    import hotwire.test_command
+    if platform.system() == 'Linux':
+        import hotwire.test_command_unix
+        import hotwire.test_completion_unix
+        unix_avail = True
+    else:
+        unix_avail = False
+    import hotwire.test_completion           
+           
     print "Running tests on %s %s" % (hotwire.version.__version__, hotwire.version.svn_version_str())
     sys.stdout.flush()
     tmpd = path_normalize(tempfile.mkdtemp(prefix='hotwiretest_state'))

@@ -10,7 +10,7 @@ from hotwire.util import xmap
 _logger = logging.getLogger("hotwire.builtins.ls")
 
 class LsBuiltin(Builtin):
-    """List contents of a directory."""
+    _("""List contents of a directory.""")
     def __init__(self):
         super(LsBuiltin, self).__init__('ls', aliases=['dir'],
                                         input=InputStreamSchema(str, optional=True),

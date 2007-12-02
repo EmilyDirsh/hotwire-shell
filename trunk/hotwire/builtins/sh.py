@@ -42,7 +42,7 @@ class BareFdStream(object):
         pass
 
 class ShBuiltin(Builtin):
-    """Execute a system shell command, returning output as text."""
+    _("""Execute a system shell command, returning output as text.""")
     def __init__(self):
         super(ShBuiltin, self).__init__('sh',
                                         input=InputStreamSchema(str, optional=True),
@@ -234,7 +234,7 @@ class ShBuiltin(Builtin):
         if retcode >= 0:
             retcode_str = '%d' % (retcode,)
         else:
-            retcode_str = 'signal %d' % (abs(retcode),)
-        context.status_notify('Exit %s' % (retcode_str,))
+            retcode_str = _('signal %d') % (abs(retcode),)
+        context.status_notify(_('Exit %s') % (retcode_str,))
         
 BuiltinRegistry.getInstance().register(ShBuiltin())

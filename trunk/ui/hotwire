@@ -92,6 +92,8 @@ def main():
     _logger.debug("logging initialized, debug: %s", __debug__)
 
     locale.setlocale(locale.LC_ALL, '')
+    import gettext
+    gettext.install('hotwire')
 
     if thread_debug:
         hotwire.util.start_thread_dump_task(7000, sys.stderr)
@@ -137,9 +139,6 @@ def main():
 
     _logger.debug('initializing threads')
     gobject.threads_init()
-
-    import gettext
-    gettext.install('hotwire')
 
 	hotwire.sysdep.do_late_init()
 

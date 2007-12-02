@@ -4,7 +4,7 @@ from hotwire.sysdep.proc import ProcessManager, Process
 from hotwire.builtin import Builtin, BuiltinRegistry
 
 class PsBuiltin(Builtin):
-    """List all processes."""
+    _("""List processes.""")
     def __init__(self):
         super(PsBuiltin, self).__init__('proc',
                                         output=Process,

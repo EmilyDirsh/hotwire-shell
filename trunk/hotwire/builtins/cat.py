@@ -5,7 +5,7 @@ from hotwire.fs import FilePath
 from hotwire.builtin import Builtin, BuiltinRegistry
 
 class CatBuiltin(Builtin):
-    """Concatenate files."""
+    _("""Concatenate files.""")
     def __init__(self):
         super(CatBuiltin, self).__init__('cat',
                                          output=str, # 'any'

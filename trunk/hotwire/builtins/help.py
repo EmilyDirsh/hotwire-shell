@@ -6,7 +6,7 @@ class HelpItem(object):
         self.items = items
 
 class HelpBuiltin(Builtin):
-    """Display help."""
+    _("""Display help.""")
     def __init__(self):
         super(HelpBuiltin, self).__init__('help',
                                           output=HelpItem,
