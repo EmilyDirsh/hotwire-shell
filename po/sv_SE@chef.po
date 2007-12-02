@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-02 03:21-0500\n"
+"POT-Creation-Date: 2007-12-02 11:58-0500\n"
 "PO-Revision-Date: 2007-12-02 02:53-0500\n"
 "Last-Translator: Colin Walters <walters@verbum.org>\n"
 "Language-Team: SWEDISH CHEFS ROCK <bork@bork.example.com>\n"
@@ -329,22 +329,20 @@ msgid "PID"
 msgstr "bork"
 
 #: ../hotwire_ui/renderers/ps.py:8
-#, fuzzy
 msgid "Command"
 msgstr "%d bork"
 
 #: ../hotwire_ui/renderers/help.py:18
-#, fuzzy
 msgid "New to Hotwire?"
-msgstr "%s - bork"
+msgstr "Bork bork bork?"
 
 #: ../hotwire_ui/renderers/help.py:20
 msgid "View Tutorial"
-msgstr "bork"
+msgstr "Bork Bork"
 
 #: ../hotwire_ui/renderers/help.py:22
 msgid "Important Keybindings"
-msgstr "bork"
+msgstr "Bork Bork"
 
 #: ../hotwire_ui/renderers/help.py:23 ../hotwire_ui/renderers/help.py:25
 #: ../hotwire_ui/renderers/help.py:30
