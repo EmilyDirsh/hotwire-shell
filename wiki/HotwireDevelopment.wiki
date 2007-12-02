@@ -17,7 +17,7 @@ yum install gnome-python2-gnomevfs python-dbus gnome-python2-desktop gnome-pytho
 === Debian/Ubuntu ===
 
 {{{
-apt-get install python-vte python-dbus python-gnome2 python-gtksourceview
+apt-get install python-vte python-dbus python-gnome2 python-pygtksourceview
 }}}
 
 == Windows ==
