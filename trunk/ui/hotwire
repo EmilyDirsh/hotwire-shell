@@ -91,7 +91,7 @@ def main():
 
     _logger.debug("logging initialized, debug: %s", __debug__)
 
-    locale.setlocale(locale.LC_ALL, '')
+    #locale.setlocale(locale.LC_ALL, '')
     import gettext
     gettext.install('hotwire')
 

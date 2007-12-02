@@ -11,7 +11,7 @@ _logger = logging.getLogger("hotwire.ui.Preferences")
             
 class PrefsWindow(gtk.Dialog):
     def __init__(self):
-        super(PrefsWindow, self).__init__(title='Preferences',
+        super(PrefsWindow, self).__init__(title=_('Preferences'),
                                           parent=None,
                                           flags=gtk.DIALOG_DESTROY_WITH_PARENT,
                                           buttons=(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT))
@@ -32,21 +32,21 @@ class PrefsWindow(gtk.Dialog):
 
         self.__general_tab = gtk.VBox()
         self.__notebook.append_page(self.__general_tab)
-        self.__notebook.set_tab_label_text(self.__general_tab, 'General')
+        self.__notebook.set_tab_label_text(self.__general_tab, _('General'))
         
         vbox = gtk.VBox()
         vbox.set_border_width(12)
         vbox.set_spacing(6)                   
         label = gtk.Label()
-        label.set_markup('<b>%s</b>' % ('Interface',))
+        label.set_markup('<b>%s</b>' % (_('Interface'),))
         label.set_alignment(0.0, 0.0)
         vbox.pack_start(hotwidgets.Align(label), expand=False)
         self.__general_tab.pack_start(vbox, expand=False)
-        menuaccess = gtk.CheckButton('Disable menu access keys')
+        menuaccess = gtk.CheckButton(_('Disable menu access keys'))
         menuaccess.set_property('active', not prefs.get_pref('ui.menuaccels', default=True))
         menuaccess.connect('toggled', self.__on_menuaccess_toggled)        
         vbox.pack_start(hotwidgets.Align(menuaccess, padding_left=12), expand=False)
-        readline = self.__readline = gtk.CheckButton('Enable Unix "Readline" keys (Ctrl-A, Alt-F, Ctrl-K, etc.)')
+        readline = self.__readline = gtk.CheckButton(_('Enable Unix "Readline" keys (Ctrl-A, Alt-F, Ctrl-K, etc.)'))
         readline.set_property('active', prefs.get_pref('ui.emacs', default=False))
         readline.connect('toggled', self.__on_readline_toggled)        
         vbox.pack_start(hotwidgets.Align(readline, padding_left=12), expand=False)
@@ -54,13 +54,13 @@ class PrefsWindow(gtk.Dialog):
         
         self.__term_tab = gtk.VBox()
         self.__notebook.append_page(self.__term_tab)
-        self.__notebook.set_tab_label_text(self.__term_tab, 'Terminal')   
+        self.__notebook.set_tab_label_text(self.__term_tab, _('Terminal'))   
         
         vbox = gtk.VBox()
         vbox.set_border_width(12)
         vbox.set_spacing(6) 
         label = gtk.Label()
-        label.set_markup('<b>%s</b>' % ('Interface',))
+        label.set_markup('<b>%s</b>' % (_('Interface'),))
         label.set_alignment(0.0, 0.0)
         vbox.pack_start(label, expand=False)
         self.__term_tab.pack_start(vbox, expand=False)
@@ -68,7 +68,7 @@ class PrefsWindow(gtk.Dialog):
         hbox = gtk.HBox()
         vbox.pack_start(hotwidgets.Align(hbox, padding_left=12), expand=False)
         sg = gtk.SizeGroup(gtk.SIZE_GROUP_HORIZONTAL)
-        fg_label = gtk.Label('Foreground Color: ')
+        fg_label = gtk.Label(_('Foreground Color: '))
         sg.add_widget(fg_label)
         hbox.pack_start(fg_label, expand=False)
         fg_color = self.__fg_color = gtk.ColorButton(gtk.gdk.color_parse(prefs.get_pref('term.foreground', default='#000')))
@@ -77,7 +77,7 @@ class PrefsWindow(gtk.Dialog):
         
         hbox = gtk.HBox()
         vbox.pack_start(hotwidgets.Align(hbox, padding_left=12), expand=False)
-        bg_label = gtk.Label('Background Color: ')
+        bg_label = gtk.Label(_('Background Color: '))
         sg.add_widget(bg_label)
         hbox.pack_start(bg_label, expand=False)
         bg_color = self.__bg_color = gtk.ColorButton(gtk.gdk.color_parse(prefs.get_pref('term.background', default='#FFF')))
@@ -111,4 +111,3 @@ class PrefsWindow(gtk.Dialog):
         active = cb.get_property('active')
         prefs = Preferences.getInstance()
         prefs.set_pref('ui.emacs', active)   
-                
