@@ -786,7 +786,7 @@ class CommandExecutionControl(gtk.VBox):
             nth = self.__cmd_notebook.get_current_page()
         n_pages = self.__cmd_notebook.get_n_pages()
         if is_end:
-            r = xrange(nth, n_pages-1 )
+            r = xrange(nth+1, n_pages)
         else:
             r = xrange(0, nth)
         for i in r:
