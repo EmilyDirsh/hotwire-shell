@@ -36,7 +36,7 @@ class FilePathRenderer(TreeObjectsRenderer):
                                                        self._render_icon)
         col = self._table.get_column(colidx-1)
         col.set_spacing(0)
-        colidx = self._table.insert_column_with_data_func(-1, 'Path',
+        colidx = self._table.insert_column_with_data_func(-1, _('Path'),
                                                           hotwidgets.CellRendererLink(underline=pango.UNDERLINE_NONE,
                                                                                       family='Monospace'),
                                                           self._render_objtext)
@@ -47,34 +47,34 @@ class FilePathRenderer(TreeObjectsRenderer):
     
     def _setup_view_columns(self):
         self._setup_icon_path_columns()
-        colidx = self._table.insert_column_with_data_func(-1, 'Size',
+        colidx = self._table.insert_column_with_data_func(-1, _('Size'),
                                                            hotwidgets.CellRendererText(family='Monospace'),
                                                            self._render_size)
         col = self._table.get_column(colidx-1)
         col.set_resizable(True)
-        colidx = self._table.insert_column_with_data_func(-1, 'Last Modified',
+        colidx = self._table.insert_column_with_data_func(-1, _('Last Modified'),
                                                            hotwidgets.CellRendererText(family='Monospace'),
                                                            self._render_last_modified)
         col = self._table.get_column(colidx-1)
         col.set_resizable(True)
         if self.__fs.supports_owner():
-            colidx = self._table.insert_column_with_data_func(-1, 'Owner',
+            colidx = self._table.insert_column_with_data_func(-1, _('Owner'),
                                                               hotwidgets.CellRendererText(family='Monospace'),
                                                               self._render_owner)
             col = self._table.get_column(colidx-1)
             col.set_resizable(True)      
         if self.__fs.supports_group():
-            colidx = self._table.insert_column_with_data_func(-1, 'Group',
+            colidx = self._table.insert_column_with_data_func(-1, _('Group'),
                                                               hotwidgets.CellRendererText(family='Monospace'),
                                                               self._render_group)
             col = self._table.get_column(colidx-1)
             col.set_resizable(True)
-        colidx = self._table.insert_column_with_data_func(-1, 'Permissions',
+        colidx = self._table.insert_column_with_data_func(-1, _('Permissions'),
                                                            hotwidgets.CellRendererText(family='Monospace'),
                                                            self._render_permissions)
         col = self._table.get_column(colidx-1)
         col.set_resizable(True)  
-        colidx = self._table.insert_column_with_data_func(-1, 'File Type',
+        colidx = self._table.insert_column_with_data_func(-1, _('File Type'),
                                                            hotwidgets.CellRendererText(family='Monospace'),
                                                            self._render_mime)
         col = self._table.get_column(colidx-1)
