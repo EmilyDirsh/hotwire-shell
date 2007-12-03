@@ -6,6 +6,9 @@
 === VTE terminal embed ===
 [http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0619-2.png]
 
+=== History overview ===
+[http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0620-5.png]
+
 === Running lspci, piped to *filter* builtin, also *ssh* completion ===
 [http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0619-3.png]
 
