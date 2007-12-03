@@ -25,7 +25,7 @@ import gtk,gobject,pango
 
 import hotwire_ui.widgets as hotwidgets
 from hotwire.state import Preferences
-from hotwire.sysdep.term_impl.vteterm import VteTerminalWidget 
+from hotvte.vteterm import VteTerminalWidget 
 
 _logger = logging.getLogger("hotwire.sysdep.VteTerminal")
 

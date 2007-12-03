@@ -187,25 +187,26 @@ class BuiltinRegistry(Singleton):
     def register(self, builtin):
         self.__builtins.add(builtin)
 
-import hotwire.builtins.cat
-import hotwire.builtins.cd
-import hotwire.builtins.cp
-import hotwire.builtins.current
-import hotwire.builtins.edit
-import hotwire.builtins.filter
-import hotwire.builtins.fsearch
-import hotwire.builtins.help
-import hotwire.builtins.history
-import hotwire.builtins.kill
-import hotwire.builtins.ls
-import hotwire.builtins.mkdir
-import hotwire.builtins.mv
-import hotwire.builtins.open
-import hotwire.builtins.prop
-import hotwire.builtins.proc
-import hotwire.builtins.py
-import hotwire.builtins.rm
-import hotwire.builtins.sechash
-import hotwire.builtins.sh
-import hotwire.builtins.term
-import hotwire.builtins.write
+def load():
+    import hotwire.builtins.cat
+    import hotwire.builtins.cd
+    import hotwire.builtins.cp
+    import hotwire.builtins.current
+    import hotwire.builtins.edit
+    import hotwire.builtins.filter
+    import hotwire.builtins.fsearch
+    import hotwire.builtins.help
+    import hotwire.builtins.history
+    import hotwire.builtins.kill
+    import hotwire.builtins.ls
+    import hotwire.builtins.mkdir
+    import hotwire.builtins.mv
+    import hotwire.builtins.open
+    import hotwire.builtins.prop
+    import hotwire.builtins.proc
+    import hotwire.builtins.py
+    import hotwire.builtins.rm
+    import hotwire.builtins.sechash
+    import hotwire.builtins.sh
+    import hotwire.builtins.term
+    import hotwire.builtins.write
