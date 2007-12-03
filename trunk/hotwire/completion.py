@@ -513,11 +513,11 @@ class CdCompleter(Singleton, BaseCompleter):
     def __init__(self):
         super(CdCompleter, self).__init__()
 	
-	def __dirfilter(self, path):
-		try:
-			return stat.S_ISDIR(os.stat(path).st_mode)
-		except OSError, e:
-			return False
+    def __dirfilter(self, path):
+        try:
+            return stat.S_ISDIR(os.stat(path).st_mode)
+        except OSError, e:
+            return False
 
     def search(self, text, **kwargs):
         completer = PathCompleter()

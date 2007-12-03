@@ -75,7 +75,7 @@ class HotSshBuiltin(Builtin):
         return OpenSshKnownHostCompleter.getInstance()
 
     def execute(self, context, args, options=[]):
-        argv = ['hotssh']
+        argv = ['hotwire-ssh']
         argv.extend(args)
         subprocess.Popen(argv)
         return []
