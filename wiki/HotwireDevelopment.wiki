@@ -38,8 +38,7 @@ python ui/hotwire
 
 == Using Hotwire to hack Hotwire ==
 
-Use the ''-n'' option to tell Hotwire not to save anything; this avoids the instances overwriting each
-other's history and in the future other things.
+Use the ''-n'' option to tell Hotwire to create a new instance:
 
 {{{
 python ui/hotwire -n
