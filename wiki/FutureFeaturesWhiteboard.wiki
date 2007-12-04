@@ -1,0 +1,13 @@
+#summary Ideas for Hotwire projects
+
+= Project Ideas =
+
+The intent of this page is to be a whiteboard for potential Hotwire improvements that are not yet baked enough to turn into issues.
+
+== IronPython ===
+
+Would be interesting to try rewriting Hotwire to run on IronPython+Gtk#+Mono rather than CPython+pygtk.  The main motivation for this is to get *real threads*.  We need this in order to be able to execute arbitrary user code without blocking the UI.
+
+== CompletionSystem2 ==
+
+See [CompletionSystem2].
