@@ -4,9 +4,10 @@ Hotwire is not a terminal emulator, nor is it something you can set as your Unix
 
 = Modern interface =
 
-The "not a terminal" aspect of Hotwire is very important to understand.  Hotwire is not fully compatible with the concept of a traditional Unix shell and terminal.  But in real world usage today, there are very few applications that actually require a full `vt100` terminal emulator.  What Hotwire does is to simply [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/sysdep/unix_lateinit.py make a list] of them, and run them in something that is a real Unix terminal emulator - a [http://developer.gnome.org/arch/gnome/widgets/vte.html VTE window].
+The "not a terminal" aspect of Hotwire is very important to understand.  Hotwire is not fully compatible with the concept of a traditional Unix shell and terminal.  First, the command language is different (see HotwireScripting).  While Hotwire does support globs, the pipeline system is object oriented (HotwireArchitecture); but other aspects such as environment variables, `for` loops etc. are not supported at this time.  However, you can do extended scripting in the full Python language using the *py* builtin.
 
-Hotwire's command language is also different from the Unix shell; while Hotwire does support globs and pipes, other aspects such as environment variables, `for` loops etc. are not supported yet.  But you can do extended scripting in the full Python language using the *py* builtin.
+
+Second, the default system command display is not a full terminal emulator.  But in real world usage today, there are very few applications that actually require a real terminal emulator.  What Hotwire does is to simply [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/sysdep/unix_lateinit.py make a list] of them, and run them in something that is a real Unix terminal emulator - a [http://developer.gnome.org/arch/gnome/widgets/vte.html VTE window].
 
 So Hotwire treats terminal applications specially, but the vast majority of traditional Unix commands generally output human-readable text, occasionally taking a line of input.  Think `make`, `dmesg`, `cat`, `tg-admin quickstart`, etc.  Hotwire makes all system commands asynchronous, and output is shown in individual windows.  Even if you execute *ls* on a big directory or *cat* on a big file, you can keep typing other commands\ without hitting `^Z;bg`.  There is never any problem with the output from different background commands being intermixed.
 
