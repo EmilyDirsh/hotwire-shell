@@ -47,7 +47,7 @@ python ui/hotwire -n
 
 = What to hack on? =
 
-See issues tagged with "HotwireLoveBug" for a bug that a new developer could start on.
+See issues tagged with "HotwireLoveBug" for a bug that a new developer could start on.  Or see [FutureFeaturesWhiteboard] for a larger-scope brainstorming area.
 
 = Architecture =
 
