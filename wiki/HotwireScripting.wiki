@@ -4,12 +4,13 @@
 
 One major item of feedback from a Hotwire presentation at FOSSCamp 2007 was that we should try to create a language.  It was felt that system scripting in Python at least in its current form wasn't ideal.
 
-== HotwireScript proposal ==
+== HotwireScript proposals ==
 
 The goals of HotwireScript are:
 
-* Be somewhat familiar for people coming from the Unix shell
-* Be concise for simple tasks
+ * Be somewhat familiar for people coming from the Unix shell
+ * Be concise for simple tasks
+ * Be useful for embedding into Python programs
 
 === Proposal from Alexander Larsson ===
 
