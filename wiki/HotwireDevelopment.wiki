@@ -24,17 +24,23 @@ apt-get install python-vte python-dbus python-gnome2 python-pygtksourceview
 
 See HotwireWindows.
 
-= Source Code =
+= Source Code Using Subversion =
 
-See [http://code.google.com/p/hotwire-shell/source Source page].
+{{{
+svn checkout http://hotwire-shell.googlecode.com/svn/trunk/ hotwire-shell
+}}}
 
-= Getting started =
+See [http://code.google.com/p/hotwire-shell/source Source page] for more information on checking out the code, and [http://svnbook.red-bean.com/en/1.1/ch03s05.html SVNBook] for information about working with a Subversion source tree.
 
-Run this command after having checked out from Subversion or unpacking the Zip file:
+= Running Hotwire from source =
+
+Run this command from the source tree after having checked out from Subversion or unpacking the Zip file:
 
 {{{
 python ui/hotwire
 }}}
+
+That's it!  There is no compilation process, everything should work uninstalled.
 
 == Using Hotwire to hack Hotwire ==
 
