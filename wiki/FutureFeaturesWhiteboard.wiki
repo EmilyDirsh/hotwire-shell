@@ -4,6 +4,10 @@
 
 The intent of this page is to be a whiteboard for potential Hotwire improvements that are not yet baked enough to turn into issues.
 
+== HotwireScripting ==
+
+We need to formalize the current Hotwire pipeline language.  See HotwireScripting for the page on this.
+
 == IronPython ===
 
 Would be interesting to try rewriting Hotwire to run on IronPython+Gtk#+Mono rather than CPython+pygtk.  The main motivation for this is to get *real threads*.  We need this in order to be able to execute arbitrary user code without blocking the UI.
