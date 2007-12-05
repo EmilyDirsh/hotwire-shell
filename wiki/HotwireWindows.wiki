@@ -35,6 +35,10 @@ cd My Documents\hotwire
 python ui/hotwire
 }}}
 
+= Running Hotwire from source =
+
+These instructions are largely the same as HotwireDevelopment.
+
 = Building an installer =
 
 Just now got [[http://www.py2exe.org/ Py2exe]] to work.  In particular see [[http://www.py2exe.org/index.cgi/Py2exeAndPyGTK Py2exe PyGTK page]].
