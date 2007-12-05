@@ -27,7 +27,7 @@ See HotwireWindows.
 = Source Code Using Subversion =
 
 {{{
-svn checkout http://hotwire-shell.googlecode.com/svn/trunk/ hotwire-shell
+svn checkout http://hotwire-shell.googlecode.com/svn/trunk/ hotwire
 }}}
 
 See [http://code.google.com/p/hotwire-shell/source Source page] for more information on checking out the code, and [http://svnbook.red-bean.com/en/1.1/ch03s05.html SVNBook] for information about working with a Subversion source tree.
