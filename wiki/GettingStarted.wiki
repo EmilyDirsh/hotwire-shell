@@ -1,7 +1,7 @@
 #summary Getting started using Hotwire
 #labels Featured
 
-(Please use the [http://groups.google.com/group/hotwire-shell Discussion Group] for any questions or issues)
+(Please use the [http://groups.google.com/group/hotwire-shell Discussion Group] for any questions, and the [http://code.google.com/p/hotwire-shell/issues/list issue list] for bug reports)
 
 This tutorial corresponds with Hotwire 0.620 and 0.600.
 
