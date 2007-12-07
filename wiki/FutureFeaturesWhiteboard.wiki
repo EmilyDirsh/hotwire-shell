@@ -15,3 +15,7 @@ Would be interesting to try rewriting Hotwire to run on IronPython+Gtk#+Mono rat
 == CompletionSystem2 ==
 
 See [CompletionSystem2].
+
+== 100% Terminal Compat ==
+
+Possible idea for killing the hardcoded list of tty apps - if in the initial stream load, we see stuff that looks like terminal codes (which almost certainly isn't valid UTF-8), we create a new VTE window and push that data into it.  This might not even be that hard.  Just use [http://library.gnome.org/devel/vte/unstable/VteTerminal.html#vte-terminal-set-pty vte_terminal_set_pty]?
