@@ -45,7 +45,7 @@ are limited by their choice of being just a login shell instead of combination "
 
 [http://ipython.scipy.org/ IPython] - Looks like you can execute system commands, but more oriented towards
 being a tool for Python programming.  Still though a pretty big project with some interesting ideas and
-probably code.  Might want to look at their "distributed computing" stuff - maybe a better way to run pipelines?
+probably code.  Might want to look at their "distributed computing" stuff - maybe a better way to run pipelines?  *Update*: [http://ipython.scipy.org/moin/UsingIPipe IPipe] looks interesting
 
 [http://geophile.com/osh/ osh] - Pipes objects.  May be interesting for syntax ideas?
 
