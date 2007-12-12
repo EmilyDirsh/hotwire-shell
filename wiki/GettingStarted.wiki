@@ -73,7 +73,27 @@ sleep 10
 
 Note that while the command is executing, you can go on and do other things.  The author has found this very convenient for processes such as `make`.  At any point, you can also press `Ctrl-Shift-o` (View->Overview) to get a high-level view of the state of your commands.  Also try pressing `Ctrl-Up` and `Ctrl-Down` to navigate your command history.
 
-At this point it is important to understand that this default Hotwire mode for system commands (called *sh*) may not work for all of them; some commands on your system may require input or a complete terminal.  Hotwire also has a builtin called *term* which creates a full Unix terminal for commands.  For example, try typing:
+=== Giving input to commands ===
+
+Try running `python`:
+
+{{{
+python
+}}}
+
+While Hotwire's automatic job backgrounding is very convenient for most commands, there are the occasional ones which take some input.  Hotwire only supports a basic form of command input right now.  
+
+Press `Ctrl-I` to activate input mode.  This allows you to send basic lines of input to the subprocess.  For example:
+
+{{{
+1+1
+}}}
+
+When you're done, press `ESC`.  The author understands that this mode is somewhat suboptimal.  Future work will improve it; see below.
+
+=== Terminal compatibility ===
+
+At this point it is important to understand that this default Hotwire mode for system commands (called *sh*) may not work for all of them; some commands on your system may require a real terminal.  Hotwire also has a builtin called *term* which creates a full Unix terminal for commands.  For example, try typing:
 
 {{{
 term top
