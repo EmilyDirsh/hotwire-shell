@@ -71,7 +71,7 @@ This mode is the default - the vast majority of system commands on Unix or Windo
 sleep 10
 }}}
 
-Note that while the command is executing, you can go on and do other things.  The author has found this very convenient for processes such as `make`.  At any point, you can also press `Ctrl-Shift-o` (View->Overview) to get a high-level view of the state of your commands.
+Note that while the command is executing, you can go on and do other things.  The author has found this very convenient for processes such as `make`.  At any point, you can also press `Ctrl-Shift-o` (View->Overview) to get a high-level view of the state of your commands.  Also try pressing `Ctrl-Up` and `Ctrl-Down` to navigate your command history.
 
 At this point it is important to understand that this default Hotwire mode for system commands (called *sh*) may not work for all of them; some commands on your system may require input or a complete terminal.  Hotwire also has a builtin called *term* which creates a full Unix terminal for commands.  For example, try typing:
 
@@ -94,6 +94,20 @@ ifconfig | filter Link
 
 *filter* is a Hotwire builtin that outputs objects which match a regular expression.  But note the
 bold match highlighting!  This is because *filter* outputs *TextMatch* objects, which subclass Python's *str* class with match indices.
+
+Let's see what happens when we use the Unix `grep` on Hotwire's *ls*:
+
+{{{
+ls | grep png
+}}}
+
+Why do we just see plain text?  It is because Unix `grep` only operates on text streams, so the *FilePath* objects output from *ls* are coerced into strings.
+
+But let's try using *filter* with *ls*:
+
+{{{
+ls | filter png
+}}}
 
 == Other Hotwire builtins ==
 
