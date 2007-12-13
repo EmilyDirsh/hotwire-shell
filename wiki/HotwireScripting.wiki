@@ -22,7 +22,9 @@ The goals of Hotwire's language should be are:
 
 == HotwireScript Proposal ==
 
-First, we extend the current pipe language to support two specific new features: I/O redirection and sequences.
+=== Extending Hotwire Pipe ===
+
+First, we extend the current pipe language to support three specific new features: I/O redirection, environment variables, and sequences.
 
 {{{
 ls | filter foo > /tmp/foofiles.txt
@@ -31,6 +33,14 @@ ls | filter foo > /tmp/foofiles.txt
 {{{
 sleep 5; proc -a > /tmp/procs.txt ; killall foo 
 }}}
+
+{{{
+JAVA_HOME=/usr/lib/java1.5 java --blah
+}}}
+
+These three things cover quite a bit of functionality, and would not be very difficult to implement.
+
+=== Hotwire Python ===
 
 Second, we add an API to Python to make it trivial to execute Hotwire command language.
 
