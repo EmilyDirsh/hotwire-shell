@@ -6,4 +6,6 @@ I haven't personally tried running on OS X.  There are two main hurdles that hav
 
 See also [http://groups.google.com/group/hotwire-shell/browse_thread/thread/3ad0f209b6c38715/6fdceb8ba80c171a this post] on the Google Group.
 
-If you are interested in trying a port, post to the [http://groups.google.com/group/hotwire-shell/ Discussion Group]!
+If you are interested in trying a port, post to the [http://groups.google.com/group/hotwire-shell/ Discussion Group]!  
+
+Comments here with more information are welcome too.
