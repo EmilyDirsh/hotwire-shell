@@ -2,13 +2,20 @@
 
 = The current (0.620) Hotwire language =
 
-Hotwire's current language is based arounds pipes (`|`).  However, currently on Unix Hotwire will pass data given to the *sh* builtin via `sh -c`.  This means that things like the following work:
+Hotwire's current language is based arounds pipes (`|`).  It is extremely limited and *will be overhauled* in a future release.
+
+Currently there is no support for many shell language features such as:
+
+ * loops
+ * conditionals
+ * subcommands
+ * variables
+
+However, currently on Unix Hotwire will pass data given to the *sh* builtin via `sh -c`.  This means that things like the following work:
 
 {{{
 sh for x in $(seq 100); sleep 0.1; echo $x; done
 }}}
-
-Long term though, do we want to support this?  Probably not.  
 
 = Creating a Hotwire-based language designed for system scripts =
 
