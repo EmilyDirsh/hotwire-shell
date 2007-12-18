@@ -32,7 +32,7 @@ Notable bugfixes:
 
 == Changes in Hotwire SVN as of r496 (Not released) ==
 
-The Hotwire Shell project has expanded in scope slightly; Hotwire now includes application-specific terminal containers.  There are separate `hotwire-ssh` and a `hotwire-sudo` executables which have app-specific menu items and other features (e.g. `hotwire-ssh` has "New tab for connection" and "Open SFTP" options).  Note in Hotwire *ssh* is by default aliased to `hotwire-ssh` and likewise for *sudo*; you use these independently of Hotwire in a legacy Unix shell as well.
+The Hotwire Shell project has expanded in scope slightly; Hotwire now includes application-specific terminal containers.  There are separate `hotwire-ssh` and a `hotwire-sudo` executables which have app-specific menu items and other features (e.g. `hotwire-ssh` has "New tab for connection" and "Open SFTP" options).  Note in Hotwire *ssh* is by default aliased to `hotwire-ssh` and likewise for *sudo*; you can also use these independently of Hotwire in a legacy Unix shell as well.
 
 Another project-wide change is that the execution core has been relicensed to a permissive MIT-style license (the user interface remains GPL).  This change was made with an eye to eventually including parts of the core in the Python distribution itself as an embedded system scripting language.
 
