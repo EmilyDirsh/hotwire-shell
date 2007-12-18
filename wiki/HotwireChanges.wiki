@@ -40,6 +40,7 @@ Visible Changes:
 
  * The completion system has been replaced and is now more bash-like; this closes a swath of issues (issue 12, issue 16, issue 25, issue 27).
  * History search is now on `Ctrl-r`.
+ * Completion status waits for a typing pause before appearing
  * "View->To Window" menu item is now "File->Detach Tab"
  * New "Detach Command" menu item in Hotwire mode detaches just a single command (e.g. create a new window with just your `make` output).
  * Added Back/Forward buttons and a "Go" menu (issue 57).
