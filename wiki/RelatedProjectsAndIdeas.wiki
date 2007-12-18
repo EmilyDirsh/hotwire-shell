@@ -29,6 +29,8 @@ but still allowing callouts to `/bin/sh`.
 [http://anthias.sourceforge.net/ Anthias] Similar idea to Hotwire; targets KDE, written in C++.  They chose to
 do a frontend/backend separation from the start using a custom protocol.  Development looks stalled.
 
+[http://rubyunix.rubyforge.org/ RubyUnix] - Rewrite a traditional Unix shell in Ruby (the goal looks more like IPython than Hotwire)
+
 [http://personal.atl.bellsouth.net/v/c/vcato/gsh/ gsh] *Very* similar ideas to Hotwire. Fairly old. Written in TCL/TK.  TODO: Download source and investigate this more.
 
 [http://www.wickedshell.net/ Wicked Shell] - Shell integration for Eclipse.  Looks like they have some basic
