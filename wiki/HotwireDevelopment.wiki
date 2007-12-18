@@ -32,6 +32,13 @@ svn checkout http://hotwire-shell.googlecode.com/svn/trunk/ hotwire
 
 See [http://code.google.com/p/hotwire-shell/source Source page] for more information on checking out the code, and [http://svnbook.red-bean.com/en/1.1/ch03s05.html SVNBook] for information about working with a Subversion source tree.
 
+= Source Code Using Git =
+
+This is Colin's personal Git branch:
+{{{
+git clone http://submind.verbum.org/~walters/hotwire-shell.git hotwire
+}}}
+
 = Running Hotwire from source =
 
 Run this command from the source tree after having checked out from Subversion or unpacking the Zip file:
