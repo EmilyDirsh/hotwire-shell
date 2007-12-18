@@ -38,11 +38,11 @@ Another project-wide change is that the execution core has been relicensed to a 
 
 Visible Changes:
 
- * The completion system has been replaced and is now more bash-like (actually better).
+ * The completion system has been replaced and is now more bash-like; this closes a swath of issues (issue 12, issue 16, issue 25, issue 27).
  * History search is now on `Ctrl-r`.
  * "View->To Window" menu item is now "File->Detach Tab"
  * New "Detach Command" menu item in Hotwire mode detaches just a single command (e.g. create a new window with just your `make` output).
- * Added Back/Forward buttons and a "Go" menu.
+ * Added Back/Forward buttons and a "Go" menu (issue 57).
  * Added "Remove Pipeline" menu item (with matching Undo support)
  * Added Fullscreen menu item
  * New *walk* builtin which recurses a directory yielding *File* objects
