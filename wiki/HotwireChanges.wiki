@@ -30,9 +30,28 @@ Notable bugfixes:
  * Ignore SIGHUP in subprocesses, because we close the pty when parent exits
  * Pass working directory onto programs run from menuitems (issue #58)
 
-== Changes in Hotwire SVN as of r357 (Not released) ==
+== Changes in Hotwire SVN as of r496 (Not released) ==
 
-None yet.
+The Hotwire Shell project has expanded in scope slightly; Hotwire now includes application-specific terminal containers.  There are separate `hotwire-ssh` and a `hotwire-sudo` executables which have app-specific menu items and other features (e.g. `hotwire-ssh` has "New tab for connection" and "Open SFTP" options).  Note in Hotwire *ssh* is by default aliased to `hotwire-ssh` and likewise for *sudo*; you use these independently of Hotwire in a legacy Unix shell as well.
+
+Another project-wide change is that the execution core has been relicensed to a permissive MIT-style license (the user interface remains GPL).  This change was made with an eye to eventually including parts of the core in the Python distribution itself as an embedded system scripting language.
+
+Visible Changes:
+
+ * The completion system has been replaced and is now more bash-like (actually better).
+ * History search is now on `Ctrl-r`.
+ * "View->To Window" menu item is now "File->Detach Tab"
+ * New "Detach Command" menu item in Hotwire mode detaches just a single command (e.g. create a new window with just your `make` output).
+ * Added Back/Forward buttons and a "Go" menu.
+ * Added "Remove Pipeline" menu item (with matching Undo support)
+ * Added Fullscreen menu item
+ * New *walk* builtin which recurses a directory yielding *File* objects
+ * Use Unix filesystem backend on FreeBSD.
+ * More default *term* commands: `ipython`
+
+Notable Bugfixes:
+ * If running Python < 2.5, try to exec python2.5, or print error (Based on patch from Josselin Mouette)
+ * Fix *proc* on win32 (Suggested fix from tianxiaoji)
 
 = Older releases =
 
