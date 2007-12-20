@@ -67,8 +67,9 @@ See HotwireArchitecture for a technical overview.
 
 = Communication =
 
-Discussion happens on the [http://groups.google.com/group/hotwire-shell Hotwire Google Group].
-You can send patches or links to cloned trees there, or create a Trac ticket.
+Discussion happens on the [http://groups.google.com/group/hotwire-shell Hotwire Google Group].  You can also often find Hotwire's author on IRC (server: `irc.gimp.net` channel `#gnome-hackers`) under the nick `walters`.
+
+For patches please [http://code.google.com/p/hotwire-shell/issues/list file an issue], but if you think a patch will need a lot of discussion feel free to send it to the discussion group.
 
 = Related Projects and Sources of Ideas =
 
