@@ -26,7 +26,7 @@ but still allowing callouts to `/bin/sh`.
 
 [http://www.scsh.net/resources/commander-s.html SCSH] - Scheme and ncurses based enhanced interactive shell, very interesting ideas in there - see the PDF.
 
-[http://anthias.sourceforge.net/ Anthias] Similar idea to Hotwire; targets KDE, written in C++.  They chose to
+[http://anthias.sourceforge.net/ Anthias] A multi-terminal with integrated file browser; does not have object pipeline. Targets KDE, written in C++.  They chose to
 do a frontend/backend separation from the start using a custom protocol.  Development looks stalled.
 
 [http://rubyunix.rubyforge.org/ RubyUnix] - Rewrite a traditional Unix shell in Ruby (the goal looks more like IPython than Hotwire)
