@@ -30,7 +30,7 @@ Notable bugfixes:
  * Ignore SIGHUP in subprocesses, because we close the pty when parent exits
  * Pass working directory onto programs run from menuitems (issue #58)
 
-== Changes in Hotwire SVN as of r573 (Not released) ==
+== Changes in Hotwire SVN as of r607 (Not released) ==
 
 Hotwire has transitioned from *alpha* to *beta* software; it is expected that significantly more people will find it to be a compelling replacement for terminal+shell.
 
@@ -42,14 +42,19 @@ Finally, there are two major changes that bear mentioning before the details.  F
 
 Second, on the HotwireScript language is improved and in particular gained support for I/O redirection.  Crucially, _Hotwire no longer implicitly passes commands through /bin/sh_.  However, full Unix shell script is now accessible by typing "sh <anything>".  The "<anything>" will be passed to `/bin/sh -c`.  For more about this, see HotwireScripting.
 
+Also, Hotwire now runs again on Python 2.4.
+
 Visible Changes:
 
  * History search is now on `Ctrl-r`
  * Completion status waits for a typing pause before appearing
  * "View->To Window" menu item is now "File->Detach Tab"
  * New "Detach Command" menu item in Hotwire mode detaches just a single command (e.g. create a new window with just your `make` output)
+ * Add "Quick Switch" dialog for searching most-used directories
  * Added popup menu on command headers
  * Unicode renderer has extended popup menu items
+ * File renderer now supports interactive search
+ * "Move to Trash" context menuitem is replaced with more general "Copy Path to Input"
  * Added Back/Forward buttons and a "Go" menu (issue 57)
  * Added "Remove Pipeline" menu item (with matching Undo support)
  * Added Fullscreen menu item
@@ -57,10 +62,13 @@ Visible Changes:
  * New *setenv* builtin
  * Use Unix filesystem backend on FreeBSD.
  * More default *term* commands: `ipython`
+ * `help` now displays current aliases.
 
 Notable Bugfixes:
  * Some memory leaks plugged
- * If running Python < 2.5, try to exec python2.5, or print error (Based on patch from Josselin Mouette)
+ * Automatically enter password mode if pty echo is off (fixes `passwd`)
+ * Correctly set controlling TTY, makes `gpg` happy (issue 30, issue 65)
+ * `Ctrl-s` starts search for File renderer
  * Fix *proc* on win32 (Suggested fix from tianxiaoji)
 
 = Older releases =
