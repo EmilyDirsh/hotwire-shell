@@ -30,7 +30,9 @@ Notable bugfixes:
  * Ignore SIGHUP in subprocesses, because we close the pty when parent exits
  * Pass working directory onto programs run from menuitems (issue #58)
 
-== Changes in Hotwire SVN as of r607 (Not released) ==
+== Changes in Hotwire SVN (Not released) ==
+
+(As of r607)
 
 Hotwire has transitioned from *alpha* to *beta* software; it is expected that significantly more people will find it to be a compelling replacement for terminal+shell.
 
