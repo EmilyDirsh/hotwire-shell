@@ -31,6 +31,8 @@ do a frontend/backend separation from the start using a custom protocol.  Develo
 
 [http://rubyunix.rubyforge.org/ RubyUnix] - Rewrite a traditional Unix shell in Ruby (the goal looks more like IPython than Hotwire)
 
+[http://pyshell.sourceforge.net/ PyShell] - Rewrite traditional Unix shell in Python.
+
 [http://personal.atl.bellsouth.net/v/c/vcato/gsh/ gsh] *Very* similar ideas to Hotwire. Fairly old. Written in TCL/TK.  TODO: Download source and investigate this more.
 
 [http://www.wickedshell.net/ Wicked Shell] - Shell integration for Eclipse.  Looks like they have some basic
