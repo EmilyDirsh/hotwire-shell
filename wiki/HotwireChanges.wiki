@@ -32,7 +32,7 @@ Notable bugfixes:
 
 == Changes in Hotwire SVN (Not released) ==
 
-(As of r607)
+(As of r654)
 
 Hotwire has transitioned from *alpha* to *beta* software; it is expected that significantly more people will find it to be a compelling replacement for terminal+shell.
 
@@ -54,17 +54,22 @@ Visible Changes:
  * New "Detach Command" menu item in Hotwire mode detaches just a single command (e.g. create a new window with just your `make` output)
  * Add "Quick Switch" dialog for searching most-used directories
  * Added popup menu on command headers
+ * New graphical object inspector, available via right click on 
  * Unicode renderer has extended popup menu items
  * File renderer now supports interactive search
+ * File context menu has icons for application launchers
  * "Move to Trash" context menuitem is replaced with more general "Copy Path to Input"
  * Added Back/Forward buttons and a "Go" menu (issue 57)
  * Added "Remove Pipeline" menu item (with matching Undo support)
+ * Support for bookmarking directories (using `.gtk-bookmarks`)
  * Added Fullscreen menu item
+ * New *selection* builtin which outputs currently selected objects
+ * *ls* builtin outputs *File* objects, not *FilePath*
  * New *walk* builtin which recurses a directory yielding *File* objects
  * New *setenv* builtin
  * Use Unix filesystem backend on FreeBSD.
  * More default *term* commands: `ipython`
- * `help` now displays current aliases.
+ * `help` now displays both builtin alias names, and textual alias expansion
 
 Notable Bugfixes:
  * Some memory leaks plugged
