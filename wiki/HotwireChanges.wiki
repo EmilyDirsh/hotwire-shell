@@ -54,7 +54,7 @@ Visible Changes:
  * New "Detach Command" menu item in Hotwire mode detaches just a single command (e.g. create a new window with just your `make` output)
  * Add "Quick Switch" dialog for searching most-used directories
  * Added popup menu on command headers
- * New graphical object inspector, available via right click on 
+ * New graphical object inspector, available via right click on object renderer
  * Unicode renderer has extended popup menu items
  * File renderer now supports interactive search
  * File context menu has icons for application launchers
