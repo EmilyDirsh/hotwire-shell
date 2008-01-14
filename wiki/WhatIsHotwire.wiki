@@ -2,7 +2,9 @@
 
 = What is Hotwire? =
 
-The goal of the Hotwire Shell project is to create a "hypershell" for system programmers and administrators that is better than both the traditional Unix shell as well as the newer Windows PowerShell.
+The goal of the Hotwire Shell project is to create a "hypershell" that is better than both the Unix terminal+shell and Windows PowerShell.  It is designed for developers and system administrators.
+
+
 
 == How is Hotwire better than the Unix shell? ==
 
