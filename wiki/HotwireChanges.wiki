@@ -32,29 +32,29 @@ Notable bugfixes:
 
 == Changes in Hotwire SVN (Not released) ==
 
-(As of r654)
+(As of r706)
 
 Hotwire has transitioned from *alpha* to *beta* software; it is expected that significantly more people will find it to be a compelling replacement for terminal+shell.
 
-The project has expanded in scope slightly; Hotwire now includes application-specific terminal containers.  Currently there are separate `hotwire-ssh` and a `hotwire-sudo` executables which have app-specific menu items and other features (e.g. `hotwire-ssh` has "New tab for connection" and "Open SFTP" options).  Note in Hotwire *ssh* is by default aliased to `hotwire-ssh` and likewise for *sudo*; you can also use these independently of Hotwire in a legacy Unix shell as well.
+The project has expanded in scope slightly; Hotwire now includes application-specific terminal containers.  Currently there are separate `hotwire-ssh` and a `hotwire-sudo` executables which have app-specific menu items and other features (e.g. `hotwire-ssh` has "New tab for connection" and "Open SFTP" options).  Note in Hotwire *ssh* is by default aliased to `hotwire-ssh` and likewise for *sudo*; you can also use these independently of Hotwire in a legacy Unix terminal+shell as well.
+
+There are a few major changes to the core which bear longer explanation.  First, Hotwire is now a multi-language shell.  The old language is replaced by a rewritten "HotwirePipe" language.  It supports the object-oriented pipeline, and has also gained file I/O redirection - crucially, HotwirePipe no longer involves processing through `/bin/sh`.  Hotwire now also supports directly entering Python expressions and evaluating them in the shell, and visualizing their values.  In addition, Hotwire now has a syntax for executing code in other programming languages like Perl and Ruby using their external interpeters in a convenient syntax.
+
+Second, many will be happy to discover the completion system has been entirely replaced and is now more bash-like; this closes a swath of issues (issue 12, issue 16, issue 25, issue 27).  Your key habits will have to be relearned, but this should be for the better.  
 
 Another project-wide change is that the execution core has been relicensed to a permissive MIT-style license (the user interface remains GPL).  This change was made with an eye to eventually including parts of the Hotwire pipeline core in the Python distribution itself as an embedded system scripting language.
 
-Finally, there are two major changes that bear mentioning before the details.  First, the completion system has been entirely replaced and is now more bash-like; this closes a swath of issues (issue 12, issue 16, issue 25, issue 27).  Your key habits will have to be relearned, but this should be for the better.
-
-Second, on the HotwireScript language is improved and in particular gained support for I/O redirection.  Crucially, _Hotwire no longer implicitly passes commands through /bin/sh_.  However, full Unix shell script is now accessible by typing "sh <anything>".  The "<anything>" will be passed to `/bin/sh -c`.  For more about this, see HotwireScripting.
-
-Also, Hotwire now runs again on Python 2.4.
+Finally, Hotwire now runs again on Python 2.4.
 
 Visible Changes:
 
+ * New pipeline class inspector sidebar, as well as object inspector window
  * History search is now on `Ctrl-r`
  * Completion status waits for a typing pause before appearing
  * "View->To Window" menu item is now "File->Detach Tab"
  * New "Detach Command" menu item in Hotwire mode detaches just a single command (e.g. create a new window with just your `make` output)
  * Add "Quick Switch" dialog for searching most-used directories
  * Added popup menu on command headers
- * New graphical object inspector, available via right click on object renderer
  * Unicode renderer has extended popup menu items
  * File renderer now supports interactive search
  * File context menu has icons for application launchers
@@ -65,11 +65,15 @@ Visible Changes:
  * Added Fullscreen menu item
  * New *selection* builtin which outputs currently selected objects
  * *ls* builtin outputs *File* objects, not *FilePath*
+ * New *py-map* builtin for processing using Python expression
+ * New *py-filter* builtin allows filtering using Python expression
  * New *walk* builtin which recurses a directory yielding *File* objects
  * New *setenv* builtin
  * Use Unix filesystem backend on FreeBSD.
  * More default *term* commands: `ipython`
- * `help` now displays both builtin alias names, and textual alias expansion
+ * Cancel now sends SIGTERM rather than SIGINT
+ * `help` shows installed languages
+ * `help` shows both builtin alias names, and textual alias expansion
 
 Notable Bugfixes:
  * Some memory leaks plugged
