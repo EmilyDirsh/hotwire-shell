@@ -4,16 +4,8 @@
 
 The goal of the Hotwire Shell project is to create a "hypershell" for system programmers and administrators that is better than both the traditional Unix shell as well as the newer Windows PowerShell.
 
-= What is a hypershell? =
-
-At the core of Hotwire is an object-oriented pipeline processing framework.  Layered on top is a flexible graphical interface that is oriented for keyboard-driven command input, but still allowing use of the mouse.
-
-Following are some concrete examples of what makes Hotwire "hyper":
-
 == How is Hotwire better than the Unix shell? ==
 
 Considered from a modern perspective, the Unix terminal is two things.  First, it is a pure text display, suitable for applications like the Unix shell which can run programs that just output plain text.  Think `ls` (without colors) `dmesg`, `cat` (on plain text files), etc.  A much smaller percentage take lines of input for a question or two.
 
 Secondarily, the Unix terminal is also a very poor GUI toolkit.  One might challenge this - how is the terminal also a GUI?  Here we are defining a GUI as one whose output is not suitable to be piped into another program.  And today there are just a few commonly used applications written for the terminal GUI.  Examples are `vi`, `mutt`, `man`, and various others.
-
-=== Hotwire pipes objects, not just text ===
