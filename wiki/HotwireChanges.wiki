@@ -42,7 +42,7 @@ There are a few major changes to the core which bear longer explanation.  First,
 
 Second, many will be happy to discover the completion system has been entirely replaced and is now more bash-like; this closes a swath of issues (issue 12, issue 16, issue 25, issue 27).  Your key habits will have to be relearned, but this should be for the better.  
 
-Another project-wide change is that the execution core has been relicensed to a permissive MIT-style license (the user interface remains GPL).  This change was made with an eye to eventually including parts of the Hotwire pipeline core in the Python distribution itself as an embedded system scripting language.
+Another project-wide change is that the execution core and underlying libraries have been relicensed to a permissive MIT-style license (the user interface remains GPL).  This change was made with an eye to eventually including in the main Python distribution parts of the Hotwire core as an embedded system scripting language, as well as libraries such as Process enumeration.
 
 Finally, Hotwire now runs again on Python 2.4.
 
