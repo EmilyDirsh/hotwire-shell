@@ -32,7 +32,7 @@ Notable bugfixes:
 
 == Changes in Hotwire SVN (Not released) ==
 
-(As of r706)
+(As of r750)
 
 Hotwire has transitioned from *alpha* to *beta* software; it is expected that significantly more people will find it to be a compelling replacement for terminal+shell.
 
@@ -51,10 +51,12 @@ Visible Changes:
  * New pipeline class inspector sidebar, as well as object inspector window
  * History search is now on `Ctrl-r`
  * Completion status waits for a typing pause before appearing
+ * Support for changing EDITOR used in environment
  * "View->To Window" menu item is now "File->Detach Tab"
  * New "Detach Command" menu item in Hotwire mode detaches just a single command (e.g. create a new window with just your `make` output)
  * Add "Quick Switch" dialog for searching most-used directories
  * Added popup menu on command headers
+ * Unicode renderer wraps lines by default (right click to unset)
  * Unicode renderer has extended popup menu items
  * File renderer now supports interactive search
  * File context menu has icons for application launchers
@@ -68,12 +70,18 @@ Visible Changes:
  * New *py-map* builtin for processing using Python expression
  * New *py-filter* builtin allows filtering using Python expression
  * New *walk* builtin which recurses a directory yielding *File* objects
+ * New *http-get* builtin does an HTTP GET and returns an `HTTPResponse` object
  * New *setenv* builtin
+ * Builtin editor supports "Save as" and has syntax highlighting
  * Use Unix filesystem backend on FreeBSD.
  * More default *term* commands: `ipython`
  * Cancel now sends SIGTERM rather than SIGINT
- * `help` shows installed languages
- * `help` shows both builtin alias names, and textual alias expansion
+ * *help* shows installed languages
+ * *help* shows both builtin alias names, and textual alias expansion
+ * *help* has hyperlinks to launch inspector for relevant objects
+
+
+
 
 Notable Bugfixes:
  * Some memory leaks plugged
