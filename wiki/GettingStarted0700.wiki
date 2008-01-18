@@ -14,7 +14,7 @@ ls
 
 What happened?  In short, Hotwire resolved "ls" to the *ls* Builtin object, executed it with no arguments in a thread, received the *File* objects it returned, and displayed them with the *FilePathRenderer*.
 
-At the core of Hotwire is the idea of object-oriented pipeline processing.  On the top right of the display, you should see something that says "Type: GnomeVfsFile".  This is telling you that the current stream superclass is *GnomeVfsFile* objects.  If you expand the inspector, you can see the properties of the output objects.
+At the core of Hotwire is the idea of object-oriented pipeline processing.  On the top right of the display, you should see something that says "Type: !GnomeVfsFile".  This is telling you that the current stream superclass is *GnomeVfsFile* objects.  If you expand the inspector, you can see the properties of the output objects.
 
 You have access to those properties.  Let's try creating a pipeline:
 
