@@ -113,6 +113,22 @@ What's going on here is that because Hotwire is oriented around stream processin
 
 If you want to play around with Python without typing the "py " prefix, you can change the input language using `Ctrl-Shift-L`, or by just clicking on the language chooser in the bottom left.
 
+= Python snippets in HotwirePipe =
+
+Hotwire has several builtins which can evaluate snippets of Python code:
+
+{{{
+ls | py-map "it.path.upper()"
+}]}
+
+These Python snippets act a bit like `lambda`, except that the variable `it` is bound to the object being processed.  The *py-map* builtin acts like the Python `map` function.  It allows you to transform an object stream.
+
+{{{
+proc | py-filter "it.pid > 50 and it.pid < 5000"
+}}}
+
+The *py-filter* builtin is like the Python function `filter`.  As with *py-map*, the variable `it` is bound to the current object.
+
 = Running other languages =
 
 Hotwire can also execute code in other languages.  Are you a Ruby fan?  Have you ever wished you could easily inject Ruby into your Unix pipelines?  Now you can:
@@ -122,6 +138,14 @@ Hotwire can also execute code in other languages.  Are you a Ruby fan?  Have you
 }}}
 
 If you run this, you see what happens is that Hotwire will pass it to the external Ruby interpreter using "ruby -e".  The large advantage of this over a traditional Unix shell is that you do not need to shell-quote your Ruby code - anything you type after the "|rb" will be passed directly to Ruby, with no Hotwire processing.
+
+Hotwire also has several other languages registered by default.  For example, if you want to run a snippet of Unix shell, that's easy to do:
+
+{{{
+sh for x in $(seq 50); do sleep 0.5; echo ${x}; done
+}}}
+
+Hotwire will pass everything you type after *sh* directly to `/bin/sh -c`; no quoting hassles.
 
 = Giving input to commands =
 
