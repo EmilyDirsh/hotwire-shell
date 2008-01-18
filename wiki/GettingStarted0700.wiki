@@ -4,7 +4,7 @@
 
 _This tutorial corresponds with Hotwire 0.700_.  For earlier versions, see GettingStarted0600 (or upgrade!).  
 
-= Introduction to HotwirePipe =
+= Introduction to !HotwirePipe =
 
 You've started Hotwire for the first time, and are looking at a command prompt.  It wants us to type something.  Let's do it; type:
 
