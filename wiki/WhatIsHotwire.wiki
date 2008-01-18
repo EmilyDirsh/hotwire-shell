@@ -1,13 +1,17 @@
-#summary Hotwire is an object-oriented hypershell
+#summary Hotwire is a hypershell
 
 = What is Hotwire? =
 
 The goal of the Hotwire Shell project is to create a "hypershell" that is better than both the Unix terminal+shell and Windows PowerShell.  It is designed for developers and system administrators.
-
-
 
 == How is Hotwire better than the Unix shell? ==
 
 Considered from a modern perspective, the Unix terminal is two things.  First, it is a pure text display, suitable for applications like the Unix shell which can run programs that just output plain text.  Think `ls` (without colors) `dmesg`, `cat` (on plain text files), etc.  A much smaller percentage take lines of input for a question or two.
 
 Secondarily, the Unix terminal is also a very poor GUI toolkit.  One might challenge this - how is the terminal also a GUI?  Here we are defining a GUI as one whose output is not suitable to be piped into another program.  And today there are just a few commonly used applications written for the terminal GUI.  Examples are `vi`, `mutt`, `man`, and various others.
+
+The key idea behind Hotwire is that instead of piping byte streams as Unix does, Hotwire's builtin commands output and process (Python) objects.
+
+== How is Hotwire better than Windows PowerShell? ==
+
+At the core of PowerShell is a very good idea - that your system shell+language is an easy gateway to real APIs (in Windows' case, the .NET runtime).  But rather than try to reuse an existing language like Python or Ruby, PowerShell is oriented solely towards its own language.  Secondly, PowerShell has a very poor user interface out of the box.  There are third-party interfaces, but I believe Hotwire proves that it's possible to do better if the shell,language,and GUI are all designed in conjunction and integrated together.
