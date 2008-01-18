@@ -2,7 +2,7 @@
 
 = What is Hotwire? =
 
-The goal of the Hotwire Shell project is to create a "hypershell" that is better than both the Unix terminal+shell and Windows PowerShell.  It is designed for developers and system administrators.
+The goal of the Hotwire Shell project is to create a "hypershell" that is better than both the Unix terminal+shell and Windows !PowerShell.  It is designed for developers and system administrators.
 
 == How is Hotwire better than the Unix shell? ==
 
@@ -12,13 +12,13 @@ Secondarily, the Unix terminal is also a very poor GUI toolkit.  One might chall
 
 The key idea behind Hotwire is that instead of piping byte streams as Unix does, Hotwire's builtin commands output and process (Python) objects.
 
-== How is Hotwire better than Windows PowerShell? ==
+== How is Hotwire better than Windows !PowerShell? ==
 
-At the core of PowerShell is a very good idea - that your system shell+language is an easy gateway to real APIs (in Windows' case, the .NET runtime).  But rather than try to reuse an existing language like Python or Ruby, PowerShell is oriented solely towards its own language.  Secondly, PowerShell has a very poor user interface out of the box.  There are third-party interfaces, but I believe Hotwire proves that it's possible to do better if the shell, language, and GUI are all designed in conjunction and integrated together.
+At the core of !PowerShell is a very good idea - that your system shell+language is an easy gateway to real APIs (in Windows' case, the .NET runtime).  But rather than try to reuse an existing language like Python or Ruby, !PowerShell is oriented solely towards its own language.  Secondly, PowerShell has a very poor user interface out of the box.  There are third-party interfaces, but I believe Hotwire proves that it's possible to do better if the shell, language, and GUI are all designed in conjunction and integrated together.
 
 = Object pipeline processing =
 
-At its core, Hotwire is based on the idea of asynchronously processing streams of objects.  Hotwire's builtin commands are typically just small wrappers around actual programming APIs.  For example, the Hotwire *proc* builtin outputs *Process* objects.  The *ls* builtin outputs *File* objects.  The *http-get* builtin returns a HTTPResponse object from the Python standard library.  
+At its core, Hotwire is based on the idea of asynchronously processing streams of objects.  Hotwire's builtin commands are typically just small wrappers around actual programming APIs.  For example, the Hotwire *proc* builtin outputs *Process* objects.  The *ls* builtin outputs *File* objects.  The *http-get* builtin returns a !HTTPResponse object from the Python standard library.  
 
 For example:
 
