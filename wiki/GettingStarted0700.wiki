@@ -1,0 +1,162 @@
+#summary Getting started using Hotwire
+
+(Please use the [http://groups.google.com/group/hotwire-shell Discussion Group] for any questions, and the [http://code.google.com/p/hotwire-shell/issues/list issue list] for bug reports)
+
+_This tutorial corresponds with Hotwire 0.700_.  For earlier versions, see GettingStarted0600 (or upgrade!).  
+
+= Introduction to HotwirePipe =
+
+You've started Hotwire for the first time, and are looking at a command prompt.  It wants us to type something.  Let's do it; type:
+
+{{{
+ls
+}}}
+
+What happened?  In short, Hotwire resolved "ls" to the *ls* Builtin object, executed it with no arguments in a thread, received the *File* objects it returned, and displayed them with the *FilePathRenderer*.
+
+At the core of Hotwire is the idea of object-oriented pipeline processing.  On the top right of the display, you should see something that says "Type: GnomeVfsFile".  This is telling you that the current stream superclass is *GnomeVfsFile* objects.  If you expand the inspector, you can see the properties of the output objects.
+
+You have access to those properties.  Let's try creating a pipeline:
+
+{{{
+ls | prop size
+}}}
+
+The *prop* builtin returns the property of an object.
+
+You aren't limited to playing around with files; let's take a look at our process list:
+
+{{{
+proc | filter python cmd
+}}]
+
+This command will show you all processes whose *cmd* property matches the regular expression "python".
+
+Let's play around with files a bit more:
+
+{{{
+cd Desktop
+ls -a *.zip
+}}}
+
+Here we can see that Hotwire's syntax is very shell-like in argument processing and globs.  Other things to try are Hotwire's builtin file management commands like *mv* and *rm*.  In particular *rm* is special in that it actually moves files to the Trash by default, which gives it support for undo.
+
+= System commands =
+
+You aren't limited to Hotwire's builtin commands like *ls* and *proc*.  If a verb isn't a builtin, Hotwire will try to resolve it using the system binaries.  So for example, typing:
+
+{{{
+ifconfig
+}}}
+
+Works as you might expect.  For pure text processing, Hotwire actually has several advantages over a Unix terminal.  By default, the _entire_ output of every command is saved by default, and Hotwire knows which commands output what text.  This lets us do some neat things; for example, type:
+
+{{{
+|filter -i link
+}}}
+
+What happened here?  When you start a pipeline with "|", Hotwire actually expands it to "current | ", which means "pipe the output of the currently visible command".  This lets you _interactively_ refine pipelines by chaining the output of a previous one into a new one, without re-execution.
+
+Another perk Hotwire offers is Firefox-style search over text; try typing `Ctrl-s`.
+
+= Everything is Asynchronous =
+
+You might have noticed that commands never block your shell.  By default Hotwire runs everything under the equivalent of '&' a Unix shell.  Try typing the following:
+
+{{{
+sleep 30
+}}}
+
+While it's running, you can continue to do other things.  This can be very convenient for things such as `make`, `svn up`, etc.
+
+= Navigating completions and history =
+
+At this point you've run a number of commands.  Hotwire is fanatical about your command history.  Try pressing the `Up` navigational arrow.  This pops up the dialog for the per-tab command history.  Keep pressing Up or Down to select a history item, then Enter to choose.
+
+{{{
+↑
+}}}
+
+Also, you might have already noticed that Hotwire is displaying choices for token completion and history if you've paused in typing.  Let's take a look.
+
+Type the following _but do not hit Enter_:
+
+{{{
+ls
+}}}
+
+You should see a dialog that shows you all verbs which match `ls` - this is by default the Hotwire builtin *ls*, but other things such as `lspci` are offered as well.  Press `TAB` to expand the completion selections.  As above, `Enter` chooses one.
+
+Additionally, Hotwire is automatically doing a search of your command history as you type.  To pop up the search completions, press `Ctrl-R`.
+
+= Running Python code =
+
+One major goal of Hotwire is to bring real programming languages like Python and Ruby much closer to hand than is normally the case with a Unix terminal+shell.  Because Hotwire is built on the Python runtime, it has powerful execution and introspection capability.  Let's run some Python:
+
+{{{
+py 1+1
+}}}
+
+If you look above, you can see that Hotwire actually parsed this as `py-eval "1+1"`.
+
+{{{
+py import os; os.getpid()
+}}}
+
+Note here in particular you don't have to quote anything.
+
+{{{
+py xrange(20)
+}}}
+
+What's going on here is that because Hotwire is oriented around stream processing, it is expanding iterable python objects to streams of objects.
+
+If you want to play around with Python without typing the "py " prefix, you can change the input language using `Ctrl-Shift-L`, or by just clicking on the language chooser in the bottom left.
+
+= Running other languages =
+
+Hotwire can also execute code in other languages.  Are you a Ruby fan?  Have you ever wished you could easily inject Ruby into your Unix pipelines?  Now you can:
+
+{{{
+|rb ...ruby code here...
+}}}
+
+If you run this, you see what happens is that Hotwire will pass it to the external Ruby interpreter using "ruby -e".  The large advantage of this over a traditional Unix shell is that you do not need to shell-quote your Ruby code - anything you type after the "|rb" will be passed directly to Ruby, with no Hotwire processing.
+
+= Giving input to commands =
+
+So we've seen how Hotwire runs executables asynchronously in the background.  What if you need to give input to one?  Sometimes e.g. "svn up" might ask for a password.  Hotwire has some rudimentary support for input.  We can try it now:
+
+Try running `python`:
+
+{{{
+python
+}}}
+
+Press `Ctrl-I` to activate input mode.  This allows you to send basic lines of input to the subprocess.  For example:
+
+{{{
+1+1
+}}}
+
+When you're done, press `ESC`, then `Ctrl-Shift-C` to cancel the pipeline.
+
+= Creating terminals =
+
+A significantly smaller percentage of commands you might encounter are actually designed for the Unix terminal "GUI".  Examples include "vi", "mutt", and "top".
+
+Hotwire also has a builtin called *term* which creates a full Unix terminal for commands.  For example, try typing:
+
+{{{
+term top
+}}}
+
+This will create another tab with the command; when the command exits, the tab is removed.  By default, Hotwire includes a set of aliases for common Unix commands which do require a full terminal (including `top`; above it would have worked to just say `top`).
+
+For more on command compatibility, see HotwireCommandInput.
+
+= Programming and Extending =
+
+At this point, you should take a while to play around and just get a feel for the system.  Look at the *help* output to see what builtins are available, try creating some new tabs, play around with the command history, etc.
+
+Once you're ready to move on, see ProgrammingAndExtending.
