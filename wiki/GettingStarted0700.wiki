@@ -52,10 +52,10 @@ ifconfig
 Works as you might expect.  For pure text processing, Hotwire actually has several advantages over a Unix terminal.  By default, the _entire_ output of every command is saved by default, and Hotwire knows which commands output what text.  This lets us do some neat things; for example, type:
 
 {{{
-|filter -i link
+| filter -i link
 }}}
 
-What happened here?  When you start a pipeline with "|", Hotwire actually expands it to "current | ", which means "pipe the output of the currently visible command".  This lets you _interactively_ refine pipelines by chaining the output of a previous one into a new one, without re-execution.
+_Note the leading "|"_. What happened here?  When you start a pipeline with "|", Hotwire actually expands it to "current | ", which means "pipe the output of the currently visible command".  This lets you _interactively_ refine pipelines by chaining the output of a previous one into a new one, without re-execution.
 
 Another perk Hotwire offers is Firefox-style search over text; try typing `Ctrl-s`.
 
