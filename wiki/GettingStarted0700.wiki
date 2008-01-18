@@ -73,10 +73,6 @@ While it's running, you can continue to do other things.  This can be very conve
 
 At this point you've run a number of commands.  Hotwire is fanatical about your command history.  Try pressing the `Up` navigational arrow.  This pops up the dialog for the per-tab command history.  Keep pressing Up or Down to select a history item, then Enter to choose.
 
-{{{
-↑
-}}}
-
 Also, you might have already noticed that Hotwire is displaying choices for token completion and history if you've paused in typing.  Let's take a look.
 
 Type the following _but do not hit Enter_:
@@ -119,7 +115,7 @@ Hotwire has several builtins which can evaluate snippets of Python code:
 
 {{{
 ls | py-map "it.path.upper()"
-}]}
+}}}
 
 These Python snippets act a bit like `lambda`, except that the variable `it` is bound to the object being processed.  The *py-map* builtin acts like the Python `map` function.  It allows you to transform an object stream.
 
