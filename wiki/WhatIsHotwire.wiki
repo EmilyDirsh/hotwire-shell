@@ -10,7 +10,7 @@ Considered from a modern perspective, the Unix terminal is two things.  First, i
 
 Secondarily, the Unix terminal is also a very poor GUI toolkit.  One might challenge this - how is the terminal also a GUI?  Here we are defining a GUI as one whose output is not suitable to be piped into another program.  And today there are just a few commonly used applications written for the terminal GUI.  Examples are `vi`, `mutt`, `man`, and various others.
 
-The key idea behind Hotwire is that instead of piping byte streams as Unix does, Hotwire's builtin commands output and process (Python) objects.
+The key idea behind Hotwire is that instead of piping byte streams as Unix does, Hotwire's builtin commands output and process (Python) objects.  Hotwire achieves compatibility with terminal GUI programs by aliasing them to the equivalent of `xterm commandname`, e.g. by default `vi` is an alias for `term vi`.
 
 == How is Hotwire better than Windows !PowerShell? ==
 
