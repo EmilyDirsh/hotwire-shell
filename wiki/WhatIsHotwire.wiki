@@ -37,3 +37,7 @@ Outputs *Process* objects whose _cmd_ property matches the regular expression "p
 This default input language is called "HotwirePipe".  It's fairly basic, but a great number of problems can be expressed in this piping syntax.
 
 Hotwire also lets you evaluate real Python code in a number of ways.  For example, you can use the *py-map* builtin in the HotwirePipe to transform an object stream.  Secondly, you can use *py-eval* to run arbitrary code from a file or argument.  
+
+== Text streams using the sys builtin ==
+
+So what about compatibility with system commands like `ifconfig`, `make`, etc. on Unix?  Hotwire has a builtin called *sys*, which runs an external binary, returning its output as a stream of lines (in Unicode).  This gives Hotwire a great deal (but not complete) compatibility with previous operating system shells.  Hotwire will pull all system binaries into its command namespace, although Hotwire builtins override them. 
