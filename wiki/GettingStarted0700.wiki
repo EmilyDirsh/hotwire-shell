@@ -28,7 +28,7 @@ You aren't limited to playing around with files; let's take a look at our proces
 
 {{{
 proc | filter python cmd
-}}]
+}}}
 
 This command will show you all processes whose *cmd* property matches the regular expression "python".
 
