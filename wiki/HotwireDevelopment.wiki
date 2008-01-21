@@ -6,7 +6,7 @@
 Hotwire requires [http://python.org Python >= 2.5], [http://pygtk.org PyGTK] at a minimum.
 
 == Linux/Unix ==
-On Linux you will want your operating system's packages of the Python bindings for `gconf`, `gnomevfs`, `vte`, `dbus`, `gtksourceview`, though Hotwire should work (with reduced functionality) without them.  
+On Unix systems you will want your operating system's packages of the Python bindings for `gconf`, `gnomevfs`, `vte`, `dbus`, `gtksourceview`, though Hotwire should work (with reduced functionality) without them.  
 
 
 === Fedora 7/8 ===
