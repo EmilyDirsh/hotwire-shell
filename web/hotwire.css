@@ -15,11 +15,16 @@ a {
 	color:			#004095;
 	font-family:		Bitstream Vera Sans, sans-serif;
 }
+
+img {
+    border:         0;
+}
+
 #main {
 	color:			inherit;
 	background-color:	#ffffff;
 	width:			812px;
-	height:			3500px;
+	height:			4500px;
 	margin:			0;
 	margin-left:	auto;
 	margin-right:	auto;
@@ -48,7 +53,6 @@ a {
 #top img, .box img {
 	margin:			0;
 	padding:		0;
-	border:			0;
 }
 
 #left {
