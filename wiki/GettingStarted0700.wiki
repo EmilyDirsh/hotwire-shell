@@ -147,6 +147,32 @@ proc | py-filter "it.pid > 50 and it.pid < 5000"
 
 The *py-filter* builtin is like the Python function `filter`.  As with *py-map*, the variable `it` is bound to the current object.
 
+= Evaluating Python scripts =
+
+You can also create custom Python scripts, and run them using *py-eval*.  
+
+{{{
+ed ~/testscript.py
+}}}
+
+Inside testscript.py, write:
+
+{{{
+import os,sys,time
+
+def main():
+  time.sleep(5)
+  yield "Hello world!"
+  time.sleep(5)
+  yield "Test python generator script!"
+}}}
+
+Now, save it and close the editor.  In Hotwire, type:
+
+{{{
+py-eval -f testscript.py
+}}]
+
 = Running other languages =
 
 Hotwire can also execute code in other languages.  Are you a Ruby fan?  Have you ever wished you could easily inject Ruby into your Unix pipelines?  Now you can:
