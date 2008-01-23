@@ -162,7 +162,7 @@ import os,sys,time
 
 def main():
   time.sleep(5)
-  yield "Hello world!"
+  yield 42
   time.sleep(5)
   yield "Test python generator script!"
 }}}
