@@ -161,9 +161,9 @@ Inside testscript.py, write:
 import os,sys,time
 
 def main():
-  time.sleep(5)
+  time.sleep(3)
   yield 42
-  time.sleep(5)
+  time.sleep(3)
   yield "Test python generator script!"
 }}}
 
