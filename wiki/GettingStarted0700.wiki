@@ -171,7 +171,7 @@ Now, save it and close the editor.  In Hotwire, type:
 
 {{{
 py-eval -f testscript.py
-}}]
+}}}
 
 = Running other languages =
 
