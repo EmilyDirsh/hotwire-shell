@@ -129,13 +129,15 @@
       
       <p>Unix terminal emulators can display not only shells running on the local system, but also on remote systems
          over protocols such as SSH.  How does Hotwire's graphical, object-oriented approach fit into this world?
-         There are multiple valid approaches.  First, one can simply run a thin remote desktop environment on the
-         remote machine, and Hotwire inside of that.  This approach has some issues with e.g. Alt-Tab and focus
-         that the Hotwire project plans to address.</p>
+         There are multiple valid approaches.  First, one can simply run a thin desktop environment on the
+         remote machine, and Hotwire inside of that, connecting using a protocol such as RDP.</p>
          
       <p>The second plan is to integrate tightly with systems management frameworks such as <a href="http://func.fedorahosted.org/">Func</a>
          and Puppet.  In other words, Hotwire will become a "rich client" control system, allowing you to easily
-         create scripts locally and then run them on various machines.</p> 
+         create scripts locally and then run them on various machines.</p>
+         
+      <p>Finally, Hotwire includes a SSH terminal application (<tt>hotwire-ssh</tt>) for the times when you want a plain
+         remote pseudoterminal and shell.</p>   
  
     </div>
     <div id="copyright"></div>
