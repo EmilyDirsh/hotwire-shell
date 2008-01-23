@@ -71,7 +71,13 @@ While it's running, you can continue to do other things.  This can be very conve
 
 = Navigating completions and history =
 
-At this point you've run a number of commands.  Hotwire is fanatical about your command history.  Try pressing the `Up` navigational arrow.  This pops up the dialog for the per-tab command history.  Keep pressing Up or Down to select a history item, then Enter to choose.
+At this point you've run a number of commands, and you may have seen the completion/history popup.  Hotwire is fanatical about your command history.  
+
+=== Per-tab command history ===
+
+Try pressing the `Up` navigational arrow.  This pops up the dialog for the per-tab command history.  Keep pressing Up or Down to select a history item, then Enter to choose.
+
+=== Token completions with TAB ===
 
 Also, you might have already noticed that Hotwire is displaying choices for token completion and history if you've paused in typing.  Let's take a look.
 
@@ -83,7 +89,23 @@ ls
 
 You should see a dialog that shows you all verbs which match `ls` - this is by default the Hotwire builtin *ls*, but other things such as `lspci` are offered as well.  Press `TAB` to expand the completion selections.  As above, `Enter` chooses one.
 
-Additionally, Hotwire is automatically doing a search of your command history as you type.  To pop up the search completions, press `Ctrl-R`.
+You can also use TAB to look for completions to your files and directories.  Try typing the following, then hit `TAB`:
+
+{{{
+ls ~/D
+}}}
+
+On a recent system you will likely see completions for at least `Desktop` and `Downloads`.  Again, once you're in a completion selection mode, use the up/down arrows to move the selection, and `Enter` to choose.
+
+=== History substring search ===
+
+Additionally, Hotwire is automatically doing a search of your command history as you type.  Try the `ls` again, but this time press `Ctrl-R`:
+
+{{{
+ls
+}}}
+
+`Ctrl-R` shows you which commands match the current input.
 
 = Running Python code =
 
