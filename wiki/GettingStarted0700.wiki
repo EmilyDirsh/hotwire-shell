@@ -223,8 +223,6 @@ This will create another tab with the command; when the command exits, the tab i
 
 For more on command compatibility, see HotwireCommandInput.
 
-= Programming and Extending =
+= Tutorial Ends =
 
-At this point, you should take a while to play around and just get a feel for the system.  Look at the *help* output to see what builtins are available, try creating some new tabs, play around with the command history, etc.
-
-Once you're ready to move on, see ProgrammingAndExtending.
+You've now had your first ten minutes or so with a hypershell.  There is a huge number of differences from a traditional Unix terminal+shell, but in the end you should find that your time invested in learning Hotwire pays itself back many times over.
