@@ -81,7 +81,7 @@ Try pressing the `Up` navigational arrow.  This pops up the dialog for the per-t
 
 Also, you might have already noticed that Hotwire is displaying choices for token completion and history if you've paused in typing.  Let's take a look.
 
-Type the following _but do not hit Enter_:
+Type the following, but hit `TAB` at the end:
 
 {{{
 ls
