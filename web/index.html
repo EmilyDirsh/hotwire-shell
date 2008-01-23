@@ -4,12 +4,12 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="hotwire.css" />
-    <title>Hotwire - A free hypershell</title>
+    <title>Hotwire - A free object-oriented hypershell</title>
   </head>
   <body>
     <div id="main">
     <div id="top">
-      <img src="title01.png" border="0" height="229" width="432" alt="Hotwire: A hypershell environment" />
+      <img src="title01.png" border="0" height="229" width="432" alt="Hotwire: An object-oriented hypershell" />
       <img src="title02.png" border="0" height="229" alt="Small screenshot of Hotwire" style="text-align: right;" />
     </div>
     <div id="left">
@@ -20,18 +20,32 @@
         <li><a href="https://admin.fedoraproject.org/pkgdb/packages/name/hotwire"><img src="http://fedoraproject.org/favicon.ico"/> Fedora</a></li>
         <li><a href="https://launchpad.net/~walters"><img src="http://www.ubuntu.com/favicon.ico"/> Ubuntu</a><br/></li>
         <li><a href="http://packman.links2linux.de/package/hotwire"><img src="http://www.opensuse.org/favicon.ico"/> OpenSUSE</a></li>
-        <li><a href="http://club.mandriva.com/xwiki/bin/view/rpms/Application/hotwire"> <img src="http://mandriva.com/favicon.ico"/> Mandriva</a></li>
-        <li><a href="more_linux.html">Other...</a></li>
+        <li><a href="http://club.mandriva.com/xwiki/bin/view/rpms/Application/hotwire"> <img src="http://mandriva.com/files/mandriva_customer_favicon.ico"/> Mandriva</a></li>
+        <li><a href="more_linux.html">Other Linux/Unix...</a></li>
+        </ul>
+        <h4 class="box_header">Other systems</h4>
+        Hotwire for Windows and MacOS X is in progress but not
+        ready for general use.  See these wiki pages for the
+        status of the ports:
+        <ul>
+        <li><a href="http://code.google.com/p/hotwire-shell/wiki/HotwireWindows">Windows</a></li>
+        <li><a href="http://code.google.com/p/hotwire-shell/wiki/HotwireMacOSX">MacOS X</a></li>
         </ul>
         <h4 class="box_header">Source</h4>
+        The current version of Hotwire is <b>0.620</b>:
+        <a href="http://code.google.com/p/hotwire-shell/wiki/HotwireChanges#Changes_in_Hotwire_0.620_(Current_Release)">ChangeLog</a>, 
+        <a href="http://hotwire-shell.googlecode.com/files/hotwire-0.620.zip">Source</a>. 
         <ul>
-          <li><a href="http://code.google.com/p/hotwire-shell/downloads/list">Releases</a></li>
+          <li><a href="http://code.google.com/p/hotwire-shell/downloads/list">All Releases</a></li>
           <li><a href="http://hotwire-shell.googlecode.com/svn/trunk/">SVN Repository</a></li>
         </ul>
       </div>
       <div class="box">
         <h2 class="box_title">Screenshots</h2>
         <p>See Colin's <a href="http://picasaweb.google.com/cgwalters/HotwireScreenshots">Hotwire gallery</a>.</p>
+        <center>
+        <a href="http://picasaweb.google.com/cgwalters/HotwireScreenshots"><img src="http://lh4.google.com/cgwalters/R5V1dyVMmnE/AAAAAAAABBw/WTdZU6TonKI/s160-c/HotwireScreenshots.jpg" width="160" height="160" style="border:1px solid grey;"/></a>
+        </center>
       </div>      
       <div class="box">
         <h2 class="box_title">Contribute</h2>
@@ -48,35 +62,41 @@
          
       <p>The goal of the Hotwire project though is to create a better systems programming shell than <b>both</b> Unix and PowerShell.  We call
          it a <i>hyper</i>-shell because Hotwire blends the concepts of a systems-oriented shell with a modern graphical user interface
-         display.  It takes advantage of your desktop environment rather than being a text box.</p>
+         display.  It takes advantage of your desktop environment rather than being a text box.  It retains some advantageous attributes of a shell
+         such as keyboard command orientation, interactivity, completion, and scripting.</p>
       <p>From an implementation perspective, at the heart of Hotwire is the concept of asynchronous object-oriented pipeline processing.  Layered on 
-         top of this in a tightly integrated fashion is a graphical display, control and introspection system.  </p> 
+         top of this in a tightly integrated fashion is a graphical display, control and introspection system.</p>
+          
       <h3>How is Hotwire better than Unix?</h3>
+      
+        <p>Hotwire merges the concepts of Unix terminal emulator and shell into one integrated process, using
+           a modern programming language runtime.  It supersets Unix out-of-process bytestream pipelines in favor of an 
+           in-process object-oriented pipeline, while still allowing invocation of out-of-process Unix binaries which 
+           output text.  Because the shell and display now understand the type of output rather than just 
+           displaying a text stream, the system can be far more intelligent.</p>
+           
+        <center>
+          <a href="Hotwire-proc.png"><img src="Hotwire-proc-small.png" border="0"/></a><br/>
+          <i>Hotwire showing a system process list</i>
+        </center>           
+           
         <p>Considered from a modern perspective, the Unix terminal is two things.  First, it is a container for the display of human-readable Unicode text, suitable for 
         applications like the Unix shell (e.g. <tt>bash</tt>) which can run other programs that output text.  Think <tt>ls</tt> (without colors) 
         <tt>dmesg</tt>, <tt>ps</tt>, <tt>cat</tt> (on plain text files), etc.  A much smaller percentage take lines of input for a question or two.</p>
 
-        <p>Secondarily, the Unix terminal is also a very poor GUI toolkit.  One might challenge this - how is the terminal also 
-           a GUI?  Here we are defining a GUI as one whose output is not suitable to be piped into another arbitrary program.  
+        <p>Secondarily, the Unix terminal is also a poor GUI toolkit.  One might challenge this - how is the terminal also 
+           a GUI?  Here we are defining a GUI program as one whose output is not suitable to be piped into another arbitrary program.  
            Today there are few commonly used applications written for the terminal GUI.  Examples are <tt>vi</tt>, 
            <tt>mutt</tt>, <tt>man</tt>, and various others.  These programs <i>are not suitable for scripting</i>, and thus are 
-           equivalent to desktop GUI applications from the perspective of a shell.</p>
+           equivalent to conventional GUI applications from the perspective of a shell.</p>
 
         <p>With this in mind, you can now understand that Hotwire does not attempt to implement an extended terminal GUI.  However,
-           because we can now assume that all system commands output plain text, the environment can be optimized for text processing,
-           even better than an unintegrated Unix terminal+shell.  For example, Hotwire keeps the entire output of every command by default, 
-           and allows easy interactive Firefox-style search.
+           because we can now assume that all system commands output plain text, the environment can be optimized for text processing.
+           For example, Hotwire keeps the entire output of every command by default, and allows easy interactive Firefox-style search.
+           It allows you to <i>interactively</i> refine pipelines by piping the output of the previous command into a new one,
+           without re-executing the last command.  For example, if you've ever created a diff using a slow revision control system and then
+           wanted to save it to a file or search/grep it, this feature is extremely valuable. 
         </p>
-        <p>Going beyond just text processing - Hotwire implements an <i>object-oriented pipeline</i>.  
-           Hotwire "builtins" such as <b>ls</b> output (Python) objects, and other builtins such as <b>filter</b> can process objects.
-           Because the shell knows the type of command output, it can be optimized to display it in an intelligent way.  
-            
-        <center>
-          <a href="Hotwire-proc.png"><img src="Hotwire-proc-small.png" border="0"/></a><br/>
-          <i>Hotwire displaying the output of ls ~/tmp</i>
-        </center>
-            
-        <p><a href="how-better.html">More...</a>
         
       <h3>How is Hotwire better than Windows PowerShell?</h3>
       
@@ -86,16 +106,39 @@
         </p>
         <p>Another design choice is that the Hotwire project made the decision very early not to attempt to create a full new scripting language.  Hotwire
            does have a small Unix-inspired pipeline syntax, but a major goal of the project is to make it as easy for 
-           users to leverage real existing programming languages such as Python, and Ruby - as well as (where available) Unix shell script.</p>
+           users to leverage well-known existing programming languages such as Python and Ruby - and (where available) Unix shell script.</p>
         <p>Finally, Hotwire has a much more day-to-day system interaction feel to it than PowerShell does.  For example, Hotwire is fanatical
            about saving your history, and making it easy to find frequently used commands and directories again.  Hotwire integrates with the desktop - its builtin <b>rm</b>
            moves files to the Trash.  And going further, on Unix Hotwire integrates closely with other systems programming tools like OpenSSH;
            the <b>ssh</b> builtin allows completion from <tt>known_hosts</tt>, and it is a longer-term goal for Hotwire to provide the best
            possible SSH experience.</p>
         
+      <h3>Does Hotwire mean rewriting Unix binaries in Python to output and process objects?</h3>
+      
+      <p>This question gets to the heart of what the project is.  The answer is "Some, yes".  But not all.
+      The general idea is that where the builtin can provide a both useful and usable replacement, then
+      we do so.  For example, Hotwire takes the <b>ls</b> name for <b>LsBuiltin</b>.  However, we chose
+      to name the builtin to enumerate Processes <b>proc</b>, not <tt>ps</tt>.  That's because Unix <tt>ps</tt>
+      has a number of useful formatting options and extra information that isn't included in <b>proc</b>.
+      </p> 
+      
+      <p>It is important to note here that at the current time, Hotwire's namespace is not declared stable.  Names
+         may change as the system evolves.</p>
+         
+      <h3>What about remoting?</h3>
+      
+      <p>Unix terminal emulators can display not only shells running on the local system, but also on remote systems
+         over protocols such as SSH.  How does Hotwire's graphical, object-oriented approach fit into this world?
+         There are multiple valid approaches.  First, one can simply run a thin remote desktop environment on the
+         remote machine, and Hotwire inside of that.  This approach has some issues with e.g. Alt-Tab and focus
+         that the Hotwire project plans to address.</p>
+         
+      <p>The second plan is to integrate tightly with systems management frameworks such as <a href="http://func.fedorahosted.org/">Func</a>
+         and Puppet.  In other words, Hotwire will become a "rich client" control system, allowing you to easily
+         create scripts locally and then run them on various machines.</p> 
+ 
     </div>
     <div id="copyright"></div>
     </div>
   </body>
 </html>
-    
