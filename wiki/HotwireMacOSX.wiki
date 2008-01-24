@@ -2,7 +2,7 @@
 
 = Summary =
 
-I haven't personally tried running on OS X.  There are two main hurdles that have to be crossed.  First, you will probably need Leopard to get Python 2.5.  Second, you will need a working GTK+ on OS X.  That either means running X, or trying out [http://developer.imendio.com/projects/gtk-macosx Native GTK+ for OS X].
+I haven't personally tried running on OS X.  There are two main hurdles that have to be crossed. First, you'll need either Leopard for Python 2.5, or Python 2.4+external sqlite.  Second, you will need a working GTK+ on OS X.  That either means running X, or trying out [http://developer.imendio.com/projects/gtk-macosx Native GTK+ for OS X].
 
 See also [http://groups.google.com/group/hotwire-shell/browse_thread/thread/3ad0f209b6c38715/6fdceb8ba80c171a this post] on the Google Group.
 
