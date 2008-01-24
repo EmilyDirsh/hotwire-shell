@@ -141,11 +141,11 @@ If you are in a mode where you mainly want to enter Python without using "py " p
 
 The language selector causes Hotwire to treat your input as if you had typed the language prefix before each line.  
 
-Switch back to HotwirePipe mode again by using `Ctrl-Shift-L`.
+Switch back to !HotwirePipe mode again by using `Ctrl-Shift-L`.
 
-= Python snippets in HotwirePipe =
+= Python snippets in !HotwirePipe =
 
-In the HotwirePipe language, you can use several builtins which can evaluate snippets of Python code:
+In the !HotwirePipe language, you can use several builtins which can evaluate snippets of Python code:
 
 {{{
 ls | py-map "it.path.upper()"
