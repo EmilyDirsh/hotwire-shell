@@ -38,7 +38,7 @@ Visible Changes:
  * Added Fullscreen menu item
  * New *selection* builtin which outputs currently selected objects
  * *ed* launches your $EDITOR, not desktop environment text/plain editor
- * *ls* builtin outputs *File* objects, not *FilePath*
+ * *ls* builtin outputs *File* objects, not *!FilePath*
  * Removed Python Workpad; it is replaced by "py-eval -f".
  * New *py-map* builtin for processing using Python expression
  * New *py-filter* builtin allows filtering using Python expression
