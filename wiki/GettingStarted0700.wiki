@@ -59,9 +59,15 @@ _Note the leading "|"_. What happened here?  When you start a pipeline with "|",
 
 Another perk Hotwire offers is Firefox-style search over text; try typing `Ctrl-s`.
 
+= Overview mode and saved results =
+
+As mentioned above, Hotwire is saving the result of every pipeline.  Currently, it saves them until 5 minutes after you last viewed them; then they are garbage collected.  Try pressing `Ctrl-Shift-o` (or View->Overview) to see a complete list of all the saved results.
+
+Click on one of them to display it.  From there, you can use `Ctrl-Down` and `Ctrl-Up` to move forwards and backwards through results, respectively.
+
 = Everything is Asynchronous =
 
-You might have noticed that commands never block your shell.  By default Hotwire runs everything under the equivalent of '&' a Unix shell.  Try typing the following:
+You might have noticed that commands never block your shell.  By default Hotwire runs everything under the equivalent of '&' in the Unix shell.  Try typing the following:
 
 {{{
 sleep 30
@@ -129,11 +135,17 @@ py xrange(20)
 
 What's going on here is that because Hotwire is oriented around stream processing, it is expanding iterable python objects to streams of objects.
 
-If you want to play around with Python without typing the "py " prefix, you can change the input language using `Ctrl-Shift-L`, or by just clicking on the language chooser in the bottom left.
+= Changing the input language =
+
+If you are in a mode where you mainly want to enter Python without using "py " prefix repeatedly, you can change the input language using `Ctrl-Shift-L`, or by just clicking on the language chooser in the bottom left.  
+
+The language selector causes Hotwire to treat your input as if you had typed the language prefix before each line.  
+
+Switch back to HotwirePipe mode again by using `Ctrl-Shift-L`.
 
 = Python snippets in HotwirePipe =
 
-Hotwire has several builtins which can evaluate snippets of Python code:
+In the HotwirePipe language, you can use several builtins which can evaluate snippets of Python code:
 
 {{{
 ls | py-map "it.path.upper()"
@@ -146,6 +158,12 @@ proc | py-filter "it.pid > 50 and it.pid < 5000"
 }}}
 
 The *py-filter* builtin is like the Python function `filter`.  As with *py-map*, the variable `it` is bound to the current object.
+
+{{{
+ifconfig| py-map "it.swapcase()"
+}}}
+
+Remember, because this is the HotwirePipe language, we can easily execute system commands and pipe them to Python code.
 
 = Evaluating Python scripts =
 
@@ -195,19 +213,19 @@ Hotwire will pass everything you type after *sh* directly to `/bin/sh -c`; no qu
 
 So we've seen how Hotwire runs executables asynchronously in the background.  What if you need to give input to one?  Sometimes e.g. "svn up" might ask for a password.  Hotwire has some rudimentary support for input.  We can try it now:
 
-Try running `python`:
+Try running `cat`, with no arguments:
 
 {{{
-python
+cat
 }}}
 
 Press `Ctrl-I` to activate input mode.  This allows you to send basic lines of input to the subprocess.  For example:
 
 {{{
-1+1
+line of text
 }}}
 
-When you're done, press `ESC`, then `Ctrl-Shift-C` to cancel the pipeline.
+When you're done, press `ESC` to exit input mode, then `Ctrl-Shift-C` to cancel the pipeline.
 
 = Creating terminals =
 
