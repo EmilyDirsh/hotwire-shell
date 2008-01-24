@@ -231,16 +231,24 @@ When you're done, press `ESC` to exit input mode, then `Ctrl-Shift-C` to cancel 
 
 A significantly smaller percentage of commands you might encounter are actually designed for the Unix terminal "GUI".  Examples include "vi", "mutt", and "top".
 
-Hotwire also has a builtin called *term* which creates a full Unix terminal for commands.  For example, try typing:
+Hotwire also has a builtin called *term* which creates a full Unix terminal for commands.  Many popular Unix commands which require a terminal are by default aliased to `term commandname`.  For example, try typing:
 
 {{{
-term top
+top
 }}}
 
-This will create another tab with the command; when the command exits, the tab is removed.  By default, Hotwire includes a set of aliases for common Unix commands which do require a full terminal (including `top`; above it would have worked to just say `top`).
+What happened here is Hotwire expanded it using its default alias from `top` to `term top`.
 
-For more on command compatibility, see HotwireCommandInput.
+This will create another tab with the command; when the command exits, the tab is removed.
+
+You can see the default list of aliases by typing:
+
+{{{
+help
+}}}
+
+And scroll to the bottom.  For more on command compatibility, see HotwireCommandInput.
 
 = Tutorial Ends =
 
-You've now had your first ten minutes or so with a hypershell.  There is a huge number of differences from a traditional Unix terminal+shell, but in the end you should find that your time invested in learning Hotwire pays itself back many times over.
+You've now had your first twenty minutes or so with a hypershell.  There is a huge number of differences from a traditional Unix terminal+shell, but in the end you should find that your time invested in learning Hotwire pays itself back many times over.
