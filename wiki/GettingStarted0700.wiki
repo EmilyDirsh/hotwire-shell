@@ -61,7 +61,7 @@ Another perk Hotwire offers is Firefox-style search over text; try typing `Ctrl-
 
 = Overview mode and saved results =
 
-As mentioned above, Hotwire is saving the result of every pipeline.  Currently, it saves them until 5 minutes after you last viewed them; then they are garbage collected.  Try pressing `Ctrl-Shift-o` (or View->Overview) to see a complete list of all the saved results.
+As mentioned above, Hotwire is saving the result of every pipeline.  Currently, it saves them until 5 minutes after you last viewed them; then they are automatically garbage collected.  Try pressing `Ctrl-Shift-o` (or View->Overview) to see a complete list of all the saved results.
 
 Click on one of them to display it.  From there, you can use `Ctrl-Down` and `Ctrl-Up` to move forwards and backwards through results, respectively.
 
@@ -77,7 +77,7 @@ While it's running, you can continue to do other things.  This can be very conve
 
 = Navigating completions and history =
 
-At this point you've run a number of commands, and you may have seen the completion/history popup.  Hotwire is fanatical about your command history.  
+At this point you've run a number of commands, and you may have seen the completion/history popup.  Recognizing that often day-to-day work can be repetitive - you might run the same commands very often in just a few directories - Hotwire is fanatical about remembering what you do and making it easy to find things again.
 
 === Per-tab command history ===
 
