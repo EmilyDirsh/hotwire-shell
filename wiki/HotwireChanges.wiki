@@ -46,7 +46,7 @@ Visible Changes:
  * New *http-get* builtin does an HTTP GET and returns an `HTTPResponse` object
  * New *replace* builtin (Kevin Kubasik)
  * New *setenv* builtin
- * HotwireEdit supports "Save as", syntax highlighting, inline search
+ * !HotwireEdit supports "Save as", syntax highlighting, inline search
  * Use Unix filesystem backend on FreeBSD.
  * More default *term* commands: `ipython`
  * Cancel now sends SIGTERM rather than SIGINT
