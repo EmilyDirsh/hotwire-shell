@@ -121,13 +121,13 @@ One major goal of Hotwire is to bring real programming languages like Python and
 py 1+1
 }}}
 
-If you look above, you can see that Hotwire actually parsed this as `py-eval "1+1"`.
+If you look above, you can see that Hotwire actually parsed this as `py-eval "1+1"`.  Hotwire knows about different languages, and allows you to run them using prefixes.
 
 {{{
 py import os; os.getpid()
 }}}
 
-Note here in particular you don't have to quote anything.
+Note here in particular you don't have to quote anything.  Hotwire is taking everything we type after "py " literally.
 
 {{{
 py xrange(20)
