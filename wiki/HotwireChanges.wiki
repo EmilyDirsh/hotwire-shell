@@ -2,7 +2,74 @@
 
 = Current =
 
-== Changes in Hotwire 0.620 (Current Release) ==
+== Changes in Hotwire 0.700 (Current Release) ==
+
+Hotwire has transitioned to its first *alpha* release; while it is still in development and a number of things may change, it is expected that significantly more people will find it to be a compelling replacement for terminal+shell.
+
+The project has expanded in scope slightly; Hotwire now includes application-specific terminal containers.  Currently there are separate `hotwire-ssh` and a `hotwire-sudo` executables which have app-specific menu items and other features (e.g. `hotwire-ssh` has "New tab for connection" and "Open SFTP" options).  Note in Hotwire *ssh* is by default aliased to `hotwire-ssh` and likewise for *sudo*; you can also use these independently of Hotwire in a legacy Unix terminal+shell as well.
+
+There are a few major changes to the core which bear longer explanation.  First, Hotwire is now a multi-language shell.  The old language is replaced by a rewritten "HotwirePipe" language.  It supports the object-oriented pipeline, and has also gained file I/O redirection - crucially, HotwirePipe no longer involves processing through `/bin/sh` for system commands.  Hotwire now also supports directly entering Python expressions and evaluating them in the shell, and visualizing their values.  In addition, Hotwire now has a syntax for executing code in other programming languages like Perl and Ruby using their external interpeters in a convenient syntax.
+
+Second, many will be happy to discover the completion system has been entirely replaced and is now more bash-like; this closes a swath of issues (issue 12, issue 16, issue 25, issue 27).  Your key habits will have to be relearned, but this should be for the better.  
+
+Another project-wide change is that the execution core and underlying libraries have been relicensed to a permissive MIT-style license (the user interface remains GPL).  This change was made with an eye to eventually including in the main Python distribution parts of the Hotwire core as an embedded system scripting language, as well as libraries such as Process enumeration.
+
+Finally, Hotwire now runs again on Python 2.4, and should have improved compatibility with earlier GTK+/GNOME releases.
+
+Visible Changes:
+
+ * New pipeline class inspector sidebar, as well as object inspector window
+ * History search is now on `Ctrl-r`
+ * Completion status waits for a typing pause before appearing
+ * Support for changing EDITOR used in environment (Preferences->Editor)
+ * "View->To Window" menu item is now "File->Detach Tab"
+ * New "Detach Command" menu item in Hotwire mode detaches just a single command (e.g. create a new window with just your `make` output)
+ * Add "Quick Switch" dialog for searching most-used directories
+ * Added popup menu on command headers
+ * Unicode renderer wraps lines by default (right click to unset)
+ * Unicode renderer has extended popup menu items
+ * File renderer now supports interactive search
+ * File context menu has icons for application launchers
+ * "Move to Trash" context menuitem is replaced with more general "Copy Path to Input"
+ * Added Back/Forward buttons and a "Go" menu (issue 57)
+ * Added "Remove Pipeline" menu item (with matching Undo support)
+ * Command garbage collection is based on view time, not completion time
+ * Support for bookmarking directories (using `.gtk-bookmarks`)
+ * Added Fullscreen menu item
+ * New *selection* builtin which outputs currently selected objects
+ * *ed* launches your $EDITOR, not desktop environment text/plain editor
+ * *ls* builtin outputs *File* objects, not *FilePath*
+ * Removed Python Workpad; it is replaced by "py-eval -f".
+ * New *py-map* builtin for processing using Python expression
+ * New *py-filter* builtin allows filtering using Python expression
+ * New *walk* builtin which recurses a directory yielding *File* objects
+ * New *http-get* builtin does an HTTP GET and returns an `HTTPResponse` object
+ * New *replace* builtin (Kevin Kubasik)
+ * New *setenv* builtin
+ * Builtin editor supports "Save as", syntax highlighting, inline search
+ * Use Unix filesystem backend on FreeBSD.
+ * More default *term* commands: `ipython`
+ * Cancel now sends SIGTERM rather than SIGINT
+ * *help* shows installed languages
+ * *help* shows both builtin alias names, and textual alias expansion
+ * *help* has hyperlinks to launch inspector for relevant objects
+
+Notable Bugfixes:
+ * Some memory leaks plugged
+ * Automatically enter password mode if pty echo is off (fixes `passwd`)
+ * Correctly set controlling TTY, makes `gpg` happy (issue 30, issue 65)
+ * `Ctrl-s` starts search for File renderer
+ * Fix *proc* on win32 (Suggested fix from tianxiaoji)
+
+== Changes in Hotwire SVN (Not released) ==
+
+(As of r837)
+
+None yet.
+
+= Older releases =
+
+== Changes in Hotwire 0.620 ==
 
 Visible Changes:
 
@@ -29,68 +96,6 @@ Notable bugfixes:
 
  * Ignore SIGHUP in subprocesses, because we close the pty when parent exits
  * Pass working directory onto programs run from menuitems (issue #58)
-
-== Changes in Hotwire SVN (Not released) ==
-
-(As of r750)
-
-Hotwire has transitioned from *alpha* to *beta* software; it is expected that significantly more people will find it to be a compelling replacement for terminal+shell.
-
-The project has expanded in scope slightly; Hotwire now includes application-specific terminal containers.  Currently there are separate `hotwire-ssh` and a `hotwire-sudo` executables which have app-specific menu items and other features (e.g. `hotwire-ssh` has "New tab for connection" and "Open SFTP" options).  Note in Hotwire *ssh* is by default aliased to `hotwire-ssh` and likewise for *sudo*; you can also use these independently of Hotwire in a legacy Unix terminal+shell as well.
-
-There are a few major changes to the core which bear longer explanation.  First, Hotwire is now a multi-language shell.  The old language is replaced by a rewritten "HotwirePipe" language.  It supports the object-oriented pipeline, and has also gained file I/O redirection - crucially, HotwirePipe no longer involves processing through `/bin/sh`.  Hotwire now also supports directly entering Python expressions and evaluating them in the shell, and visualizing their values.  In addition, Hotwire now has a syntax for executing code in other programming languages like Perl and Ruby using their external interpeters in a convenient syntax.
-
-Second, many will be happy to discover the completion system has been entirely replaced and is now more bash-like; this closes a swath of issues (issue 12, issue 16, issue 25, issue 27).  Your key habits will have to be relearned, but this should be for the better.  
-
-Another project-wide change is that the execution core and underlying libraries have been relicensed to a permissive MIT-style license (the user interface remains GPL).  This change was made with an eye to eventually including in the main Python distribution parts of the Hotwire core as an embedded system scripting language, as well as libraries such as Process enumeration.
-
-Finally, Hotwire now runs again on Python 2.4.
-
-Visible Changes:
-
- * New pipeline class inspector sidebar, as well as object inspector window
- * History search is now on `Ctrl-r`
- * Completion status waits for a typing pause before appearing
- * Support for changing EDITOR used in environment
- * "View->To Window" menu item is now "File->Detach Tab"
- * New "Detach Command" menu item in Hotwire mode detaches just a single command (e.g. create a new window with just your `make` output)
- * Add "Quick Switch" dialog for searching most-used directories
- * Added popup menu on command headers
- * Unicode renderer wraps lines by default (right click to unset)
- * Unicode renderer has extended popup menu items
- * File renderer now supports interactive search
- * File context menu has icons for application launchers
- * "Move to Trash" context menuitem is replaced with more general "Copy Path to Input"
- * Added Back/Forward buttons and a "Go" menu (issue 57)
- * Added "Remove Pipeline" menu item (with matching Undo support)
- * Support for bookmarking directories (using `.gtk-bookmarks`)
- * Added Fullscreen menu item
- * New *selection* builtin which outputs currently selected objects
- * *ls* builtin outputs *File* objects, not *FilePath*
- * New *py-map* builtin for processing using Python expression
- * New *py-filter* builtin allows filtering using Python expression
- * New *walk* builtin which recurses a directory yielding *File* objects
- * New *http-get* builtin does an HTTP GET and returns an `HTTPResponse` object
- * New *setenv* builtin
- * Builtin editor supports "Save as" and has syntax highlighting
- * Use Unix filesystem backend on FreeBSD.
- * More default *term* commands: `ipython`
- * Cancel now sends SIGTERM rather than SIGINT
- * *help* shows installed languages
- * *help* shows both builtin alias names, and textual alias expansion
- * *help* has hyperlinks to launch inspector for relevant objects
-
-
-
-
-Notable Bugfixes:
- * Some memory leaks plugged
- * Automatically enter password mode if pty echo is off (fixes `passwd`)
- * Correctly set controlling TTY, makes `gpg` happy (issue 30, issue 65)
- * `Ctrl-s` starts search for File renderer
- * Fix *proc* on win32 (Suggested fix from tianxiaoji)
-
-= Older releases =
 
 == Changes in Hotwire 0.600 ==
 
