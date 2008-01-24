@@ -111,7 +111,7 @@ Additionally, Hotwire is automatically doing a search of your command history as
 ls
 }}}
 
-`Ctrl-R` shows you which commands match the current input.
+`Ctrl-R` shows you which commands you executed previously that match the current input.
 
 = Running Python code =
 
