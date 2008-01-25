@@ -2,7 +2,7 @@
 
 = Status of Hotwire on Unix/Linux systems =
 
- * Fedora: You should be able to *yum install hotwire* on Fedora 8 and 7, though 0.700 hasn't propagated yet.
+ * Fedora: You should be able to *yum install hotwire* on Fedora 8 and 7, though 0.700 hasn't propagated yet ([http://koji.fedoraproject.org/koji/buildinfo?buildID=32738 0.700 build])
  * Ubuntu: Gutsy: [http://www.getdeb.net/app.php?name=Hotwire Getdeb] Hardy: [http://packages.ubuntu.com/hardy/gnome/hotwire Universe]
  * OpenSUSE: [http://packman.links2linux.de/package/hotwire PackMan]
  * Debian: [http://packages.debian.org/sid/hotwire sid package] (*apt-get install hotwire*)
