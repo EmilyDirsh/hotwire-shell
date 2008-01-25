@@ -15,14 +15,17 @@
     <div id="left">
       <div class="box">
         <h2 class="box_title">Downloads</h2>
-        <h4 class="box_header">Linux/Unix</h4>
+        <h4 class="box_header">Source</h4>
+        The current version of Hotwire is <b>0.700</b> (Jan 23, 2008):
+        <a href="http://code.google.com/p/hotwire-shell/wiki/HotwireChanges#Changes_in_Hotwire_0.700_(Current_Release)">ChangeLog</a>, 
+        <a href="http://hotwire-shell.googlecode.com/files/hotwire-0.700.zip">Source</a>.
         <ul>
-        <li><a href="https://admin.fedoraproject.org/pkgdb/packages/name/hotwire"><img src="http://fedoraproject.org/favicon.ico"/> Fedora</a></li>
-        <li><a href="https://launchpad.net/~walters"><img src="http://www.ubuntu.com/favicon.ico"/> Ubuntu</a><br/></li>
-        <li><a href="http://packman.links2linux.de/package/hotwire"><img src="http://www.opensuse.org/favicon.ico"/> OpenSUSE</a></li>
-        <li><a href="http://club.mandriva.com/xwiki/bin/view/rpms/Application/hotwire"> <img src="http://mandriva.com/files/mandriva_customer_favicon.ico"/> Mandriva</a></li>
-        <li><a href="http://code.google.com/p/hotwire-shell/wiki/HotwireUnixLinux">Other Linux/Unix...</a></li>
-        </ul>
+          <li><a href="http://code.google.com/p/hotwire-shell/downloads/list">All Releases</a></li>
+          <li><a href="http://hotwire-shell.googlecode.com/svn/trunk/">SVN Repository</a></li>
+        </ul>        
+        <h4 class="box_header">Linux/Unix</h4>
+        See this wiki page for distribution status:
+        <a href="http://code.google.com/p/hotwire-shell/wiki/HotwireUnixLinux">Linux/Unix packages</a>
         <h4 class="box_header">Other systems</h4>
         Hotwire for Windows and MacOS X is in progress but not
         ready for general use.  See these wiki pages for the
@@ -30,14 +33,6 @@
         <ul>
         <li><a href="http://code.google.com/p/hotwire-shell/wiki/HotwireWindows">Windows</a></li>
         <li><a href="http://code.google.com/p/hotwire-shell/wiki/HotwireMacOSX">MacOS X</a></li>
-        </ul>
-        <h4 class="box_header">Source</h4>
-        The current version of Hotwire is <b>0.620</b>:
-        <a href="http://code.google.com/p/hotwire-shell/wiki/HotwireChanges#Changes_in_Hotwire_0.620_(Current_Release)">ChangeLog</a>, 
-        <a href="http://hotwire-shell.googlecode.com/files/hotwire-0.620.zip">Source</a>. 
-        <ul>
-          <li><a href="http://code.google.com/p/hotwire-shell/downloads/list">All Releases</a></li>
-          <li><a href="http://hotwire-shell.googlecode.com/svn/trunk/">SVN Repository</a></li>
         </ul>
       </div>
       <div class="box">
@@ -51,6 +46,12 @@
         <h2 class="box_title">Community</h2>
         <p>Join the <a href="http://groups.google.com/group/hotwire-shell">Discussion Group</a></p>
         <p>Browse the <a href="http://code.google.com/p/hotwire-shell/">developer wiki</a></p>
+      </div>
+      <div class="box">
+        <h2 class="box_title">Media</h2>
+        Oct 2007 - <a href="http://arstechnica.com/journals/linux.ars/2007/10/29/ars-at-fosscamp-revolutionizing-the-command-line-with-hotwire">Ars Technica article</a> on Hotwire.
+        <br/>
+        Nov 2007 - <a href="http://www.linux.com/feature/121743">Linux.com article</a> on Hotwire.
       </div>
     </div>
     <div id="right">
@@ -152,6 +153,10 @@
       has a number of useful formatting options and extra information that isn't included in <b>proc</b>.
       </p> 
       
+      <p>The goal in a larger sense is that the Hotwire "builtins" are just <i>trivial wrappers</i> around
+         real APIs.  For example, Hotwire includes a <b>http-get</b> builtin that just returns a 
+         <tt>HTTPResponse</tt> object from the Python standard library:</p>
+      
       <center>
         <a href="http://picasaweb.google.com/cgwalters/HotwireScreenshots/photo#5158158231659125442"><img src="http://lh3.google.com/cgwalters/R5V1lSVMmsI/AAAAAAAABBc/oKGJX0z1GDE/s288/Hotwire-httpget.png" /></a>
         <br/>
@@ -189,5 +194,16 @@
     </div>
     <div id="copyright"></div>
     </div>
+    
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-1762047-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
   </body>
 </html>
