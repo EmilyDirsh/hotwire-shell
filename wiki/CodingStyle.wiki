@@ -15,4 +15,4 @@ Specific style choices made here:
 Overall architecture:
 
  * Never call functions which can block on I/O from the main thread.  Instead, create a worker thread and use `gobject.idle_add` to communicate results to the main loop.
- * The only hard dependencies are Python 2.4, and GTK+ 2.8.  However - please do try hard to integrate with the rest of the system by adding optional code.  For example, you can add a new method to an interface in `sysdep`, and implement it for your platform.
+ * The only hard dependencies are Python 2.4, and GTK+ 2.8.  However - please do try to integrate with the rest of the system (using the platform's file thumbnailing API, notification system, etc.) by adding optional code.  For example, you can add a new method to an interface in `sysdep`, and implement it for your platform.
