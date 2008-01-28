@@ -1,4 +1,5 @@
 #summary Contributing to the Hotwire project
+#labels Featured
 
 = Submitting a patch =
 
@@ -22,3 +23,17 @@ never requires review, but adding even a trivial method to a platform interface 
 `BaseFilesystem` always does.
 
 Platform maintainers can commit to the implementation files for their platform in `sysdep` without review.
+
+== Commit details ==
+
+Commit logs should be of this form:
+
+{{{
+Issue XXX: Very short summary here (John Doe)
+}}}
+
+So there's an issue number, and if you're committing someone else's patch from the issue tracker, use the form (John Doe) to say who submitted the patch.  If you created the patch, it can just be
+
+{{{
+Issue XXX: Short summary here
+}}}
