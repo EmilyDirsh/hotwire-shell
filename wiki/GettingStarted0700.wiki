@@ -219,11 +219,13 @@ Hotwire will pass everything you type after *sh* directly to `/bin/sh -c`; no qu
 
 So we've seen how Hotwire runs executables asynchronously in the background.  What if you need to give input to one?  Sometimes e.g. "svn up" might ask for a password.  Hotwire has some rudimentary support for input.  We can try it now:
 
-Try running `cat`, with no arguments:
+Try running the Unix `/bin/cat`, with no arguments:
 
 {{{
-cat
+/bin/cat
 }}}
+
+(We say `/bin/cat` rather than Hotwire's `cat` which doesn't currently take input).
 
 Press `Ctrl-I` to activate input mode.  This allows you to send basic lines of input to the subprocess.  For example:
 
