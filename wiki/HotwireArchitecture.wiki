@@ -5,9 +5,9 @@
 
 The fundamental unit of Hotwire is the concept of an object-oriented pipeline.  A pipeline is composed of a chain of Hotwire *Builtins*, which are Python classes with a specific API.
 
-A Hotwire *Builtin* in general takes as input a stream of objects, a set of arguments and options, and yields another object stream.  All of this is optional though; for example some builtins such as `rm` (*RmBuiltin*), only operate on their argument list, and don't input or output anything.  Others don't take any arguments.
+A Hotwire *Builtin* in general takes as input a stream of objects, a set of arguments and options, and yields another object stream.  All of this is optional though; for example some builtins such as `rm` (*!RmBuiltin*), only operate on their argument list, and don't input or output anything.  Others don't take any arguments.
 
-Let's start with a simple example, in the HotwirePipe language:
+Let's start with a simple example, in the !HotwirePipe language:
 
 {{{
 proc | filter -i walters owner_name
@@ -16,7 +16,7 @@ proc | filter -i walters owner_name
 This example finds all processes on the system whose `owner_name` property matches the regular expression "walters".   Note that unlike a traditional text-line based Unix `/bin/sh` pipeline, this will not be misled by other extraneous text
 which happens to match the input (no `grep -v grep`).
 
-`proc` references the *ProcBuiltin* class, which is outputting a stream of *Process* objects.  `filter` references the *FilterBuiltin* class, which can take any input type, and will output the same type.  The `walters` and `owner_name` are string arguments for *FilterBuiltin*, and `-i` is processed as an option.
+`proc` references the *!ProcBuiltin* class, which is outputting a stream of *Process* objects.  `filter` references the *!FilterBuiltin* class, which can take any input type, and will output the same type.  The `walters` and `owner_name` are string arguments for *!FilterBuiltin*, and `-i` is processed as an option.
 
 Don't be fooled by the similarity to Unix shell syntax - in this example everything is in the Hotwire process; there is no execution of external programs.
 
@@ -45,9 +45,26 @@ This point is very important - the intent is that Hotwire builtins are mostly ju
 
 === The `sys` builtin ===
 
-So the current list of Hotwire builtins is all well and good; we can see files using *LsBuiltin*, processes using *ProcBuiltin*, do HTTP GETs using *HttpGetBuiltin*.  But sadly, not every aspect of the operating system has a nice Python API.  For example, there is no default Python API to query active network interfaces.  Or to list hardware devices.  Or to manipulate the X server resolution.  And the list goes on.
+So the current list of Hotwire builtins is all well and good; we can see files using *!LsBuiltin*, processes using *!ProcBuiltin*, do HTTP GETs using *!HttpGetBuiltin*.  But sadly, not every aspect of the operating system has a nice Python API.  For example, there is no default Python API to query active network interfaces.  Or to list hardware devices.  Or to manipulate the X server resolution.  And the list goes on.
 
 You may recognize these commands on most Unix/Linux systems as `ifconfig`, `lshal`, and `xrandr`.  Realistically, Hotwire can't immediately ship a version of every single one of these commands.  We'd like to be able to continue using them.
+
+Enter the *SysBuiltin*.  The idea is pretty simple; it can execute external Unix/Linux binaries as subprocesses, returning their output conceptually as a stream of Unicode strings.
+
+We now have a great deal of backwards compatibility with the existing operating system tools.  For example, we can execute:
+
+{{{
+xrandr --auto
+}}}
+
+This works exactly like you might expect.  The `/usr/bin/xrandr` program is executed with the argument `--auto`.
+
+We can pipe the stream of strings to Hotwire builtins:
+
+{{{
+ifconfig | filter -i link
+}}}
+
 
 == Renderers ==
 
