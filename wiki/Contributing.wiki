@@ -1,0 +1,24 @@
+#summary Contributing to the Hotwire project
+
+= Submitting a patch =
+
+ * First, be sure you've looked at the CodingStyle guidelines.
+ * Make changes in a Subversion (or `git-svn`) checkout
+ * Use "svn diff" to generate a diff (or `git-svn diff`)
+ * Create a new issue in the [http://code.google.com/p/hotwire-shell/issues/list Issue Tracker]
+ * Wait for review from one of the current committers, make any changes necessary for review
+ * Once complete, a committer will add your patch to Subversion
+ 
+= Committer process =
+
+If you're a committer on the project, welcome!  Largely, the guidelines for committers are
+similar to external patches.  This means we would like major changes to be submitted through
+the issue tracker so they can be peer-reviewed before commit.
+
+If your patch is "trivial", then you should feel free to commit it 
+without review.  Changes which modify under 5-10 lines can be trivial, but are not always.  It
+depends on the area of the code.  Use your best judgement.  For example, adding a docstring
+never requires review, but adding even a trivial method to a platform interface like
+`BaseFilesystem` always does.
+
+Platform maintainers can commit to the implementation files for their platform in `sysdep` without review.
