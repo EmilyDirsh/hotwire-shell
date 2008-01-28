@@ -26,14 +26,14 @@ Platform maintainers can commit to the implementation files for their platform i
 
 == Commit details ==
 
-Commit logs should be of this form:
+Commit logs messages should have a first line with an issue number, and very short summary (try to stay < 80 characters).  If you're committing someone else's patch, use the form (John Doe) to say who submitted the patch. 
+
+=== Example ===
 
 {{{
-Issue XXX: Very short summary here (John Doe)
-}}}
-
-So there's an issue number, and if you're committing someone else's patch from the issue tracker, use the form (John Doe) to say who submitted the patch.  If you created the patch, it can just be
-
-{{{
-Issue XXX: Short summary here
+Issue 131: Add hidden file concept (Zeng.Shixin,cgwalters)
+    
+Reduce duplicate code between FSearchBuiltin and WalkBuiltin.
+    
+Need "cwd" property to HotwireContext so we can use it more directly in execute().
 }}}
