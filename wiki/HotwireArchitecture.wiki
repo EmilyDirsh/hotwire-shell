@@ -1,46 +1,53 @@
 #summary Description of Hotwire architecture
 = Hotwire architecture =
 
-Hotwire has 3 primary architectural components:
+== Introduction to pipelines ==
 
- * Pipelines
- * Renderers
- * Remoting
+The fundamental unit of Hotwire is the concept of an object-oriented pipeline.  A pipeline is composed of a chain of Hotwire *Builtins*, which are Python classes with a specific API.
 
-== Pipelines ==
+A Hotwire *Builtin* in general takes as input a stream of objects, a set of arguments and options, and yields another object stream.  All of this is optional though; for example some builtins such as `rm` (*RmBuiltin*), only operate on their argument list, and don't input or output anything.  Others don't take any arguments.
 
-A pipeline in Hotwire is composed of a sequence of commands.  A command receives as input a stream of Python objects (along with
-arguments, if any), and outputs another stream of objects.  Note the contast to a `/bin/sh` pipeline which is based on byte streams,
-whereas Hotwire only pipes Python objects (HotwireVsBinSh).
-
-Here's a simple example:
+Let's start with a simple example, in the HotwirePipe language:
 
 {{{
-proc | filter walters owner_name
+proc | filter -i walters owner_name
 }}}
 
-(Don't be fooled by the similarity to shell syntax, there is no `/bin/sh` or in fact any external processes involved here)
-
-This pipeline is composed of two components, the *proc* builtin and the *filter* builtin.  The ''walters'' and ''owner_name''
-are arguments for *filter*.  The *proc* builtin command generates a list of all processes on the system (instances of *Process*).  If we had omitted
-the second part, we would have seen this list displayed.  The *filter* command takes a regular expression and (optionally) a property
-name.  Here, it is filtering the process list to objects whose ''owner_name'' attribute matches the regular expression
-''walters''.  Note that unlike a traditional text-line based `/bin/sh` pipeline, this will not be misled by other extraneous text
+This example finds all processes on the system whose `owner_name` property matches the regular expression "walters".   Note that unlike a traditional text-line based Unix `/bin/sh` pipeline, this will not be misled by other extraneous text
 which happens to match the input (no `grep -v grep`).
 
-A way to think about this is that it's essentially equivalent to this Python code:
+`proc` references the *ProcBuiltin* class, which is outputting a stream of *Process* objects.  `filter` references the *FilterBuiltin* class, which can take any input type, and will output the same type.  The `walters` and `owner_name` are string arguments for *FilterBuiltin*, and `-i` is processed as an option.
+
+Don't be fooled by the similarity to Unix shell syntax - in this example everything is in the Hotwire process; there is no execution of external programs.
+
+When you give this command to Hotwire, it looks up the names `proc` and `filter` in the registry, parses the options and argument list, and then executes it.  Each component of a pipeline is executed in a new thread.  These threads then simply call the *execute* method of each *Builtin* object, which takes a context, arguments, and options. 
+
+Because each builtin runs in its own thread, Hotwire internally uses threadsafe Queues to pipe objects from one thread to another.
+
+But to make things more concrete, ignoring threading, the above pipeline is equivalent to this Python code:
+
 {{{
-import sys,re
+import re
+from hotwire.sysdep.proc import ProcessManager
+
 prop_re = re.compile('walters')
-for process in sys.get_processes():
+
+for process in ProcessManager.getInstance().get_processes():
   if prop_re.search(process.owner_name):
     yield process
 }}}
 
-Internally there are other details: Hotwire actually creates a thread for each pipeline component, has some static type checking, etc.
-Of course the biggest thing glossed over in the above is that Python actually has no builtin way to list system processes; that's part of Hotwire's *Platform* object.
-
 This may also be a bit clearer from looking at the [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/builtins/proc.py proc source] and the [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/builtins/filter.py filter source].
+
+Unfortunately, for Hotwire we had to implement the code to list processes on a system, and create the *Process* object.  But if the Python distribution included this bit, the pipeline and builtins would just be a simpler syntax for accessing Python libraries.
+
+This point is very important - the intent is that Hotwire builtins are mostly just _trivial wrappers_ around actual APIs which are intended to be used from Python.  They take arguments and options in a shell-like way tends to be more convenient.
+
+=== The `sys` builtin ===
+
+So the current list of Hotwire builtins is all well and good; we can see files using *LsBuiltin*, processes using *ProcBuiltin*, do HTTP GETs using *HttpGetBuiltin*.  But sadly, not every aspect of the operating system has a nice Python API.  For example, there is no default Python API to query active network interfaces.  Or to list hardware devices.  Or to manipulate the X server resolution.  And the list goes on.
+
+You may recognize these commands on most Unix/Linux systems as `ifconfig`, `lshal`, and `xrandr`.  Realistically, Hotwire can't immediately ship a version of every single one of these commands.  We'd like to be able to continue using them.
 
 == Renderers ==
 
