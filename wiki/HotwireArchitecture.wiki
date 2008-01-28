@@ -49,7 +49,7 @@ So the current list of Hotwire builtins is all well and good; we can see files u
 
 You may recognize these commands on most Unix/Linux systems as `ifconfig`, `lshal`, and `xrandr`.  Realistically, Hotwire can't immediately ship a version of every single one of these commands.  We'd like to be able to continue using them.
 
-Enter the *SysBuiltin*.  The idea is pretty simple; it can execute external Unix/Linux binaries as subprocesses, returning their output conceptually as a stream of Unicode strings.
+Enter the *!SysBuiltin*.  The idea is pretty simple; it can execute external Unix/Linux binaries as subprocesses, returning their output conceptually as a stream of Unicode strings.
 
 We now have a great deal of backwards compatibility with the existing operating system tools.  For example, we can execute:
 
@@ -57,39 +57,19 @@ We now have a great deal of backwards compatibility with the existing operating 
 xrandr --auto
 }}}
 
-This works exactly like you might expect.  The `/usr/bin/xrandr` program is executed with the argument `--auto`.
+This works exactly like you might expect.  The `/usr/bin/xrandr` program is executed with the argument `--auto`.  In general, if a verb isn't recognized as the name of a builtin, we try to resolve it using the system binaries.
 
-We can pipe the stream of strings to Hotwire builtins:
+And because we have a model for how system commands fit into the Hotwire pipeline, we can pipe the stream of strings from a system command to Hotwire builtins:
 
 {{{
 ifconfig | filter -i link
 }}}
-
 
 == Renderers ==
 
 Besides just generating lists of objects, Hotwire knows how to display them.
 If you try the *ls* command in Hotwire, you will likely notice that Hotwire displays the appropriate icons for the file, and
 turns the file name into a clickable link to open.  This is because the *ls* command generates a list of *!FilePath* objects.
-The *ObjectRendererMapping* registry tells Hotwire to render *!FilePath* objects using *!FilePathRenderer*.
+The *!ObjectRendererMapping* registry tells Hotwire to render *!FilePath* objects using *!FilePathRenderer*.
 Renderers are unlimited in power (they're just GTK+ widgets); e.g. you could define a renderer for the *Process* class which dynamically shows its CPU usage,
 add an ''Edit'' link to the !FilePathRenderer, and a lot more. 
-
-== Remoting ==
-
-''Note the code for the text referenced below is currently disabled until the experience works more smoothly''
-
-Hotwire natively understands remote execution.  Currently, this means ''ssh'', and in the future ''su''.  However, the built in
-'''ssh''' command does not simply execute `/usr/bin/ssh` and present a terminal.  Instead, Hotwire copies itself over to the
-remote system and executes a Python interpreter, and then begins using a custom protocol to communicate.  This means
-that Hotwire can be significantly more intelligent (for example, moving the cursor no longer takes a network round trip).
-When logged into a remote system, pipelines are sent to that system for execution, and the results delivered back over the
-network.  Additionally, Hotwire can offer extended commands:
-
-{{{
-ls *.py | download
-}}}
-
-The '''download''' command tells the remote Hotwire to notify the local Hotwire to download the list of files.  Previously,
-this would have required creating a separate terminal and executing `/usr/bin/sftp`, changing to the same remote directory,
-etc.  
