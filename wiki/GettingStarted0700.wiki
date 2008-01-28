@@ -49,7 +49,7 @@ You aren't limited to Hotwire's builtin commands like *ls* and *proc*.  If a ver
 ifconfig
 }}}
 
-Works as you might expect.  For pure text processing, Hotwire actually has several advantages over a Unix terminal.  By default, the _entire_ output of every command is saved by default, and Hotwire knows which commands output what text.  This lets us do some neat things; for example, type:
+Works as you might expect.  For pure text processing, Hotwire actually has several advantages over a Unix terminal.  By default, the _entire_ output of every command is saved, and Hotwire knows which commands output what text.  This lets us do some neat things; for example, type:
 
 {{{
 | filter -i link
