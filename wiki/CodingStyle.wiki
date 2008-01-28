@@ -1,0 +1,18 @@
+#summary The coding conventions used in the Hotwire project
+
+Because Hotwire is currently written entirely in Python, we generally follow the 
+[http://www.python.org/dev/peps/pep-0008/ Python style] guidelines.
+
+Specific style choices made here:
+
+ * Use 4 spaces for indentation; no tabs
+ * Always subclass from `object` or `gobject.GObject`
+ * Initialize *all* object members in the `__init__` constructor, or in functions called directly from it.
+ * Use the `__` prefix for private members where possible.
+ * For important properties, use the `property` mechanism and add a docstring.
+ * Files which `import gtk` (generallly `hotwire_ui` and `hotapps`) should be GPL, others are MIT.
+
+Overall architecture:
+
+ * Never call functions which can block on I/O from the main thread.  Instead, create a worker thread and use `gobject.idle_add` to communicate results to the main loop.
+ * The only hard dependencies are Python 2.4, and GTK+ 2.8.  However - please do try hard to integrate with the rest of the system by adding optional code, if possible.
