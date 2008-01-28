@@ -8,5 +8,5 @@
  * Debian: [http://packages.debian.org/sid/hotwire sid package] (*apt-get install hotwire*)
  * Mandriva: Cooker users can just install the `hotwire` package. 2007 Spring users need to [http://wiki.mandriva.com/en/Docs/Basic_tasks/Installing_and_removing_software#Advanced_use:_Backports_and_candidate_updates enable the /contrib/backports repository], then they can install the `hotwire` package.
  * Archlinux: The [http://aur.archlinux.org/packages.php?do_Details=1&ID=12103 package] lives in AUR, so you can `makepkg` it or just use Yaourt to install it.
- * Gentoo: [http://bugs.gentoo.org/show_bug.cgi?id=183519 ebuild bug] (someone please pick this up), see also [http://forums.gentoo.org/viewtopic-p-4517681.html?sid=35ecace13a7eb1d78eba6d94b098707a forum thread on sqlite3]
+ * Gentoo: [http://bugs.gentoo.org/show_bug.cgi?id=183519 ebuild bug] (someone please pick this up), see also [http://d.hatena.ne.jp/kakurasan/20080124/p1 blog entry for 0.700], and [http://forums.gentoo.org/viewtopic-p-4517681.html?sid=35ecace13a7eb1d78eba6d94b098707a forum thread on sqlite3]
  * Other? If you've packaged Hotwire for another system (or need help doing so) let us know on the [http://groups.google.com/group/hotwire-shell discussion group]
