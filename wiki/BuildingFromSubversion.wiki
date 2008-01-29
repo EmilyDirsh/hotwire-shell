@@ -1,4 +1,5 @@
 #summary How to build and run Hotwire from Subversion
+#labels Featured
 
 = Dependencies =
 
