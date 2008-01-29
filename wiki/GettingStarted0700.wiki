@@ -213,7 +213,7 @@ Hotwire also has several other languages registered by default.  For example, if
 sh for x in $(seq 50); do sleep 0.5; echo ${x}; done
 }}}
 
-Hotwire will pass everything you type after *sh* directly to `/bin/sh -c`; no quoting hassles.
+As with the Ruby example, Hotwire will pass everything you type after *sh* directly to `/bin/sh -c`.
 
 = Giving input to commands =
 
@@ -232,6 +232,8 @@ Press `Ctrl-I` to activate input mode.  This allows you to send basic lines of i
 {{{
 line of text
 }}}
+
+You should see the input duplicated, because `/bin/cat` is echoing your input to its standard output.
 
 When you're done, press `ESC` to exit input mode, then `Ctrl-Shift-C` to cancel the pipeline.
 
