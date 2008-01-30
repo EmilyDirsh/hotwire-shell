@@ -67,9 +67,14 @@ ifconfig | filter -i link
 
 == Renderers ==
 
-Besides just generating lists of objects, Hotwire knows how to display them.
-If you try the *ls* command in Hotwire, you will likely notice that Hotwire displays the appropriate icons for the file, and
-turns the file name into a clickable link to open.  This is because the *ls* command generates a list of *!FilePath* objects.
-The *!ObjectRendererMapping* registry tells Hotwire to render *!FilePath* objects using *!FilePathRenderer*.
-Renderers are unlimited in power (they're just GTK+ widgets); e.g. you could define a renderer for the *Process* class which dynamically shows its CPU usage,
-add an ''Edit'' link to the !FilePathRenderer, and a lot more. 
+Now, having a stream of objects isn't that interesting if we just display them in the way the default Python toplevel would; you'd see something like:
+
+{{{
+<Process object at 0x5295802>
+<Process object at 0x1285429>
+<Process object at 0x5988975>
+}}}
+
+etc.  Layered on top of the Hotwire pipeline processing is an integrated graphical display and introspection system.  There is a class called *!ObjectsRenderer* which is an abstract API for displaying a stream of objects.  The most important subclass is *!TreeObjectsRenderer* which presents a treeview display of object properties.
+
+Currently, there is a global object called *!ClassRendererMapping* which maps from Python class -> Renderer.  When we create a pipeline, we try to determine statically using the information from the builtins which renderer to pick.  If this fails, we pick one based on the first object we see.
