@@ -78,7 +78,7 @@ Visible Changes:
 
 Notable Bugfixes:
  
- * Various Windows bugfixes (cgwalters, Zeng.Shixin)
+ * Various Windows bugfixes (Zeng.Shixin, cgwalters)
  * Symbolic links handled better (issue 120, issue 121)
  * Don't error if process ends while input is open
 
