@@ -67,7 +67,7 @@ Notable Bugfixes:
 
 Visible Changes:
 
- * Non-UTF8 locale handling (issue 125, issue 133)
+ * Non-UTF8 locale handling (cgwalters, Zeng.Shixin, issue 125, issue 133)
  * Sorting on file renderer (schroed, issue 119)
  * Open action now works on Windows (Zeng.Shixin)
  * New *apply* builtin (issue 80)
