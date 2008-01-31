@@ -68,9 +68,9 @@ Notable Bugfixes:
 Visible Changes:
 
  * Non-UTF8 locale handling (issue 125, issue 133)
- * Sorting on file renderer (schroed@cs.uni-bonn.de)
+ * Sorting on file renderer (schroed@cs.uni-bonn.de, issue 119)
  * Open action now works on Windows (Zeng.Shixin)
- * New *apply* builtin
+ * New *apply* builtin (issue 80)
  * *kill* now optionally takes Process objects as input
  * *rm* has new `--unlink` option to really delete
  * Completions popup only appears when it has something to show (issue 135)
