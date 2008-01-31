@@ -63,9 +63,24 @@ Notable Bugfixes:
 
 == Changes in Hotwire SVN (Not released) ==
 
-(As of r837)
+(As of r939)
 
-None yet.
+Visible Changes:
+
+ * Non-UTF8 locale handling (issue 125, issue 133)
+ * Sorting on file renderer (schroed@cs.uni-bonn.de)
+ * Open action now works on Windows (Zeng.Shixin)
+ * New *apply* builtin
+ * *kill* now optionally takes Process objects as input
+ * *rm* has new `--unlink` option to really delete
+ * Completions popup only appears when it has something to show (issue 135)
+ * Hotwire Edit gains line numbers, goto line functionality
+
+Notable Bugfixes:
+ 
+ * Various Windows bugfixes (cgwalters, Zeng.Shixin)
+ * Symbolic links handled better (issue 120, issue 121)
+ * Don't error if process ends while input is open
 
 = Older releases =
 
