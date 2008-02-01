@@ -5,7 +5,7 @@
 
  * First, be sure you've looked at the CodingStyle guidelines.
  * Make changes in a Subversion (or `git-svn`) checkout
- * Run the test suite, using `python ui/test-hotwire`
+ * Run the test suite, using `python ui/test-hotwire` (if this fails, you broke something =) )
  * Use "svn diff" to generate a diff (or `git-svn diff`)
  * Create a new issue in the [http://code.google.com/p/hotwire-shell/issues/list Issue Tracker]
  * Wait for review from one of the current committers, make any changes necessary for review
