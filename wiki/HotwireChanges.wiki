@@ -79,6 +79,7 @@ Visible Changes:
 
 Notable Bugfixes:
  
+ * HotSSH keybinding and focus issues fixed
  * Various Windows bugfixes (Zeng.Shixin, cgwalters)
  * Symbolic links handled better (schroed, issue 120, issue 121)
  * Don't error if process ends while input is open
