@@ -3,7 +3,7 @@
 
 (Please use the [http://groups.google.com/group/hotwire-shell Discussion Group] for any questions, and the [http://code.google.com/p/hotwire-shell/issues/list issue list] for bug reports)
 
-_This tutorial corresponds with Hotwire 0.700_.  For earlier versions, see GettingStarted0600 (or upgrade!).  
+_This tutorial corresponds with Hotwire 0.710_.  For earlier versions, see GettingStarted0600 (or upgrade!).  
 
 = Introduction to !HotwirePipe =
 
@@ -159,7 +159,7 @@ Switch back to !HotwirePipe mode again by using `Ctrl-Shift-L`.
 In the !HotwirePipe language, you can use several builtins which can evaluate snippets of Python code:
 
 {{{
-ls | py-map "it.path.upper()"
+ls | py-map 'it.path.upper() + "\n"'
 }}}
 
 These Python snippets act a bit like `lambda`, except that the variable `it` is bound to the object being processed.  The *py-map* builtin acts like the Python `map` function.  It allows you to transform an object stream.
