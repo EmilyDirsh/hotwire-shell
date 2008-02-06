@@ -1,6 +1,6 @@
 #summary Example HotwirePipe commands
 
-= Sample HotwirePipe commands =
+= Sample !HotwirePipe commands =
 
 {{{
 walk /home/me/Media | py-filter 'it.size > 10**7'
@@ -20,3 +20,9 @@ proc | filter frob cmd | kill
 }}}
 
 Kill all processes (owned by you) with `frob` in their name.
+
+{{[
+ls *.zip | apply rm
+}}}
+
+Move all zip files in the current directory to the trash.
