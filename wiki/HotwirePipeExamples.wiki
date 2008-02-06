@@ -19,10 +19,10 @@ Generate a diff, then find all lines matching "frob" in it.
 proc | filter frob cmd | kill
 }}}
 
-Kill all processes (owned by you) with `frob` in their name.
+Kill all processes (owned by you) with `frob` in their name.  Note that *kill* is smart enough to take *Process* objects on its input.
 
 {{{
 ls *.zip | prop path | apply rm
 }}}
 
-Move all zip files in the current directory to the trash.
+Move all zip files in the current directory to the trash.  Because *rm* doesn't currently take File objects as input, we convert them to paths, then use the *apply* builtin which is similar to Unix `xargs`.
