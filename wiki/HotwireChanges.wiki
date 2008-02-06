@@ -68,12 +68,15 @@ Notable Bugfixes:
 Visible Changes:
 
  * Internal line processing includes newlines (issue 111)
+ * Import `~/.bash_history` (TiagoMatos)
  * Non-UTF8 locale handling (cgwalters, Zeng.Shixin, issue 125, issue 133)
  * Sorting on file renderer (schroed, issue 119)
  * Open action now works on Windows (Zeng.Shixin)
  * New *apply* builtin (issue 80)
+ * New *view* builtin which launches editor in read-only mode
  * *kill* now optionally takes Process objects as input
  * *rm* has new `--unlink` option to really delete
+ * `more` is now aliased to `term -w more` by default to avoid vanishing on small files
  * Completions popup only appears when it has something to show (issue 135)
  * Hotwire Edit gains line numbers, goto line functionality
 
@@ -83,6 +86,12 @@ Notable Bugfixes:
  * Various Windows bugfixes (Zeng.Shixin, cgwalters)
  * Symbolic links handled better (schroed, issue 120, issue 121)
  * Don't error if process ends while input is open
+ * Avoid lockup if completion throws an error (e.g. permission denied on directory)
+ * History is saved asynchronously for improved interactivity during heavy disk I/O (issue 88)
+
+API Changes:
+
+ * You should now register custom builtins using the `register_user` function of `BuiltinRegistry`.  Builtins shipped with the operating system can use `register_system`.
 
 = Older releases =
 
