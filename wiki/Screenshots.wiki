@@ -1,16 +1,3 @@
 #summary Screenshots display
 
-=== *ls* display ===
-[http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0619-1.png]
-
-=== VTE terminal embed ===
-[http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0619-2.png]
-
-=== History overview ===
-[http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0620-5.png]
-
-=== Running lspci, piped to *filter* builtin, also *ssh* completion ===
-[http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0619-3.png]
-
-=== *proc* display, also completion for *kill* builtin ===
-[http://hotwire-shell.googlecode.com/svn/screenshots/Screenshot-Hotwire0619-4.png]
+There are up-to-date and full size screenshots in [http://picasaweb.google.com/cgwalters/HotwireScreenshots Colin's Picasa Gallery].
