@@ -97,7 +97,7 @@ Try pressing the `Up` navigational arrow.  This pops up the dialog for the per-t
 
 Also, you might have already noticed that Hotwire is displaying choices for token completion and history if you've paused in typing.  Let's take a look.
 
-Type the following, but hit `TAB` at the end:
+Type the following, but _do not hit Return_ - instead hit `TAB` at the end:
 
 {{{
 ls
@@ -203,7 +203,7 @@ py-eval -f testscript.py
 
 = Running other languages =
 
-Hotwire can also execute code in other languages.  Are you a Ruby fan?  Have you ever wished you could easily inject Ruby into your Unix pipelines?  Let's go back to that `ifconfig` output:
+Hotwire can also execute code in other languages.  Are you a Ruby fan?  Have you ever wished you could easily use Ruby into your Unix pipelines?  Let's go back to that `ifconfig` output:
 
 {{{
 ifconfig
