@@ -1,0 +1,22 @@
+#summary Example HotwirePipe commands
+
+= Sample HotwirePipe commands =
+
+{{{
+walk /home/me/Media | py-filter 'it.size > 10**7'
+}}}
+
+Find all files in Media bigger than 10 megabytes.
+
+{{{
+svn diff
+|filter -i frob
+}}}
+
+Generate a diff, then find all lines matching "frob" in it.
+
+{{{
+proc | filter frob cmd | kill
+}}}
+
+Kill all processes (owned by you) with `frob` in their name.
