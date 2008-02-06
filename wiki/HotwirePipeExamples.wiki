@@ -1,6 +1,6 @@
-#summary Example HotwirePipe commands
+#summary Example Hotwire commands
 
-= Sample !Hotwire commands =
+= Sample Hotwire commands =
 
 {{{
 walk /home/me/Media | py-filter 'it.size > 10**7'
