@@ -43,13 +43,23 @@ Here we can see that Hotwire's syntax is very shell-like in argument processing 
 
 = System commands =
 
-You aren't limited to Hotwire's builtin commands like *ls* and *proc*.  If a verb isn't a builtin, Hotwire will try to resolve it using the system binaries.  So for example, typing:
+You aren't limited to Hotwire's builtin commands like *ls* and *proc*.  You can also execute system programs using the *sys* builtin:
+
+{{{
+sys ifconfig
+}}}
+
+Remember, Hotwire is oriented around object-oriented pipeline processing.  The *sys* builtin looks up an external program as a Unix shell would, and then returns its output as an object stream - in particular a stream of Unicode strings, one per line. 
+
+Because executing external binaries is quite common, Hotwire allows you to omit the *sys*:
 
 {{{
 ifconfig
 }}}
 
-Works as you might expect.  For pure text processing, Hotwire actually has several advantages over a Unix terminal.  By default, the _entire_ output of every command is saved, and Hotwire knows which commands output what text.  This lets us do some neat things; for example, type:
+If a verb typed in doesn't match the name of a builtin, Hotwire tries to execute it using *sys* by default.
+
+For pure text processing, Hotwire actually has several advantages over a Unix terminal.  By default, the _entire_ output of every command is saved, and Hotwire knows which commands output what text.  This lets us do some neat things; for example, type:
 
 {{{
 | filter -i link
