@@ -3,7 +3,7 @@
 
 = Current =
 
-== Changes in Hotwire 0.710 (Current Release) ==
+== Changes in Hotwire 0.710 ==
 
 Visible Changes:
 
