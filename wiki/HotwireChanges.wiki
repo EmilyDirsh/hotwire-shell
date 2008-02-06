@@ -1,8 +1,47 @@
 #summary Hotwire change log
+#labels Featured
 
 = Current =
 
-== Changes in Hotwire 0.700 (Current Release) ==
+== Changes in Hotwire 0.710 (Current Release) ==
+
+Visible Changes:
+
+ * Internal line processing includes newlines (issue 111)
+ * Import `~/.bash_history` (TiagoMatos)
+ * Non-UTF8 locale handling (cgwalters, Zeng.Shixin, issue 125, issue 133)
+ * Sorting on file renderer (schroed, issue 119)
+ * Open action now works on Windows (Zeng.Shixin)
+ * New *apply* builtin (issue 80)
+ * New *view* builtin which launches editor in read-only mode
+ * *kill* now optionally takes Process objects as input
+ * *rm* has new `--unlink` option to really delete
+ * `more` is now aliased to `term -w more` by default to avoid vanishing on small files
+ * Completions popup only appears when it has something to show (issue 135)
+ * Hotwire Edit gains line numbers, goto line functionality
+
+Notable Bugfixes:
+ 
+ * HotSSH keybinding and focus issues fixed
+ * Various Windows bugfixes (Zeng.Shixin, cgwalters)
+ * Symbolic links handled better (schroed, issue 120, issue 121)
+ * Don't error if process ends while input is open
+ * Avoid lockup if completion throws an error (e.g. permission denied on directory)
+ * History is saved asynchronously for improved interactivity during heavy disk I/O (issue 88)
+
+API Changes:
+
+ * You should now register custom builtins using the `register_user` function of `BuiltinRegistry`.  Builtins shipped with the operating system can use `register_system`.
+
+== Changes in Hotwire SVN (Not released) ==
+
+(As of r986)
+
+None yet.
+
+= Older releases =
+
+== Changes in Hotwire 0.700  ==
 
 Hotwire has transitioned to its first *alpha* release; while it is still in development and a number of things may change, it is expected that significantly more people will find it to be a compelling replacement for terminal+shell.
 
@@ -60,40 +99,6 @@ Notable Bugfixes:
  * Correctly set controlling TTY, makes `gpg` happy (issue 30, issue 65)
  * `Ctrl-s` starts search for File renderer
  * Fix *proc* on win32 (Suggested fix from tianxiaoji)
-
-== Changes in Hotwire SVN (Not released) ==
-
-(As of r939)
-
-Visible Changes:
-
- * Internal line processing includes newlines (issue 111)
- * Import `~/.bash_history` (TiagoMatos)
- * Non-UTF8 locale handling (cgwalters, Zeng.Shixin, issue 125, issue 133)
- * Sorting on file renderer (schroed, issue 119)
- * Open action now works on Windows (Zeng.Shixin)
- * New *apply* builtin (issue 80)
- * New *view* builtin which launches editor in read-only mode
- * *kill* now optionally takes Process objects as input
- * *rm* has new `--unlink` option to really delete
- * `more` is now aliased to `term -w more` by default to avoid vanishing on small files
- * Completions popup only appears when it has something to show (issue 135)
- * Hotwire Edit gains line numbers, goto line functionality
-
-Notable Bugfixes:
- 
- * HotSSH keybinding and focus issues fixed
- * Various Windows bugfixes (Zeng.Shixin, cgwalters)
- * Symbolic links handled better (schroed, issue 120, issue 121)
- * Don't error if process ends while input is open
- * Avoid lockup if completion throws an error (e.g. permission denied on directory)
- * History is saved asynchronously for improved interactivity during heavy disk I/O (issue 88)
-
-API Changes:
-
- * You should now register custom builtins using the `register_user` function of `BuiltinRegistry`.  Builtins shipped with the operating system can use `register_system`.
-
-= Older releases =
 
 == Changes in Hotwire 0.620 ==
 
