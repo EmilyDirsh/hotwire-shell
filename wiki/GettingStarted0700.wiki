@@ -271,4 +271,8 @@ And scroll to the bottom.  For more on command compatibility, see HotwireCommand
 
 = Tutorial Ends =
 
-You've now had your first twenty minutes or so with a hypershell.  There is a huge number of differences from a traditional Unix terminal+shell, but in the end you should find that your time invested in learning Hotwire pays itself back many times over.
+You've now had your first twenty minutes or so with a hypershell.  There is a huge number of differences from a traditional Unix terminal+shell or Windows `cmd.exe`, but in the end you we hope find that your time invested in learning Hotwire pays itself back many times over.
+
+= Further Resources =
+
+You may be interested in HotwirePipeExamples for some more commands to try, or HotwireArchitecture for a more technical overview of how things work.
