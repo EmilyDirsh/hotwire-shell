@@ -22,7 +22,7 @@ proc | filter frob cmd | kill
 Kill all processes (owned by you) with `frob` in their name.
 
 {{{
-ls *.zip | apply rm
+ls *.zip | prop path | apply rm
 }}}
 
 Move all zip files in the current directory to the trash.
