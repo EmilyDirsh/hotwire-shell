@@ -22,7 +22,7 @@ proc | filter frob cmd | kill
 Kill all processes (owned by you) with `frob` in their name.  Note that *kill* is smart enough to take *Process* objects on its input.
 
 {{{
-walk /home/me/tmp | filter '\\.zip$' basename | prop path | apply rm
+walk /home/me/tmp | filter '\.zip$' basename | prop path | apply rm
 }}}
 
 Recursively find all zip files in `/home/me/tmp`, and move them to the trash.  Because *rm* doesn't currently take File objects as input, we convert them to paths, then use the *apply* builtin which is similar to Unix `xargs`.
