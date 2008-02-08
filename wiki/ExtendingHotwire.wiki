@@ -18,7 +18,8 @@ os.environ['JAVA_HOME'] = '/usr/java/jdk1.5.0_13'
 
 {{{
 from hotwire.cmdalias import AliasRegistry
-AliasRegistry.getInstance().insert('make', 'sh make -j 3')
+AliasRegistry.getInstance().insert('make', 'sys make -j 3')
+AliasRegistry.getInstance().insert('la', 'ls -a')
 }}}
 
 = Adding a new builtin =
