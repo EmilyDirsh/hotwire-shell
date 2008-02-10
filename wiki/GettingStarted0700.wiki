@@ -25,7 +25,7 @@ ls | prop size
 
 The *prop* builtin returns the property of an object.
 
-You aren't limited to playing around with files; let's take a look at our process list:
+Now, let's take a look at our process list:
 
 {{{
 proc | filter python cmd
@@ -50,7 +50,9 @@ You aren't limited to Hotwire's builtin commands like *ls* and *proc*.  You can 
 sys ifconfig
 }}}
 
-Remember, Hotwire is oriented around object-oriented pipeline processing.  The *sys* builtin looks up an external program as a Unix shell would, and then returns its output as an object stream - in particular a stream of Unicode strings, one per line. 
+You'll notice that we got the result as text.  Now, we mentioned Hotwire is oriented around object-oriented pipeline processing.  What the *sys* builtin does is look up an external program as a Unix shell would, and then return its output as an object stream - in particular a stream of Unicode strings, one per line. 
+
+The above is very important to understand - again, in the Hotwire model, external binaries are just a type of command which return lines of text.
 
 Because executing external binaries is quite common, Hotwire allows you to omit the *sys*:
 
@@ -68,7 +70,9 @@ For pure text processing, Hotwire actually has several advantages over a Unix te
 
 _Note the leading "|"_. What happened here?  When you start a pipeline with "|", Hotwire actually expands it to "current | ", which means "pipe the output of the currently visible command".  This lets you _interactively_ refine pipelines by chaining the output of a previous one into a new one, without re-execution.
 
-Another perk Hotwire offers is Firefox-style search over text; try typing `Ctrl-s`.
+Another perk Hotwire offers is Firefox-style search over text.  Press `Ctrl-s`.  You should see a search area appear.  Enter some text such as `link`, and use the up/down arrows to go between matches.
+
+Press `ESC` when you're done.  
 
 = Overview mode and saved results =
 
