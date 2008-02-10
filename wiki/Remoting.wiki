@@ -52,3 +52,10 @@ Then we can key off the first, and display the process list as normal.
 == Open Questions ==
 
 Currently in Hotwire, the renderer owns the object.  So when the user presses `Ctrl-Shift-K`, the object goes away.  But in this model, we'd need to make that a remote method invocation.  Other possible models are that the server owns the object lifecycle.
+
+== Related software ==
+
+This list is almost too large to mention.  Some things we might investigate reusing code from:
+
+* [http://ipython.scipy.org/moin/Parallel_Computing IPython's Parallel Core]
+* [https://hosted.fedoraproject.org/func/ func]
