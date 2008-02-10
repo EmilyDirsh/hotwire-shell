@@ -50,9 +50,9 @@ You aren't limited to Hotwire's builtin commands like *ls* and *proc*.  You can 
 sys ifconfig
 }}}
 
-You'll notice that we got the result as text.  Now, we mentioned Hotwire is oriented around object-oriented pipeline processing.  What the *sys* builtin does is look up an external program as a Unix shell would, and then return its output as an object stream - in particular a stream of Unicode strings, one per line. 
+You'll notice that we got the result as text.  Now, we mentioned Hotwire is oriented around object-oriented pipeline processing.  What the *sys* builtin does is look up an external program as a Unix shell would, and then return its output as an object stream - in particular a stream of Unicode strings, one per line.  You can confirm this by noticing that the pipeline type in the top right is now `unicode`.
 
-The above is very important to understand - again, in the Hotwire model, external binaries are just a type of command which return lines of text.
+The above is very important to understand - again, in the Hotwire model, external binaries are just a type of command which return lines of text.  
 
 Because executing external binaries is quite common, Hotwire allows you to omit the *sys*:
 
