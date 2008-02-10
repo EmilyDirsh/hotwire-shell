@@ -57,5 +57,5 @@ Currently in Hotwire, the renderer owns the object.  So when the user presses `C
 
 This list is almost too large to mention.  Some things we might investigate reusing code from:
 
-* [http://ipython.scipy.org/moin/Parallel_Computing IPython's Parallel Core]
-* [https://hosted.fedoraproject.org/func/ func]
+ * [http://ipython.scipy.org/moin/Parallel_Computing IPython's Parallel Core]
+ * [https://hosted.fedoraproject.org/func/ func]
