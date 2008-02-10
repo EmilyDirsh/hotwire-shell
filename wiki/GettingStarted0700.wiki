@@ -208,7 +208,7 @@ py-eval -f testscript.py
 
 = Running other languages =
 
-Hotwire can also execute code in other languages.  Are you a Ruby fan?  Have you ever wished you could easily use Ruby into your Unix pipelines?  Let's go back to that `ifconfig` output:
+Hotwire can also execute code in other languages.  Are you a Ruby fan?  Have you ever wished you could easily use Ruby in your Unix pipelines?  Let's go back to that `ifconfig` output:
 
 {{{
 ifconfig
@@ -221,6 +221,8 @@ Now you can pipe the output of the last command to some Ruby:
 }}}
 
 If you run this, you see what happens is that Hotwire will pass it to the external Ruby interpreter using "ruby -e".  The large advantage of this over a traditional Unix shell is that you do not need to shell-quote your Ruby code - anything you type after the "|rb" will be passed directly to Ruby, with no Hotwire processing.
+
+(Longer term, Hotwire will support multiple languages in-process.  Although Python is a decent language, a good system shell should be a generic tool.  What technology we will use to achieve this (JVM+JRuby+Jython) or (Mono+IronPython+IronRuby) is yet undecided, pending the direction of the Free Software community).
 
 Hotwire also has several other languages registered by default.  For example, if you want to run a snippet of Unix shell, that's easy to do:
 
