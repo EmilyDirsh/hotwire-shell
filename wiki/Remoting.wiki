@@ -17,11 +17,38 @@ Our needs are to support an API where we can execute a pipeline string, and conc
 Potential slave interface:
 
 {{{
+
 Slave {
   int RunPipeline(string text);
 
-  signal PipelineResult(int pipeline, variant result);
-  signal PipelineObjects(int pipeline, array[variant]);
+  signal PipelineResult(int pipeline, string classname, json result);
+  signal PipelineObjects(int pipeline, string classname, array[json]);
   signal PipelineException(int pipeline, string traceback);
 }
 }}}
+
+You'll notice here that we're defining a type "json".  What we mean by this is that the returned object types can be any of those defined by [http://json.org JSON] - e.g. integers, strings, objects.  To be concrete, let's say that we have a shell connected via SSH to example.com.  We invoke:
+
+{{{
+proc -a | filter -i foo cmd
+}}}
+
+We send that literal string over to the remote machine, which executes it.  It returns a result that looks like this:
+
+{{{
+('hotwire.sysdep.proc.Process', [{'pid': 42, 
+                                  'cmd': 'foo-server', 
+                                  'owner_id': 500,
+                                  'owner_name': 'someuser'},
+                                 {'pid': 671,
+                                  'cmd': 'frobfoo --blah',
+                                  'owner_id': 0,
+                                  'owner_name', 'root'}
+                                 ])
+}}}
+
+Then we can key off the first, and display the process list as normal.
+
+== Open Questions ==
+
+Currently in Hotwire, the renderer owns the object.  So when the user presses `Ctrl-Shift-K`, the object goes away.  But in this model, we'd need to make that a remote method invocation.  Other possible models are that the server owns the object lifecycle.
