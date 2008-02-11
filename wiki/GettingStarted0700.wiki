@@ -160,19 +160,30 @@ What's going on here is that because Hotwire is oriented around stream processin
 
 If you are in a mode where you mainly want to enter Python without using "py " prefix repeatedly, you can change the input language using `Ctrl-Shift-L`, or by just clicking on the language chooser in the bottom left.  
 
-The language selector causes Hotwire to treat your input as if you had typed the language prefix before each line.  
+Change the input language to Python.  Then type:
 
-Switch back to !HotwirePipe mode again by using `Ctrl-Shift-L`.
+{{{
+2+2
+}}}
+
+The language selector causes Hotwire to treat your input as if you had typed the language prefix before each line.  Thus the above is equivalent to `py 2+2` in the HotwirePipe mode.  Now change the language to Unix Shell, and type
+
+{{{
+ls -l
+}}}
+
+This one is equivalent to `sh ls -l`, and so we're using the Unix `/bin/ls` instead of Hotwire's *ls*.  Switch back to !HotwirePipe mode again by using `Ctrl-Shift-L`.
 
 = Python snippets in !HotwirePipe =
 
-In the !HotwirePipe language, you can use several builtins which can evaluate snippets of Python code:
+In the !HotwirePipe language, you can use several builtins which can evaluate snippets of Python code.   These Python snippets act a bit like `lambda`, except that the variable `it` is bound to the object being processed. 
 
 {{{
 ls | py-map 'it.path.upper() + "\n"'
 }}}
 
-These Python snippets act a bit like `lambda`, except that the variable `it` is bound to the object being processed.  The *py-map* builtin acts like the Python `map` function.  It allows you to transform an object stream.
+The *py-map* builtin acts like the Python `map` function.  It allows you to transform an object stream.  Here, we're grabbing the `path` property of each *File* object, uppercasing it, and appending a newline.  We need the newline because otherwise the strings will appear all on one line in the *UnicodeRenderer* (in the future this will be easier to deal with).
+
 
 {{{
 proc | py-filter "it.pid > 50 and it.pid < 5000"
@@ -184,7 +195,7 @@ The *py-filter* builtin is like the Python function `filter`.  As with *py-map*,
 ifconfig| py-map "it.swapcase()"
 }}}
 
-Remember, because this is the HotwirePipe language, we can easily execute system commands and pipe them to Python code.
+Remember, because this is the !HotwirePipe language, we can easily execute system commands and pipe them to Python code.
 
 = Evaluating Python scripts =
 
