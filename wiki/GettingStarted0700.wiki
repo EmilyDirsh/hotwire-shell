@@ -31,9 +31,15 @@ Now, let's take a look at our process list:
 proc | filter python cmd
 }}}
 
-This command will show you all processes whose *cmd* property matches the regular expression "python".
+This command will show you all processes whose *cmd* property matches the regular expression "python".  Let's ask for help about *proc*:
 
-Let's play around with files a bit more:
+{{{
+help proc
+}}}
+
+The text `in: None  out: <class 'hotwire.sysdep.proc.Process'>` is telling is that the *proc* builtin outputs *Process* objects.  Click on the link to see the inspector for that object class and its available properties.
+
+Let's go back to manipulating files a bit more:
 
 {{{
 cd Desktop
