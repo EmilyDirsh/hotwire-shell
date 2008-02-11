@@ -221,7 +221,7 @@ The *py-eval* builtin looks inside the file for a function called `main`.  It th
 
 = Running other languages =
 
-Python is a good language, but it is not the one true language.  A true shell should be flexible, able to handle whichever language you want to use.  You may notice that we called the builtin *py-map*, and not just *map*.  This was deliberate - in the future, we'd like to have *rb-map* as well.  And *pl-filter*.
+Python is a good programming language, but it is not the only language.  A true shell should be flexible, able to handle whichever language you want to use.  You may notice that we called the builtin *py-map*, and not just *map*.  This was deliberate - in the future, we'd like to have *rb-map* as well.  And *pl-filter*.
 
 However, currently due to technical limitations, Hotwire best supports Python because it can be executed in-process.  In the medium-term future, we hope for a common shared runtime for Free Software programming languages, so that Hotwire can be more than just Python.
 
