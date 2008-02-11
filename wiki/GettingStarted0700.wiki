@@ -214,7 +214,7 @@ def main():
 Now, save it and close the editor.  In Hotwire, type:
 
 {{{
-py-eval -f testscript.py
+py-eval -f ~/testscript.py
 }}}
 
 The *py-eval* builtin looks inside the file for a function called `main`.  It then executes it as a generator.  You can put whatever Python code you want inside this file, and it will be compiled and executed inside the Hotwire process, making it easy to view and manipulate with further pipelines.
