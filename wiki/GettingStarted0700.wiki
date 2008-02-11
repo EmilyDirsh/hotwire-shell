@@ -182,7 +182,7 @@ In the !HotwirePipe language, you can use several builtins which can evaluate sn
 ls | py-map 'it.path.upper() + "\n"'
 }}}
 
-The *py-map* builtin acts like the Python `map` function.  It allows you to transform an object stream.  Here, we're grabbing the `path` property of each *File* object, uppercasing it, and appending a newline.  We need the newline because otherwise the strings will appear all on one line in the *UnicodeRenderer* (in the future this will be easier to deal with).
+The *py-map* builtin acts like the Python `map` function.  It allows you to transform an object stream.  Here, we're grabbing the `path` property of each *File* object, uppercasing it, and appending a newline.  We need the newline because otherwise the strings will appear all on one line in the *!UnicodeRenderer* (in the future this will be easier to deal with).
 
 
 {{{
