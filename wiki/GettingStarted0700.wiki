@@ -166,7 +166,7 @@ Change the input language to Python.  Then type:
 2+2
 }}}
 
-The language selector causes Hotwire to treat your input as if you had typed the language prefix before each line.  Thus the above is equivalent to `py 2+2` in the HotwirePipe mode.  Now change the language to Unix Shell, and type
+The language selector causes Hotwire to treat your input as if you had typed the language prefix before each line.  Thus the above is equivalent to `py 2+2` in the !HotwirePipe mode.  Now change the language to Unix Shell, and type
 
 {{{
 ls -l
