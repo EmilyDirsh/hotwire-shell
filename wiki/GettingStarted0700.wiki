@@ -233,7 +233,7 @@ For example, if you're a Ruby programmer - have you ever wished you could easily
 ifconfig
 }}}
 
-We mentioned earlier that Python had the prefix `py`.  
+We mentioned earlier that Python had the prefix `py`.  Similarly, Ruby has the prefix `rb`.
 
 Now you can pipe the output of the last command to some Ruby:
 
