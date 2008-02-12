@@ -20,6 +20,10 @@ To truly be a shell, we need to work on better crossplatform support.  See [Hotw
 
 It'd be nice to have integrated support for extensions similar to `addons.mozilla.org`, and pastebin type functionality.
 
+=== 100% Unix Terminal Compatibility ===
+
+This one seems possible - what we could do is have a proxy which detects ANSI terminal codes and spawns a real terminal.  This does get into some design-type questions though about whether we set TERM=dumb or not.
+
 = Medium term (2-3 years) =
 
 === Multi-language runtime base ===
