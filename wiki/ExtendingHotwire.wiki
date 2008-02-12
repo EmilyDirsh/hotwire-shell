@@ -4,7 +4,6 @@
 = Extending Hotwire with custom Python =
 
 Hotwire's extension support is fairly basic right now; essentially, it allows you to place Python code in a file (ending in `.py`) in `~/.hotwire/plugins/`.
-
 = Adding environment variables =
 
 Create a file, e.g.: `~/.hotwire/plugins/myenv.py`.
@@ -12,6 +11,12 @@ Create a file, e.g.: `~/.hotwire/plugins/myenv.py`.
 {{{
 import os
 os.environ['JAVA_HOME'] = '/usr/java/jdk1.5.0_13'
+}}}
+
+Then in Hotwire:
+
+{{{
+py-eval -f ~/.hotwire/plugins/myenv.py
 }}}
 
 = Creating an alias =
@@ -116,6 +121,8 @@ ClassRendererMapping.getInstance().register(Fruit, FruitRenderer)
 
 }}}
 
-To play with this, save it to `~/.hotwire/plugins/fruit.py`.  You currently must restart Hotwire for plugins to be loaded.  Future plans include a Firefox-style extension mechanism.
+To play with this, save it to `~/.hotwire/plugins/fruit.py`.  You can load it at runtime with `py-eval -f ~/.hotwire/plugins/fruit.py`, or restart Hotwire.
+
+Future plans include a Firefox-style extension mechanism.
 
 That's it for now; for hacking Hotwire further, you should probably just get a checkout out of the source tree and dive into HotwireDevelopment.
