@@ -1,0 +1,27 @@
+#summary Longer-term roadmap for Hotwire development
+
+= Short term (next year) =
+
+Besides bugfixes, these are the areas which are feasible for 2008:
+
+=== Remoting ===
+
+See [Remoting].
+
+=== Better UI ===
+
+We could really do with a UI cleanup - streamline, make it look nicer.  Looks do matter.
+
+=== Porting ===
+
+To truly be a shell, we need to work on better crossplatform support.  See [HotwireWindows] and [HotwireMacOSX].
+
+=== Website ===
+
+It'd be nice to have integrated support for extensions similar to `addons.mozilla.org`, and pastebin type functionality.
+
+= Medium term (2-3 years) =
+
+=== Multi-language runtime base ===
+
+To properly support multiple languages, we need to use a better runtime than CPython.  There are realistically only two choices here.  The JVM (OpenJDK), or Mono.  We should carefully pay attention to the progress of these projects and evaluate which one it makes sense to choose as a base.
