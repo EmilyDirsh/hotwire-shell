@@ -28,4 +28,6 @@ This one seems possible - what we could do is have a proxy which detects ANSI te
 
 === Multi-language runtime base ===
 
-To properly support multiple languages, we need to use a better runtime than CPython.  There are realistically only two choices here.  The JVM (OpenJDK), or Mono.  We should carefully pay attention to the progress of these projects and evaluate which one it makes sense to choose as a base.
+To properly support multiple languages, we need to use a better runtime than CPython.  There are realistically only two choices here.  OpenJDK+Jython, or Mono+IronPython. Then if we want to support say Ruby, we can mix in JRuby or IronRuby.
+
+We should carefully pay attention to the progress of these projects and evaluate which one it makes sense to choose as a base.
