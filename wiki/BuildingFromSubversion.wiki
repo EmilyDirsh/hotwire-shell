@@ -61,4 +61,6 @@ If you want to run Hotwire from your Subversion checkout, the best thing to do i
 
 = What to hack on? =
 
-See issues tagged with "HotwireLoveBug" for a bug that a new developer could start on.  Or see [FutureFeaturesWhiteboard] for a larger-scope brainstorming area.
+[ExtendingHotwire] explains how to create an extension in your home directory.  To modify the core, you might look at issues tagged with "HotwireLoveBug" for a bug that a new developer could start on.  
+
+See also [RoadMap] for some longer-term projects.
