@@ -53,6 +53,12 @@ Use the ''-n'' option to tell Hotwire to create a new instance:
 python ui/hotwire -n
 }}}
 
+== Creating a GNOME panel launcher ==
+
+If you want to run Hotwire from your Subversion checkout, the best thing to do is to create a GNOME Panel launcher for it (or equivalent for other desktop environment).  Here are some instructions for GNOME:
+
+ * Right click on the panel, select *Add to Panel*.  Choose *Custom Application Launcher*.  In the *Name* field, put `Hotwire`.  In the *Command* field, put `python /path/to/hotwire/ui/hotwire`.  Change `/path/to/hotwire` to the name of your Hotwire checkout directory.  You should now be able to click on it to launch Hotwire uninstalled.
+
 = What to hack on? =
 
 See issues tagged with "HotwireLoveBug" for a bug that a new developer could start on.  Or see [FutureFeaturesWhiteboard] for a larger-scope brainstorming area.
