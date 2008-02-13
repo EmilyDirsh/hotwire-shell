@@ -3,7 +3,8 @@
 
 = Extending Hotwire with custom Python =
 
-Hotwire's extension support is fairly basic right now; essentially, it allows you to place Python code in a file (ending in `.py`) in `~/.hotwire/plugins/`.
+Hotwire's extension support is fairly basic right now; essentially, it allows you to place arbitrary Python code in a file (ending in `.py`) in `~/.hotwire/plugins/`.
+
 = Adding environment variables =
 
 Create a file, e.g.: `~/.hotwire/plugins/myenv.py`.
