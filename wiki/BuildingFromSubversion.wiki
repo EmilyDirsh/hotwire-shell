@@ -21,7 +21,7 @@ apt-get install python-vte python-dbus python-gnome2 python-pygtksourceview
 
 == Windows and MacOS X ==
 
-See HotwireWindows and HotwireMacOSX respectively.
+See HotwireWindows and [HotwireMacOSX] respectively.
 
 = Source Code Using Subversion =
 
