@@ -1,6 +1,12 @@
 #summary Introduction to Programming and Extending Hotwire
 #labels Featured
 
+= This page is obsolete =
+
+This page is now obsolete; the best pages to look at is [GettingStarted] and  [ExtendingHotwire].
+
+= Historical content =
+
 = Programming and Extending =
 
 The goal of Hotwire is more than just being a somewhat nicer interface for running system commands; the intent is to be a fully programmable and extensible shell using Python.
