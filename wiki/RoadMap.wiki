@@ -24,6 +24,14 @@ It'd be nice to have integrated support for extensions similar to `addons.mozill
 
 This one seems possible - what we could do is have a proxy which detects ANSI terminal codes and spawns a real terminal.  This does get into some design-type questions though about whether we set TERM=dumb or not.
 
+=== IDE/Editor integration ===
+
+A shell is a natural companion to many developers using IDEs or plain editors.  There's plenty of integration opportunities that weren't really possible with a traditional Unix shell, such as having a shell window bound to a project, etc.
+
+=== Improved scripting ===
+
+We should support multi-line scripts better.  Think "Tomboy of code".  Issue 79 is related.
+
 = Medium term (2-3 years) =
 
 === Multi-language runtime base ===
