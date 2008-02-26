@@ -10,7 +10,7 @@ See [Remoting].
 
 === Better UI ===
 
-We could really do with a UI cleanup - streamline, make it look nicer.  Looks do matter.
+~~We could really do with a UI cleanup, looks do matter~~.  This one is mostly done, see issue 153.
 
 === Porting ===
 
