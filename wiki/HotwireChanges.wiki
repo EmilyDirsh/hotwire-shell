@@ -35,7 +35,7 @@ API Changes:
 
 == Changes in Hotwire SVN (Not released) ==
 
-(As of r986)
+(As of r1102)
 
 Visible changes:
 
