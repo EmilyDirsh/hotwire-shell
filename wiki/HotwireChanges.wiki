@@ -37,7 +37,28 @@ API Changes:
 
 (As of r986)
 
-None yet.
+Visible changes:
+
+ * Major UI streamlining; much more space is given to output display by default
+ * Change terminal launch handling consistently; now all apps spawn in a new window, and Return closes them when they're done.  
+ * Improved handling of singleton Python values
+ * In *py-eval* the variable `it` is bound to the currently visible value
+ * *py-eval* can take input
+ * UnicodeRenderer gains match highlighting (Chris Mason, issue 149)
+ * *rm* can take *File* objects as input
+ * Allow possibly type-unsafe pipelines such as `ls | prop path | grep foo` (the pipeline system is not yet smart enough to know that `path` is a string)
+ * Added `argspec` property of Builtins; argument count checking is now part of the core, and all current builtins specify their possible arguments.
+ * *help* displays possible arguments for builtins
+ * UnicodeRenderer gains right click "Save output as..." option
+ * Pipeline typechecking supports deep inheritance (Mark Williamson, issue 147)
+ * `term htop`, `term most` by default
+
+Notable bugfixes:
+
+ * Don't crash on in-use-files on Windows (Zeng.Shixin, issue 131)
+ * Avoid GTK+ bug causing crash on right-click in HotSSH/HotSudo (issue 1510
+ * *fsearch* ignores non-Unicode files
+ * Use system webbrowser.py on Windows (issue 145)
 
 = Older releases =
 
