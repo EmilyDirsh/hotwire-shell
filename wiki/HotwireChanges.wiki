@@ -35,26 +35,34 @@ API Changes:
 
 == Changes in Hotwire SVN (Not released) ==
 
-(As of r1102)
+(As of r1158)
 
 Visible changes:
 
  * Major UI streamlining; much more space is given to output display by default
  * Change terminal launch handling consistently; now all apps spawn in a new window, and Return closes them when they're done.  
+ * Improved exception handling; can now click to see full backtrace
  * Improved handling of singleton Python values
+ * New builtin API, can define builtins as just decorated Python functions
  * In *py-eval* the variable `it` is bound to the currently visible value
  * *py-eval* can take input
+ * Win32: Use native icons (Zeng.Shixin, issue 165)
+ * Win32: Get correct mimetype (Zeng.Shixin)
  * UnicodeRenderer gains match highlighting (Chris Mason, issue 149)
+ * New *pprint* builtin
+ * New *head* builtin which operates on objects
  * *rm* can take *File* objects as input
  * Allow possibly type-unsafe pipelines such as `ls | prop path | grep foo` (the pipeline system is not yet smart enough to know that `path` is a string)
  * Added `argspec` property of Builtins; argument count checking is now part of the core, and all current builtins specify their possible arguments.
  * *help* displays possible arguments for builtins
  * UnicodeRenderer gains right click "Save output as..." option
  * Pipeline typechecking supports deep inheritance (Mark Williamson, issue 147)
+ * Improved lost connection handling display in HotSSH
  * `term htop`, `term most` by default
 
 Notable bugfixes:
 
+ * Avoid hang if pipeline takes 'any' as input
  * Don't crash on in-use-files on Windows (Zeng.Shixin, issue 131)
  * Avoid GTK+ bug causing crash on right-click in HotSSH/HotSudo (issue 1510
  * *fsearch* ignores non-Unicode files
