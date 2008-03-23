@@ -3,7 +3,7 @@
 
 = Current =
 
-== Changes in Hotwire 0.720 ==
+== Changes in Hotwire 0.721 ==
 
 Visible changes:
 
