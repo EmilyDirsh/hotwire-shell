@@ -52,7 +52,7 @@ class SshConnectionHistory(object):
         cursor.execute('''CREATE INDEX IF NOT EXISTS ConnectionsIndex2 on Connections (host,user)''')        
 
     def get_users_for_host(self, host):
-        
+        pass
 
 class OpenSSHKnownHostsDB(object):
     def __init__(self):
@@ -129,6 +129,8 @@ class ConnectDialog(gtk.Dialog):
         self.__entry = gtk.combo_box_entry_new_text()
         self.__entry.child.connect('activate', self.__on_entry_activated)
         self.__entrycompletion = gtk.EntryCompletion()
+        self.__entrycompletion.set_property('inline-completion', True)
+        self.__entrycompletion.set_property('popup-single-match', False)
         self.__entrycompletion.set_model(self.__entry.get_property('model'))
         self.__entrycompletion.set_text_column(0)     
         self.__entry.child.set_completion(self.__entrycompletion)
@@ -148,6 +150,14 @@ class ConnectDialog(gtk.Dialog):
        
     def __reload_entry(self, *args, **kwargs):
         _logger.debug("reloading")
+        # TODO do predictive completion here
+        # For example, I have in my history:
+        # foo.cis.ohio-state.edu
+        # bar.cis.ohio-state.edu
+        # Now I type baz.cis
+        # The system notices that nothing matches baz.cis; however
+        # the "cis" part does match foo.cis.ohio-state.edu, so 
+        # we start offering a completion for it
         self.__entry.get_property('model').clear()
         for host in self.__hosts.get_hosts():
             self.__entry.append_text(host)
