@@ -1,0 +1,34 @@
+#!/usr/bin/python
+# This file is part of the Hotwire Shell user interface.
+#   
+# Copyright (C) 2007 Colin Walters <walters@verbum.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+import sys, os
+
+if __name__ == '__main__' and hasattr(sys.modules['__main__'], '__file__'):
+    basedir = os.path.dirname(os.path.abspath(__file__))
+    up_basedir = os.path.dirname(basedir)
+    if os.path.exists(os.path.join(up_basedir, 'COPYING')):
+        print "Detected COPYING; Apparently running uninstalled, extending path"
+        sys.path.insert(0, up_basedir)
+        os.environ['HOTWIRE_UNINSTALLED'] = '1'
+        os.environ['PYTHONPATH'] = os.pathsep.join(sys.path)
+
+from hotssh.sshwindow import SshApp
+from hotvte.vtewindow import VteMain
+
+VteMain().main(SshApp)
