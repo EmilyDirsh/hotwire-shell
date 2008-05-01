@@ -55,28 +55,35 @@ class SshConnectionHistory(object):
         cursor.execute('''CREATE TABLE IF NOT EXISTS Colors (bid INTEGER PRIMARY KEY AUTOINCREMENT, pattern TEXT UNIQUE, fg TEXT, bg TEXT, modtime DATETIME)''')
         cursor.execute('''CREATE INDEX IF NOT EXISTS ColorsIndex on Colors (pattern)''')
 
-    def get_recent_connections_search(self, host):
+    def get_recent_connections_search(self, host, limit=10):
         cursor = self.__conn.cursor()
         params = ()
         q = '''SELECT user,host,options,conntime FROM Connections '''
         if host:
             q += '''WHERE host LIKE ? ESCAPE '%' '''
             params = ('%' + host.replace('%', '%%') + '%',)
-        q += '''ORDER BY conntime DESC LIMIT 10'''
+        # We use a large limit here to avoid the query being totally unbounded
+        q += '''ORDER BY conntime DESC LIMIT 1000'''
         def sqlite_timestamp_to_datetime(s):
             return datetime.datetime.fromtimestamp(time.mktime(time.strptime(s[:-7], '%Y-%m-%d %H:%M:%S')))
+        # Uniquify, which we coudln't do in the SQL because we're also grabbing the conntime
         seen = set()         
         for user,host,options,conntime in cursor.execute(q, params):
-            uhost = user+'@'+host
+            if len(seen) >= limit:
+                break
+            if user:
+                uhost = user+'@'+host
+            else:
+                uhost = host
             if uhost in seen:
                 continue
             seen.add(uhost)
             # We do this just to parse conntime
-            yield uhost,options,sqlite_timestamp_to_datetime(conntime)  
+            yield user,host,options,sqlite_timestamp_to_datetime(conntime)  
 
     def get_users_for_host_search(self, host):
-        for uhost,options,ts in self.get_recent_connections_search(host):
-            yield uhost.split('@', 1)[0]
+        for user,host,options,ts in self.get_recent_connections_search(host):
+            yield user
 
     def add_connection(self, host, user, options):
         cursor = self.__conn.cursor()
@@ -161,6 +168,8 @@ class ConnectDialog(gtk.Dialog):
    
         self.__idle_search_id = 0
         self.__idle_update_search_id = 0
+        
+        self.__custom_user = False
    
         self.__hosts = _openssh_hosts_db
 
@@ -192,6 +201,7 @@ class ConnectDialog(gtk.Dialog):
         hbox.pack_start(host_label, expand=False)
         self.__user_entry = gtk.Entry()
         self.__user_entry.set_text(pwd.getpwuid(os.getuid()).pw_name)
+        self.__user_entry.connect('notify::text', self.__on_user_modified)
         self.__user_entry.set_activates_default(True)
         self.__user_completion = gtk.EntryCompletion()
         self.__user_completion.set_property('inline-completion', True)
@@ -208,13 +218,13 @@ class ConnectDialog(gtk.Dialog):
         history_label.set_markup('<b>%s</b>' % (gobject.markup_escape_text(history_label.get_text())))        
         frame = gtk.Frame()
         #frame.set_label_widget(history_label)
-        self.__recent_model = gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)
+        self.__recent_model = gtk.ListStore(gobject.TYPE_PYOBJECT, gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)
         self.__recent_view = gtk.TreeView(self.__recent_model)
         self.__recent_view.connect('row-activated', self.__on_recent_activated)
         frame.add(self.__recent_view)
         colidx = self.__recent_view.insert_column_with_data_func(-1, _('Connection'),
                                                           gtk.CellRendererText(),
-                                                          self.__render_printable)
+                                                          self.__render_userhost)
         colidx = self.__recent_view.insert_column_with_data_func(-1, _('Time'),
                                                           gtk.CellRendererText(),
                                                           self.__render_time_recency, datetime.datetime.now())
@@ -223,12 +233,17 @@ class ConnectDialog(gtk.Dialog):
 
         self.set_default_size(640, 480)
         
-    def __render_printable(self, col, cell, model, iter):
-        val = model.get_value(iter, 0)
-        cell.set_property('text', unicode(val))
+    def __render_userhost(self, col, cell, model, iter):
+        user = model.get_value(iter, 0)
+        host = model.get_value(iter, 1)
+        if user:
+            userhost = user + '@' + host
+        else:
+            userhost = host
+        cell.set_property('text', userhost)
         
     def __render_time_recency(self, col, cell, model, iter, curtime):
-        val = model.get_value(iter, 1)
+        val = model.get_value(iter, 2)
         deltastr = timesince(val, curtime)
         cell.set_property('text', deltastr)
        
@@ -245,6 +260,9 @@ class ConnectDialog(gtk.Dialog):
         self.__entry.get_property('model').clear()
         for host in self.__hosts.get_hosts():
             self.__entry.append_text(host)
+            
+    def __on_user_modified(self, *args):
+        self.__custom_user = True
 
     def __on_entry_modified(self, *args):
         if self.__idle_update_search_id == 0:
@@ -260,18 +278,21 @@ class ConnectDialog(gtk.Dialog):
         host = self.__entry.get_active_text()
         usernames = list(self.__history.get_users_for_host_search(host))
         if len(usernames) > 0:
-            self.__user_entry.set_text(usernames[0])
+            last_user = usernames[0]
+            if last_user:
+                self.__user_entry.set_text(usernames[0])
             model = gtk.ListStore(gobject.TYPE_STRING)
             for uname in usernames:
-                model.append((uname,))
+                if uname:
+                    model.append((uname,))
             self.__user_completion.set_model(model)
         self.__reload_connection_history()            
 
     def __reload_connection_history(self):
         hosttext = self.__entry.get_active_text()
         self.__recent_model.clear()
-        for user_host,options,ts in self.__history.get_recent_connections_search(hosttext):
-            self.__recent_model.append((user_host, ts))
+        for user,host,options,ts in self.__history.get_recent_connections_search(hosttext):
+            self.__recent_model.append((user, host, ts))
 
     def __on_entry_activated(self, *args):
         self.__force_idle_search()
@@ -301,7 +322,10 @@ class ConnectDialog(gtk.Dialog):
         host = self.__entry.get_active_text()
         if not host:
             return None
-        return [self.__user_entry.get_text() + '@' + host]
+        if self.__custom_user:
+            return [self.__user_entry.get_text() + '@' + host]
+        else:
+            return [host]
 
 _CONTROLPATH = None
 def get_controlpath(create=True):
