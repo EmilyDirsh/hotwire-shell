@@ -204,6 +204,7 @@ class ConnectDialog(gtk.Dialog):
         frame = gtk.Frame('Connection History:')
         self.__recent_model = gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)
         self.__recent_view = gtk.TreeView(self.__recent_model)
+        self.__recent_view.connect('row-activated', self.__on_recent_activated)
         frame.add(self.__recent_view)
         colidx = self.__recent_view.insert_column_with_data_func(-1, _('Connection'),
                                                           gtk.CellRendererText(),
@@ -277,6 +278,14 @@ class ConnectDialog(gtk.Dialog):
         else:
             self.__user_entry.select_region(0, -1)
             self.__user_entry.grab_focus()
+            
+    def __on_recent_activated(self,  tv, path, vc):
+        iter = self.__recent_model.get_iter(path)
+        uhost = self.__recent_model.get_value(iter, 0)
+        (user, host) = uhost.split('@', 1)   
+        self.__entry.child.set_text(host)
+        self.__user_entry.set_text(user)
+        self.activate_default()
             
     def run_get_cmd(self):
         self.show_all()        
