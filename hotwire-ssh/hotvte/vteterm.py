@@ -95,9 +95,12 @@ class VteTerminalWidget(gtk.VBox):
         
         self.__colors_default = True
         self.__term.set_default_colors()
-        self.__sync_colors()
+        if gconf_available:
+            self.__set_gnome_colors()
+        else:
+            self.__set_gtk_colors()        
 
-        # Use Gnome font 
+        # Use Gnome font if available
         if gconf_available:
             gconf_client = gconf.client_get_default()
             def on_font_change(*args):
@@ -117,22 +120,6 @@ class VteTerminalWidget(gtk.VBox):
         self.__term.connect('button-press-event', self.__on_button_press)
         self.__term.connect('selection-changed', self.__on_selection_changed)
         self.__on_selection_changed()
-
-            # disable all this for now; the g-t default has an ugly foreground, let's just use
-            # the theme.
-#            term_profile = '/apps/gnome-terminal/profiles/Default'
-#            fg_key = term_profile + '/foreground_color'
-#            bg_key = term_profile + '/background_color'
-#            def on_color_change():
-#                if not self.__colors_default:
-#                    return
-#                fg = gtk.gdk.color_parse(gconf_client.get_string(fg_key))
-#                self.set_color(True, fg)
-#                bg = gtk.gdk.color_parse(gconf_client.get_string(bg_key))
-#                self.set_color(False, bg)
-#            gconf_client.notify_add(fg_key, on_color_change)
-#            gconf_client.notify_add(bg_key, on_color_change)
-#            on_color_change()            
 
         if ptyfd is not None:
             # If we have a PTY, set it up immediately
@@ -242,17 +229,32 @@ class VteTerminalWidget(gtk.VBox):
         rather than a merged approach.""" 
         self.__copyaction = copyaction
         self.__pasteaction = pasteaction
-    
-    def __sync_colors(self):
-        if self.__colors_default:
-            fg = self.style.text[gtk.STATE_NORMAL]
-            bg = self.style.base[gtk.STATE_NORMAL]
-            self.set_color(True, fg)
-            self.set_color(False, bg)
-        else:
-            pass # not implemented yet
         
-    def set_color(self, is_foreground, color):
+    def __set_gnome_colors(self):
+        gconf_client = gconf.client_get_default()        
+        term_profile = '/apps/gnome-terminal/profiles/Default'
+        fg_key = term_profile + '/foreground_color'
+        bg_key = term_profile + '/background_color'
+        def on_color_change():
+            if not self.__colors_default:
+                return
+            fg = gtk.gdk.color_parse(gconf_client.get_string(fg_key))
+            self.set_color(True, fg, isdefault=True)
+            bg = gtk.gdk.color_parse(gconf_client.get_string(bg_key))
+            self.set_color(False, bg, isdefault=True)
+        gconf_client.notify_add(fg_key, on_color_change)
+        gconf_client.notify_add(bg_key, on_color_change)
+        on_color_change()        
+    
+    def __set_gtk_colors(self):
+        fg = self.style.text[gtk.STATE_NORMAL]
+        bg = self.style.base[gtk.STATE_NORMAL]
+        self.set_color(True, fg, isdefault=True)
+        self.set_color(False, bg, isdefault=True)
+        
+    def set_color(self, is_foreground, color, isdefault=False):
+        if not isdefault:
+            self.__colors_default = False            
         if is_foreground:
             self.__term.set_color_foreground(color)
             self.__term.set_color_bold(color)
