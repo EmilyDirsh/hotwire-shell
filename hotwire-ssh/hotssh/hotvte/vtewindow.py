@@ -23,7 +23,7 @@ import signal
 import gtk,gobject,pango
 import dbus,dbus.glib,dbus.service
 
-from hotvte.vteterm import VteTerminalWidget
+from hotssh.hotvte.vteterm import VteTerminalWidget
 
 from hotwire_ui.quickfind import QuickFindWindow
 from hotwire_ui.aboutdialog import HotwireAboutDialog
