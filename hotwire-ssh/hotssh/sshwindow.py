@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import os,sys,platform,logging,getopt
+import os,sys,platform,logging,getopt,re
 import locale,threading,subprocess,time
 import signal,tempfile,shutil,stat,pwd
 import datetime
@@ -39,6 +39,8 @@ from hotssh.hotlib_ui.quickfind import QuickFindWindow
 from hotssh.hotlib_ui.msgarea import MsgAreaController
 
 _logger = logging.getLogger("hotssh.SshWindow")
+
+_whitespace_re = re.compile('\s+')
 
 class SshConnectionHistory(object):
     def __init__(self):
@@ -230,8 +232,30 @@ class ConnectDialog(gtk.Dialog):
                                                           self.__render_time_recency, datetime.datetime.now())
         vbox.pack_start(frame, expand=True)
         self.__reload_connection_history()
+        
+        self.__options_expander = expand = gtk.Expander(_('Options'))
+        expand.set_label('<b>%s</b>' % (gobject.markup_escape_text(expand.get_label())))
+        expand.set_use_markup(True)
+        options_vbox = gtk.VBox()
+        options_hbox = gtk.HBox()
+        options_vbox.add(options_hbox)
+        self.__options_entry = gtk.Entry()
+        options_hbox.pack_start(self.__options_entry, expand=True)
+        options_help = gtk.Button(stock=gtk.STOCK_HELP)
+        options_help.connect('clicked', self.__on_options_help_clicked)
+        options_hbox.pack_start(options_help, expand=False)
+        options_helplabel = gtk.Label(_('Example: '))
+        options_helplabel.set_markup('<i>%s -C -Y -oTCPKeepAlive=false</i>' % (gobject.markup_escape_text(options_helplabel.get_label()),))
+        options_helplabel.set_alignment(0.0, 0.5)
+        options_vbox.add(options_helplabel)
+        self.__options_expander.add(options_vbox)
+        vbox.pack_start(expand, expand=False)        
 
         self.set_default_size(640, 480)
+        
+    def __on_options_help_clicked(self, b):
+        # Hooray Unix!
+        subprocess.Popen(['gnome-terminal', '-x', 'man', 'ssh'])
         
     def __render_userhost(self, col, cell, model, iter):
         user = model.get_value(iter, 0)
@@ -328,10 +352,12 @@ class ConnectDialog(gtk.Dialog):
         host = self.__entry.get_active_text()
         if not host:
             return None
+        args = [x for x in _whitespace_re.split(self.__options_entry.get_text()) if x != '']
         if self.__custom_user:
-            return [self.__user_entry.get_text() + '@' + host]
+            args.append(self.__user_entry.get_text() + '@' + host)
         else:
-            return [host]
+            args.append(host)
+        return args
 
 _CONTROLPATH = None
 def get_controlpath(create=True):
