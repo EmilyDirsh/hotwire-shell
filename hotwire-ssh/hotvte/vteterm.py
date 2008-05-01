@@ -235,7 +235,7 @@ class VteTerminalWidget(gtk.VBox):
         term_profile = '/apps/gnome-terminal/profiles/Default'
         fg_key = term_profile + '/foreground_color'
         bg_key = term_profile + '/background_color'
-        def on_color_change():
+        def on_color_change(*args):
             if not self.__colors_default:
                 return
             fg = gtk.gdk.color_parse(gconf_client.get_string(fg_key))
