@@ -27,6 +27,33 @@ if __name__ == '__main__' and hasattr(sys.modules['__main__'], '__file__'):
         sys.path.insert(0, up_basedir)
         os.environ['HOTWIRE_UNINSTALLED'] = '1'
         os.environ['PYTHONPATH'] = os.pathsep.join(sys.path)
+        
+exec_real_ssh = False
+try:
+	import gtk
+except:
+	# No gtk, clearly no hotwire-ssh
+	exec_real_ssh = True
+if not exec_real_ssh:
+	# These options are ones which are mostly designed to be used from
+	# an existing Unix terminal.
+	for arg in ['-n', '-s', '-T']:
+		if arg in sys.argv[1:]:
+			exec_real_ssh = True
+			break
+if not exec_real_ssh:
+	# If we have at least two nonoptions, then the command is of the form:
+	# user@host command ...
+	# This style is designed to get output into an existing display generally
+	nonoption_count = 0
+	for arg in sys.argv[1:]:
+		if not arg.startswith('-'):
+			nonoption_count += 1
+	if nonoption_count > 1:
+		exec_real_ssh = True 
+
+if exec_real_ssh:
+	os.execvp('ssh', ['ssh'] + sys.argv[1:])
 
 from hotssh.sshwindow import SshApp
 from hotvte.vtewindow import VteMain
