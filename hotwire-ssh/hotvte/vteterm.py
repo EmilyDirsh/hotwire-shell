@@ -188,9 +188,17 @@ class VteTerminalWidget(gtk.VBox):
                 menuitem.connect('activate', lambda menu: self.__open_url(url))
                 menu.append(gtk.SeparatorMenuItem())
                 menu.append(menuitem)
+            extra = self._get_extra_context_menuitems()
+            if len(extra) > 0:
+                menu.append(gtk.SeparatorMenuItem())
+                for item in extra:
+                    menu.append(item)
             menu.popup(None, None, None, event.button, event.time)            
             return True
-        return False             
+        return False
+
+    def _get_extra_context_menuitems(self):
+        return []
 
     def __open_url(self, url):
         # Older webbrowser.py didn't check gconf

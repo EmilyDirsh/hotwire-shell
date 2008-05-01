@@ -19,6 +19,8 @@
 import os,sys,platform,logging,getopt
 import locale,threading,subprocess,time
 import signal,tempfile,shutil,stat,pwd
+import datetime
+
 try:
     import sqlite3
 except:
@@ -32,6 +34,7 @@ from hotvte.vtewindow import VteWindow
 from hotvte.vtewindow import VteApp
 
 from hotssh.hotlib.logutil import log_except
+from hotssh.hotlib.timesince import timesince
 from hotssh.hotlib_ui.quickfind import QuickFindWindow
 from hotssh.hotlib_ui.msgarea import MsgAreaController
 
@@ -40,19 +43,57 @@ _logger = logging.getLogger("hotssh.SshWindow")
 class SshConnectionHistory(object):
     def __init__(self):
         self.__statedir = os.path.expanduser('~/.hotwire/state')
-        try:
-            os.makedirs(self.__statedir)
+        try:            os.makedirs(self.__statedir)
         except:
             pass
-        self.__path = os.path.join(self.__statedir, 'ssh.sqlite')
+        self.__path = path =os.path.join(self.__statedir, 'ssh.sqlite')
         self.__conn = sqlite3.connect(path, isolation_level=None)
         cursor = self.__conn.cursor()
-        cursor.execute('''CREATE TABLE IF NOT EXISTS Connections (bid INTEGER PRIMARY KEY AUTOINCREMENT, host TEXT, user TEXT, options TEXT, conntime DATETIME)''')     
+        cursor.execute('''CREATE TABLE IF NOT EXISTS Connections (bid INTEGER PRIMARY KEY AUTOINCREMENT, host TEXT, user TEXT, options TEXT, conntime DATETIME)''')
         cursor.execute('''CREATE INDEX IF NOT EXISTS ConnectionsIndex1 on Connections (host)''')
-        cursor.execute('''CREATE INDEX IF NOT EXISTS ConnectionsIndex2 on Connections (host,user)''')        
+        cursor.execute('''CREATE INDEX IF NOT EXISTS ConnectionsIndex2 on Connections (host,user)''')
+        cursor.execute('''CREATE TABLE IF NOT EXISTS Colors (bid INTEGER PRIMARY KEY AUTOINCREMENT, pattern TEXT UNIQUE, fg TEXT, bg TEXT, modtime DATETIME)''')
+        cursor.execute('''CREATE INDEX IF NOT EXISTS ColorsIndex on Colors (pattern)''')
 
-    def get_users_for_host(self, host):
-        pass
+    def get_recent_connections_search(self, host):
+        cursor = self.__conn.cursor()
+        params = ()
+        q = '''SELECT user,host,options,conntime FROM Connections '''
+        if host:
+            q += '''WHERE host LIKE ? ESCAPE '%' '''
+            params = ('%' + host.replace('%', '%%') + '%',)
+        q += '''ORDER BY conntime DESC LIMIT 10'''
+        def sqlite_timestamp_to_datetime(s):
+            return datetime.datetime.fromtimestamp(time.mktime(time.strptime(s[:-7], '%Y-%m-%d %H:%M:%S')))
+        seen = set()         
+        for user,host,options,conntime in cursor.execute(q, params):
+            uhost = user+'@'+host
+            if uhost in seen:
+                continue
+            seen.add(uhost)
+            # We do this just to parse conntime
+            yield uhost,options,sqlite_timestamp_to_datetime(conntime)  
+
+    def get_users_for_host_search(self, host):
+        return map(lambda x: x[0], self.get_recent_connections_search(host))
+
+    def add_connection(self, host, user, options):
+        cursor = self.__conn.cursor()
+        cursor.execute('''BEGIN TRANSACTION''')
+        cursor.execute('''INSERT INTO Connections VALUES (NULL, ?, ?, ?, ?)''', (user, host, ' '.join(options), datetime.datetime.now()))
+        cursor.execute('''COMMIT''')
+
+    def get_color_for_host(self, host):
+        cursor = self.__conn.cursor()
+        res = cursor.execute('SELECT fg,bg FROM Colors WHERE pattern = ? ORDER BY conntime DESC LIMIT 10')
+        if len(res) > 0:
+            return res[0]
+        return None
+
+    def set_color_for_host(self, host, fg, bg):
+        cursor.execute('''BEGIN TRANSACTION''')
+        cursor.execute('''INSERT INTO Colors VALUES (NULL, ?, ?, ?, ?)''', (host, fg, bg, datetime.datetime.now()))
+        cursor.execute('''COMMIT''')
 
 class OpenSSHKnownHostsDB(object):
     def __init__(self):
@@ -94,12 +135,14 @@ class OpenSSHKnownHostsDB(object):
 _openssh_hosts_db = OpenSSHKnownHostsDB()
 
 class ConnectDialog(gtk.Dialog):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, history=None):
         super(ConnectDialog, self).__init__(title=_("New SSH Connection"),
                                             parent=parent,
                                             flags=gtk.DIALOG_DESTROY_WITH_PARENT,
                                             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL))
         
+        self.__history = history
+
         self.connect('response', lambda *args: self.hide())
         self.connect('delete-event', self.hide_on_delete)
         button = self.add_button(_('C_onnect'), gtk.RESPONSE_ACCEPT)
@@ -116,6 +159,7 @@ class ConnectDialog(gtk.Dialog):
         self.__response_value = None
    
         self.__idle_search_id = 0
+        self.__idle_update_search_id = 0
    
         self.__hosts = _openssh_hosts_db
 
@@ -128,6 +172,7 @@ class ConnectDialog(gtk.Dialog):
         hbox.pack_start(host_label, expand=False)
         self.__entry = gtk.combo_box_entry_new_text()
         self.__entry.child.connect('activate', self.__on_entry_activated)
+        self.__entry.child.connect('notify::text', self.__on_entry_modified)
         self.__entrycompletion = gtk.EntryCompletion()
         self.__entrycompletion.set_property('inline-completion', True)
         self.__entrycompletion.set_property('popup-single-match', False)
@@ -146,7 +191,38 @@ class ConnectDialog(gtk.Dialog):
         self.__user_entry = gtk.Entry()
         self.__user_entry.set_text(pwd.getpwuid(os.getuid()).pw_name)
         self.__user_entry.set_activates_default(True)
+        self.__user_completion = gtk.EntryCompletion()
+        self.__user_completion.set_property('inline-completion', True)
+        self.__user_completion.set_property('popup-single-match', False)
+        self.__user_completion.set_model(gtk.ListStore(gobject.TYPE_STRING))
+        self.__user_completion.set_text_column(0)     
+        self.__user_entry.set_completion(self.__user_completion)
+
         hbox.pack_start(self.__user_entry, expand=False)
+
+        frame = gtk.Frame('Connection History:')
+        self.__recent_model = gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)
+        self.__recent_view = gtk.TreeView(self.__recent_model)
+        frame.add(self.__recent_view)
+        colidx = self.__recent_view.insert_column_with_data_func(-1, _('Connection'),
+                                                          gtk.CellRendererText(),
+                                                          self.__render_printable)
+        colidx = self.__recent_view.insert_column_with_data_func(-1, _('Time'),
+                                                          gtk.CellRendererText(),
+                                                          self.__render_time_recency, datetime.datetime.now())
+        vbox.pack_start(frame, expand=True)
+        self.__reload_connection_history()
+
+        self.set_default_size(640, 480)
+        
+    def __render_printable(self, col, cell, model, iter):
+        val = model.get_value(iter, 0)
+        cell.set_property('text', unicode(val))
+        
+    def __render_time_recency(self, col, cell, model, iter, curtime):
+        val = model.get_value(iter, 1)
+        deltastr = timesince(val, curtime)
+        cell.set_property('text', deltastr)
        
     def __reload_entry(self, *args, **kwargs):
         _logger.debug("reloading")
@@ -162,10 +238,38 @@ class ConnectDialog(gtk.Dialog):
         for host in self.__hosts.get_hosts():
             self.__entry.append_text(host)
 
+    def __on_entry_modified(self, *args):
+        if self.__idle_update_search_id == 0:
+            self.__idle_update_search_id = gobject.timeout_add(250, self.__idle_update_search)
+
+    def __force_idle_search(self):
+        if self.__idle_update_search_id > 0:
+            gobject.source_remove(self.__idle_update_search_id)
+        self.__idle_update_search()
+
+    def __idle_update_search(self):
+        self.__idle_update_search_id = 0
+        host = self.__entry.get_active_text()
+        usernames = self.__history.get_users_for_host_search(host)
+        if len(usernames) > 0:
+            self.__user_entry.set_text(usernames[0])
+            model = gtk.ListStore(gobject.TYPE_STRING)
+            for uname in usernames:
+                model.append((uname,))
+            self.__user_completion.set_model(model)
+        self.__reload_connection_history()            
+
+    def __reload_connection_history(self):
+        hosttext = self.__entry.get_active_text()
+        self.__recent_model.clear()
+        for user_host,options,ts in self.__history.get_recent_connections_search(hosttext):
+            self.__recent_model.append((user_host, ts))
+
     def __on_entry_activated(self, *args):
+        self.__force_idle_search()
         hosttext = self.__entry.get_active_text()
         if hosttext.find('@') >= 0:
-            (user, host) = hosttext.split('@')
+            (user, host) = hosttext.split('@', 1)
             self.__user_entry.set_text(user)
             self.__entry.child.set_text(host)
             self.__user_entry.activate()
@@ -262,6 +366,15 @@ class HostConnectionMonitor(gobject.GObject):
         
 _hostmonitor = HostConnectionMonitor()
 
+class SshTerminalWidgetImpl(VteTerminalWidget):
+    def __init__(self, *args, **kwargs):
+        super(SshTerminalWidgetImpl, self).__init__(*args, **kwargs)
+
+    def _get_extra_context_menuitems(self):
+        menuitem = gtk.MenuItem('Frob')
+        menuitem.connect('activate', lambda *args: True)
+        return [menuitem]
+
 class SshTerminalWidget(gtk.VBox):
     __gsignals__ = {
         "close" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, []),
@@ -327,7 +440,7 @@ class SshTerminalWidget(gtk.VBox):
         
     def ssh_connect(self):
         self.__connecting_state = True        
-        self.__term = term = VteTerminalWidget(cwd=self.__cwd, cmd=self.__sshcmd)
+        self.__term = term = SshTerminalWidgetImpl(cwd=self.__cwd, cmd=self.__sshcmd)
         term.connect('child-exited', self.__on_child_exited)
         term.show_all()
         self.pack_start(term, expand=True)
@@ -344,7 +457,7 @@ class SshTerminalWidget(gtk.VBox):
         self.remove(self.__term)
         self.__term.destroy()
         self.__init_state()
-        self.ssh_connect()    
+        self.ssh_connect()
         
     def __on_child_exited(self, term):
         _logger.debug("disconnected")
@@ -363,7 +476,7 @@ class SshTerminalWidget(gtk.VBox):
             self.ssh_reconnect()
         else:
             self.emit('close')
-        
+
     def has_close(self):
         return True
         
@@ -419,13 +532,30 @@ class SshWindow(VteWindow):
         
         self.connect("notify::is-active", self.__on_is_active_changed)
         _hostmonitor.connect('host-status', self.__on_host_status)
+
+        self.__connhistory = SshConnectionHistory()
         
         self.__merge_ssh_ui()
-        
+
+    def __add_to_history(self, args):
+        user = None
+        host = None
+        options = []
+        for arg in args:
+            if arg.startswith('-'): 
+                options.extend(arg)
+                continue
+            if arg.find('@') >= 0:
+                (user, host) = arg.split('@', 1)
+            else:
+                host = arg
+        self.__connhistory.add_connection(user, host, options)
+
     def new_tab(self, args, cwd):
         if len(args) == 0:
             self.open_connection_dialog(exit_on_cancel=True)
         else:
+            self.__add_to_history(args)
             term = SshTerminalWidget(args=args, cwd=cwd, actions=self.__action_group)
             self.append_widget(term)
         
@@ -517,7 +647,7 @@ class SshWindow(VteWindow):
         self.new_tab(args, None)
 
     def open_connection_dialog(self, exit_on_cancel=False):
-        win = ConnectDialog(parent=self)
+        win = ConnectDialog(parent=self, history=self.__connhistory)
         sshargs = win.run_get_cmd()
         if not sshargs:
             # We get here when called with no arguments, and we're the main instance.
