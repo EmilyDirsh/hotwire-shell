@@ -74,11 +74,14 @@ def timesince(d, now=None):
         count = since // seconds
         if count != 0:
             break
-    s = _('%(number)d %(type)s ago') % {'number': count, 'type': name(count)}
+    s = None   
     if i + 1 < len(chunks):
         # Now get the second item
         seconds2, name2 = chunks[i + 1]
         count2 = (since - (seconds * count)) // seconds2
-        if count2 != 0:
-            s += _(', %(number)d %(type)s ago') % {'number': count2, 'type': name2(count2)}
+        if count2 != 0:        
+            s = _('%(number)d %(type)s, %(number2)d %(type2)s ago') % {'number': count, 'type': name(count), 
+                                                                       'number2': count2, 'type2': name2(count2)}        
+    if not s:
+        s = _('%(number)d %(type)s ago') % {'number': count, 'type': name(count)}        
     return s
