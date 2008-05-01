@@ -56,6 +56,6 @@ if exec_real_ssh:
 	os.execvp('ssh', ['ssh'] + sys.argv[1:])
 
 from hotssh.sshwindow import SshApp
-from hotvte.vtewindow import VteMain
+from hotssh.hotvte.vtewindow import VteMain
 
 VteMain().main(SshApp)

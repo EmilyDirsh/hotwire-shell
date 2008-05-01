@@ -85,7 +85,7 @@ elif 'svn-dist-test' in sys.argv:
 
 kwargs = {'cmdclass': {}}
 kwargs['scripts'] = ['bin/hotwire-ssh']
-kwargs['data_files'] = [('share/applications', ['hotssh.desktop']), 
+kwargs['data_files'] = [('share/applications', ['hotwire-ssh.desktop']), 
                         ('share/icons/hicolor/24x24/apps', ['images/hotwire-openssh.png']),
                         ('/etc/profile.d', ['hotwire-ssh.sh', 'hotwire-ssh.csh']),
                        ]   
@@ -105,5 +105,5 @@ setup(name=APPNAME,
       author='Colin Walters',
       author_email='walters@verbum.org',
       url='http://hotwire-shell.org',   
-      packages=['hotssh', 'hotssh.hotlib', 'hotssh.hotlib_ui', 'hotvte'],
+      packages=['hotssh', 'hotssh.hotlib', 'hotssh.hotlib_ui', 'hotssh.hotvte'],
       **kwargs)

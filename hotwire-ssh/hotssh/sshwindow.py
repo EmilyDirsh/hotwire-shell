@@ -29,10 +29,9 @@ except:
 import gtk,gobject,pango
 import dbus,dbus.glib,dbus.service
 
-from hotvte.vteterm import VteTerminalWidget
-from hotvte.vtewindow import VteWindow
-from hotvte.vtewindow import VteApp
-
+from hotssh.hotvte.vteterm import VteTerminalWidget
+from hotssh.hotvte.vtewindow import VteWindow
+from hotssh.hotvte.vtewindow import VteApp
 from hotssh.hotlib.logutil import log_except
 from hotssh.hotlib.timesince import timesince
 from hotssh.hotlib_ui.quickfind import QuickFindWindow
