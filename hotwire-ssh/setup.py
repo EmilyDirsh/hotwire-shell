@@ -30,7 +30,14 @@ if __name__ == '__main__' and hasattr(sys.modules['__main__'], '__file__'):
         print "Running uninstalled, extending path"
         sys.path.insert(0, basedir)
         os.environ['PYTHONPATH'] = os.pathsep.join(sys.path)
-__import__(MODDIR + '.version', fromlist=['__version__'])
+def my_import(name):
+    mod = __import__(name)
+    components = name.split('.')
+    for comp in components[1:]:
+        mod = getattr(mod, comp)
+    return mod        
+ver = my_import(MODDIR + '.version')
+__version__ = getattr(ver, '__version__') 
 
 def svn_info(wd):
     import subprocess,StringIO
@@ -76,7 +83,7 @@ elif 'svn-dist-test' in sys.argv:
     svn_dist_test()
     sys.exit(0)
 
-kwargs = {}
+kwargs = {'cmdclass': {}}
 
 if 'py2exe' in sys.argv:
     import py2exe
@@ -87,15 +94,11 @@ if 'py2exe' in sys.argv:
                                     'includes': 'cairo, pango, pangocairo, atk, gobject'}
                          }
 else:
-    kwargs['scripts'] = ['bin/hotssh']
+    kwargs['scripts'] = ['bin/hotwire-ssh']
     kwargs['data_files'] = [('share/applications', ['hotssh.desktop']), 
                             ('share/icons/hicolor/24x24/apps', ['images/hotwire-openssh.png']),
-                           ]
-    from DistUtilsExtra.command import *
-    kwargs['cmdclass'] = { "build_extra" : build_extra.build_extra,
-                           "build_i18n" :  build_i18n.build_i18n,
-                           "build_help" :  build_help.build_help,
-                           "build_icons" :  build_icons.build_icons }
+                            ('/etc/profile.d', ['hotwire-ssh.sh', 'hotwire-ssh.csh']),
+                           ]   
     
 class HotInstall(install):
     def run(self):
@@ -112,5 +115,5 @@ setup(name=APPNAME,
       author='Colin Walters',
       author_email='walters@verbum.org',
       url='http://hotwire-shell.org',   
-      packages=['hotssh', 'hotvte'],
+      packages=['hotssh', 'hotssh.hotlib', 'hotssh.hotlib_ui', 'hotvte'],
       **kwargs)
