@@ -176,6 +176,7 @@ class ConnectDialog(gtk.Dialog):
         self.__entry.child.connect('notify::text', self.__on_entry_modified)
         self.__entrycompletion = gtk.EntryCompletion()
         self.__entrycompletion.set_property('inline-completion', True)
+        self.__entrycompletion.set_property('popup-completion', False)
         self.__entrycompletion.set_property('popup-single-match', False)
         self.__entrycompletion.set_model(self.__entry.get_property('model'))
         self.__entrycompletion.set_text_column(0)     
@@ -201,7 +202,12 @@ class ConnectDialog(gtk.Dialog):
 
         hbox.pack_start(self.__user_entry, expand=False)
 
-        frame = gtk.Frame('Connection History:')
+        vbox.pack_start(gtk.Label(' '), expand=False)
+
+        history_label = gtk.Label(_('Connection History'))
+        history_label.set_markup('<b>%s</b>' % (gobject.markup_escape_text(history_label.get_text())))        
+        frame = gtk.Frame()
+        #frame.set_label_widget(history_label)
         self.__recent_model = gtk.ListStore(gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)
         self.__recent_view = gtk.TreeView(self.__recent_model)
         self.__recent_view.connect('row-activated', self.__on_recent_activated)
