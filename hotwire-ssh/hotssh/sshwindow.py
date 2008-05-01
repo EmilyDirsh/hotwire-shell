@@ -75,7 +75,8 @@ class SshConnectionHistory(object):
             yield uhost,options,sqlite_timestamp_to_datetime(conntime)  
 
     def get_users_for_host_search(self, host):
-        return map(lambda x: x[0], self.get_recent_connections_search(host))
+        for uhost,options,ts in self.get_recent_connections_search(host):
+            yield uhost.split('@', 1)[0]
 
     def add_connection(self, host, user, options):
         cursor = self.__conn.cursor()
@@ -250,7 +251,7 @@ class ConnectDialog(gtk.Dialog):
     def __idle_update_search(self):
         self.__idle_update_search_id = 0
         host = self.__entry.get_active_text()
-        usernames = self.__history.get_users_for_host_search(host)
+        usernames = list(self.__history.get_users_for_host_search(host))
         if len(usernames) > 0:
             self.__user_entry.set_text(usernames[0])
             model = gtk.ListStore(gobject.TYPE_STRING)
