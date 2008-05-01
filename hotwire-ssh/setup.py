@@ -84,21 +84,11 @@ elif 'svn-dist-test' in sys.argv:
     sys.exit(0)
 
 kwargs = {'cmdclass': {}}
-
-if 'py2exe' in sys.argv:
-    import py2exe
-    # FIXME doesn't work on windows
-    kwargs['windows'] = [{'script': 'ui/hotwire', #'icon_resources': [(1, 'hotwire.ico')]
-                        }]
-    kwargs['options'] = {'py2exe': {'packages': 'encodings',
-                                    'includes': 'cairo, pango, pangocairo, atk, gobject'}
-                         }
-else:
-    kwargs['scripts'] = ['bin/hotwire-ssh']
-    kwargs['data_files'] = [('share/applications', ['hotssh.desktop']), 
-                            ('share/icons/hicolor/24x24/apps', ['images/hotwire-openssh.png']),
-                            ('/etc/profile.d', ['hotwire-ssh.sh', 'hotwire-ssh.csh']),
-                           ]   
+kwargs['scripts'] = ['bin/hotwire-ssh']
+kwargs['data_files'] = [('share/applications', ['hotssh.desktop']), 
+                        ('share/icons/hicolor/24x24/apps', ['images/hotwire-openssh.png']),
+                        ('/etc/profile.d', ['hotwire-ssh.sh', 'hotwire-ssh.csh']),
+                       ]   
     
 class HotInstall(install):
     def run(self):
