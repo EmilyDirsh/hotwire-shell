@@ -193,6 +193,7 @@ class VteTerminalWidget(gtk.VBox):
                 menu.append(gtk.SeparatorMenuItem())
                 for item in extra:
                     menu.append(item)
+            menu.show_all()
             menu.popup(None, None, None, event.button, event.time)            
             return True
         return False

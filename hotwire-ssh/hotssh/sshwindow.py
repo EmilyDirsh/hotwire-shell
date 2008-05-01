@@ -200,7 +200,7 @@ class ConnectDialog(gtk.Dialog):
         sg.add_widget(host_label)
         hbox.pack_start(host_label, expand=False)
         self.__user_entry = gtk.Entry()
-        self.__user_entry.set_text(pwd.getpwuid(os.getuid()).pw_name)
+        self.__set_user(None)
         self.__user_entry.connect('notify::text', self.__on_user_modified)
         self.__user_entry.set_activates_default(True)
         self.__user_completion = gtk.EntryCompletion()
@@ -241,6 +241,11 @@ class ConnectDialog(gtk.Dialog):
         else:
             userhost = host
         cell.set_property('text', userhost)
+        
+    def __set_user(self, name):
+        if name is None:
+            name = pwd.getpwuid(os.getuid()).pw_name
+        self.__user_entry.set_text(name) 
         
     def __render_time_recency(self, col, cell, model, iter, curtime):
         val = model.get_value(iter, 2)
@@ -308,10 +313,11 @@ class ConnectDialog(gtk.Dialog):
             
     def __on_recent_activated(self,  tv, path, vc):
         iter = self.__recent_model.get_iter(path)
-        uhost = self.__recent_model.get_value(iter, 0)
-        (user, host) = uhost.split('@', 1)   
+        user = self.__recent_model.get_value(iter, 0)
+        host = self.__recent_model.get_value(iter, 1)
         self.__entry.child.set_text(host)
-        self.__user_entry.set_text(user)
+        if user:
+            self.__user_entry.set_text(user)
         self.activate_default()
             
     def run_get_cmd(self):
@@ -408,12 +414,11 @@ _hostmonitor = HostConnectionMonitor()
 
 class SshTerminalWidgetImpl(VteTerminalWidget):
     def __init__(self, *args, **kwargs):
+        self.__actions = kwargs['actions']
         super(SshTerminalWidgetImpl, self).__init__(*args, **kwargs)
 
     def _get_extra_context_menuitems(self):
-        menuitem = gtk.MenuItem('Frob')
-        menuitem.connect('activate', lambda *args: True)
-        return [menuitem]
+        return [self.__actions.get_action(x).create_menu_item() for x in ['CopyConnection', 'OpenSFTP']]
 
 class SshTerminalWidget(gtk.VBox):
     __gsignals__ = {
@@ -480,7 +485,7 @@ class SshTerminalWidget(gtk.VBox):
         
     def ssh_connect(self):
         self.__connecting_state = True        
-        self.__term = term = SshTerminalWidgetImpl(cwd=self.__cwd, cmd=self.__sshcmd)
+        self.__term = term = SshTerminalWidgetImpl(cwd=self.__cwd, cmd=self.__sshcmd, actions=self.__actions)
         term.connect('child-exited', self.__on_child_exited)
         term.show_all()
         self.pack_start(term, expand=True)
