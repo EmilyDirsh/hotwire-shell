@@ -451,7 +451,7 @@ class VteMain(object):
         if 'HOTVTE_DEBUG' in os.environ:
             default_log_level = logging.DEBUG
  
-        import hotwire.logutil
+        import hotssh.hotlib.logutil
         mods = os.environ.get('HOTVTE_DEBUG_MODULES', '')
         if mods:
             mods = mods.split(',')
