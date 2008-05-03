@@ -20,12 +20,14 @@ import os, sys, re, logging, string
 
 import gtk, gobject, pango
 
-from hotwire.state import Preferences
-from hotwire.logutil import log_except
-import hotwire_ui.widgets as hotwidgets
-from hotwire_ui.pixbufcache import PixbufCache
-from hotwire.state import History
-from hotwire.util import markup_for_match
+from hotssh.hotlib.logutil import log_except
+
+def markup_for_match(text, start, end, matchtarget=None):
+    source = matchtarget or text
+    return  '%s<b>%s</b>%s%s' % (gobject.markup_escape_text(source[0:start]),
+                                 gobject.markup_escape_text(source[start:end]),
+                                 gobject.markup_escape_text(source[end:]),
+                                 matchtarget and (' - <i>' + text + '</i>') or '')
 
 _logger = logging.getLogger("hotwire.ui.QuickFind")
 

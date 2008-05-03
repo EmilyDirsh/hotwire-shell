@@ -25,8 +25,7 @@ import dbus,dbus.glib,dbus.service
 
 from hotssh.hotvte.vteterm import VteTerminalWidget
 
-from hotwire_ui.quickfind import QuickFindWindow
-from hotwire_ui.aboutdialog import HotwireAboutDialog
+from hotssh.hotlib_ui.quickfind import QuickFindWindow
 
 _logger = logging.getLogger("hotvte.VteWindow")
 
@@ -257,6 +256,7 @@ class VteWindow(gtk.Window):
         self.__remove_page_widget(widget)
 
     def __help_about_cb(self, action):
+        from hotwire_ui.aboutdialog import HotwireAboutDialog        
         dialog = HotwireAboutDialog()
         dialog.run()
         dialog.destroy()

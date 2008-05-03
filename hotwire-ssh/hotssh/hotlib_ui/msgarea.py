@@ -20,8 +20,7 @@ import os, sys, re, logging, string
 
 import gtk, gobject, pango
 
-from hotwire.logutil import log_except
-import hotwire_ui.widgets as hotwidgets
+from hotssh.hotlib.logutil import log_except
 
 _logger = logging.getLogger("hotwire.ui.MsgArea")
 
