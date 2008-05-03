@@ -457,7 +457,7 @@ class VteMain(object):
             mods = mods.split(',')
         else:
             mods = []
-        hotwire.logutil.init(default_log_level, mods, '')
+        hotssh.hotlib.logutil.init(default_log_level, mods, '')
 
         _logger.debug("logging initialized")
 
