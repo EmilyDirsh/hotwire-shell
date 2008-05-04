@@ -35,7 +35,7 @@ if __name__ == '__main__' and hasattr(sys.modules['__main__'], '__file__'):
     if os.path.exists(os.path.join(up_basedir, 'COPYING')):
         print "Detected COPYING; Apparently running uninstalled, extending path"
         sys.path.insert(0, up_basedir)
-        os.environ['HOTWIRE_UNINSTALLED'] = '1'
+        os.environ['HOTWIRE_UNINSTALLED'] = up_basedir
         os.environ['PYTHONPATH'] = os.pathsep.join(sys.path)
         
 exec_real_ssh = False

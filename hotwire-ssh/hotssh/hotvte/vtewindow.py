@@ -102,7 +102,9 @@ class VteWindow(gtk.Window):
         if os.getenv('HOTWIRE_UNINSTALLED'):
             # For some reason set_icon() started failing...do it manually.
             iinf = gtk.icon_theme_get_default().lookup_icon(icon_name, 24, 0)
-            self.set_icon_from_file(iinf.get_filename())
+            if iinf:
+                fn = iinf.get_filename()
+                self.set_icon_from_file(fn)
         else:
             self.set_icon_name(icon_name)
         self.connect("delete-event", lambda w, e: False)
