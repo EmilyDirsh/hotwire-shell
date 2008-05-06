@@ -21,6 +21,8 @@ import locale,threading,subprocess,time
 import signal,tempfile,shutil,stat,pwd
 import datetime
 
+import xml.dom.minidom
+
 try:
     import sqlite3
 except:
@@ -55,7 +57,7 @@ class SshConnectionHistory(object):
         cursor.execute('''CREATE INDEX IF NOT EXISTS ConnectionsIndex1 on Connections (host)''')
         cursor.execute('''CREATE INDEX IF NOT EXISTS ConnectionsIndex2 on Connections (host,user)''')
         cursor.execute('''CREATE TABLE IF NOT EXISTS Colors (bid INTEGER PRIMARY KEY AUTOINCREMENT, pattern TEXT UNIQUE, fg TEXT, bg TEXT, modtime DATETIME)''')
-        cursor.execute('''CREATE INDEX IF NOT EXISTS ColorsIndex on Colors (pattern)''')
+        cursor.execute('''CREATE INDEX IF NOT EXISTS ColorsIndex on Colors (pattern)''')    
 
     def get_recent_connections_search(self, host, limit=10):
         cursor = self.__conn.cursor()
@@ -453,6 +455,7 @@ class SshTerminalWidget(gtk.VBox):
     def __init__(self, args, cwd, actions=None):
         super(SshTerminalWidget, self).__init__()
         self.__init_state()
+        self.__args = args        
         self.__sshcmd = list(get_sshcmd())
         self.__sshcmd.extend(args)
         self.__cwd = cwd
@@ -592,6 +595,8 @@ class SshWindow(VteWindow):
 
         self._get_notebook().connect('switch-page', self.__on_page_switch)
 
+        self.__sessionpath = os.path.expanduser('~/.hotwire/hotwire-ssh.session')    
+
         try:
             self.__nm_proxy = dbus.SystemBus().get_object('org.freedesktop.NetworkManager', '/org/freedesktop/NetworkManager')
             self.__nm_proxy.connect_to_signal('StateChange', self.__on_nm_state_change)
@@ -629,6 +634,62 @@ class SshWindow(VteWindow):
             self.__add_to_history(args)
             term = SshTerminalWidget(args=args, cwd=cwd, actions=self.__action_group)
             self.append_widget(term)
+            
+    def _load_session(self):
+        try:
+            f = open(self.__sessionpath)
+        except:
+            return None
+        doc = xml.dom.minidom.parse(f)
+        connections = []
+        for child in doc.documentElement.childNodes:
+            if not (child.nodeType == child.ELEMENT_NODE and child.nodeName == 'connection'): 
+                continue
+            host = child.getAttribute('host')
+            iscurrent = child.getAttribute('current')
+            options = []
+            for options_elt in child.childNodes:
+                if not (options_elt.nodeType == child.ELEMENT_NODE and options_elt.nodeName == 'options'): 
+                    continue
+                for option_elt in child.childNodes:
+                    if not (option_elt.nodeType == child.ELEMENT_NODE and options_elt.nodeName == 'option'): 
+                        continue
+                    options.append(option.firstChild.nodeValue)
+            kwopts = {}
+            if iscurrent:
+                kwopts['iscurrent'] = True
+            if len(options) > 0:
+                kwopts['options'] = options
+            connections.append((host, kwopts))
+        return connections
+        
+    #override
+    @log_except(_logger)    
+    def _save_session(self):
+        notebook = self._get_notebook()
+        current = notebook.get_nth_page(notebook.get_current_page())
+        tempf_path = tempfile.mktemp('.session.tmp', 'hotwire-session', os.path.dirname(self.__sessionpath))
+        f = open(tempf_path, 'w')
+        state = []
+        doc = xml.dom.minidom.getDOMImplementation().createDocument(None, "session", None)
+        root = doc.documentElement
+        for widget in notebook:
+            connection = doc.createElement('connection')
+            root.appendChild(connection)
+            connection.setAttribute('host', widget.get_host())
+            if current == widget:
+                connection.setAttribute('current', 'true')
+            options = widget.get_options()
+            if options:
+                options_elt = doc.createElement('options')
+                connection.appendChild(options_elt)
+                for option in options:
+                    opt = doc.createElement('option')
+                    options_elt.appendChild(opt)                    
+                    opt.appendChild(doc.createTextNode(option))
+        f.write(doc.toprettyxml())
+        f.close()
+        os.rename(tempf_path, self.__sessionpath)
         
     def __on_nm_state_change(self, *args):
         self.__sync_nm_state()
@@ -746,7 +807,11 @@ class SshWindow(VteWindow):
 
 class SshApp(VteApp):
     def __init__(self):
-        super(SshApp, self).__init__('HotSSH', SshWindow)
+        super(SshApp, self).__init__(SshWindow)
+        
+    @staticmethod
+    def get_name():
+        return 'HotSSH'         
                 
     def on_shutdown(self, factory):
         cp = get_controlpath(create=False)

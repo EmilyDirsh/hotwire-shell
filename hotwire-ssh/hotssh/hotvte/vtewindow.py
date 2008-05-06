@@ -57,6 +57,8 @@ class VteWindow(gtk.Window):
         
         self.__factory = factory
         
+        self.__idle_save_session_id = 0
+        
         self.__old_char_height = 0
         self.__old_char_width = 0
         self.__old_geom_widget = None
@@ -116,6 +118,18 @@ class VteWindow(gtk.Window):
         self.__notebook.show()
         
         self.__tabs_visible = self.__notebook.get_show_tabs()
+        self.__queue_session_save()
+        
+    def __queue_session_save(self):
+        if self.__idle_save_session_id == 0:
+            self.__idle_save_session_id = gobject.timeout_add(60*1000, self.__idle_save_session)
+            
+    def __idle_save_session(self):
+        self.__idle_save_session_id = 0
+        self._save_session()
+        
+    def _save_session(self):
+        pass
         
     def new_tab(self, args, cwd):
         widget = TabbedVteWidget(cmd=args, cwd=cwd)
@@ -169,6 +183,7 @@ class VteWindow(gtk.Window):
             
         self.__sync_selection_sensitive()
         self.set_title('%s - %s' % (widget.get_title(),self.__title))
+        self.__queue_session_save()
         
     def __on_keypress(self, s2, e):
         if e.keyval == gtk.gdk.keyval_from_name('Page_Up') and \
@@ -429,13 +444,13 @@ class VteRemoteControl(object):
         return UiProxy(factory, self.__bus_name, self.__ui_iface, self.__ui_opath)
     
 class VteApp(object): 
-    def __init__(self, name, windowklass):
+    def __init__(self, windowklass):
         super(VteApp, self).__init__()
-        self.__name = name
         self.__windowklass = windowklass
         
-    def get_name(self):
-        return self.__name
+    @staticmethod
+    def get_name():
+        raise NotImplementedError()
         
     def get_remote(self):
         return VteRemoteControl(self.get_name())
@@ -465,7 +480,7 @@ class VteMain(object):
 
         locale.setlocale(locale.LC_ALL, '')
         import gettext
-        gettext.install('hotwire')        
+        gettext.install(appklass.get_name())      
     
         gobject.threads_init()
         
