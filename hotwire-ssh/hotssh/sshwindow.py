@@ -44,7 +44,8 @@ _whitespace_re = re.compile('\s+')
 class SshConnectionHistory(object):
     def __init__(self):
         self.__statedir = os.path.expanduser('~/.hotwire/state')
-        try:            os.makedirs(self.__statedir)
+        try:            
+            os.makedirs(self.__statedir)
         except:
             pass
         self.__path = path =os.path.join(self.__statedir, 'ssh.sqlite')
