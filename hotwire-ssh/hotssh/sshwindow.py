@@ -779,14 +779,24 @@ class SshApp(VteApp):
         for window in savedsession:
             for connection in window:
                 allhosts.add(connection['userhost'])
-        if savedsession:
+        if savedsession and len(allhosts) > 0:
             dlg = gtk.MessageDialog(parent=None, flags=0, type=gtk.MESSAGE_QUESTION, 
                                     buttons=gtk.BUTTONS_CANCEL,
                                     message_format=_("Restore saved session?"))
             button = dlg.add_button(_('_Reconnect'), gtk.RESPONSE_ACCEPT)
             button.set_property('image', gtk.image_new_from_stock('gtk-connect', gtk.ICON_SIZE_BUTTON))
             dlg.set_default_response(gtk.RESPONSE_ACCEPT)
-            dlg.format_secondary_markup(_('Connected to %d hosts') % (len(allhosts),))         
+            dlg.format_secondary_markup(_('Reconnect to %d hosts') % (len(allhosts),))
+            
+            #ls = gtk.ListStore(str)
+            #gv = gtk.TreeView(ls)
+            #colidx = gv.insert_column_with_attributes(-1, _('Connection'),
+            #                                          gtk.CellRendererText(),
+            #                                          text=0)
+            #for host in allhosts:
+            #    ls.append((host,))
+            #dlg.add(gv)            
+                     
             resp = dlg.run()
             dlg.destroy()
             if resp == gtk.RESPONSE_ACCEPT:
