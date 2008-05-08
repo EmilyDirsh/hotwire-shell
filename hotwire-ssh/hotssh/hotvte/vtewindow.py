@@ -121,22 +121,14 @@ class VteWindow(gtk.Window):
         self.__queue_session_save()
         
     def __queue_session_save(self):
-        if self.__idle_save_session_id == 0:
-            self.__idle_save_session_id = gobject.timeout_add(60*1000, self.__idle_save_session)
-            
-    def __idle_save_session(self):
-        self.__idle_save_session_id = 0
-        self._save_session()
-        
-    def _save_session(self):
-        pass
+        self.__factory.queue_save_session()        
         
     def new_tab(self, args, cwd):
         widget = TabbedVteWidget(cmd=args, cwd=cwd)
-        self.append_widget(widget)
+        return self.append_widget(widget)
         
     def remote_new_tab(self, args, cwd):
-        self.new_tab(args, cwd)
+        return self.new_tab(args, cwd)
         
     def append_widget(self, term):
         idx = self.__notebook.append_page(term)
@@ -157,6 +149,7 @@ class VteWindow(gtk.Window):
         term.show_all()
         self.__notebook.set_current_page(idx)
         term.get_vte().grab_focus()
+        return term
         
     def _get_notebook(self):
         return self.__notebook
@@ -332,14 +325,16 @@ class VteWindowFactory(gobject.GObject):
     __gsignals__ = {
         "shutdown" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
     }    
-    def __init__(self, klass, window_args):
+    def __init__(self, klass, window_args, app):
         super(VteWindowFactory, self).__init__()
         self.__windows = set()
         self.__klass = klass
+        self.__app = app
         self.__window_args = window_args
         self.__sticky_keywords = {'subtitle': ''}
         self.__sticky_keywords.update(window_args)
         self.__recentwindow = None
+        self.__idle_save_session_id = 0        
         
     @staticmethod
     def getInstance():
@@ -371,6 +366,17 @@ class VteWindowFactory(gobject.GObject):
     def remote_new_tab(self, cmd, cwd):
         self.__recentwindow.remote_new_tab(cmd, cwd)
         return self.__recentwindow
+    
+    def queue_save_session(self):      
+        if self.__idle_save_session_id == 0:
+            self.__idle_save_session_id = gobject.timeout_add(5*1000, self.__idle_save_session)
+            
+    def __idle_save_session(self):
+        self.__idle_save_session_id = 0
+        self.__app.save_session()
+    
+    def _get_windows(self):
+        return self.__windows
     
     def __on_window_active(self, win, *args):
         active = win.get_property('is-active')
@@ -447,6 +453,7 @@ class VteApp(object):
     def __init__(self, windowklass):
         super(VteApp, self).__init__()
         self.__windowklass = windowklass
+        self.__factory = None
         
     @staticmethod
     def get_name():
@@ -456,9 +463,15 @@ class VteApp(object):
         return VteRemoteControl(self.get_name())
         
     def get_factory(self):
-        return VteWindowFactory(self.__windowklass, {})
+        if self.__factory is None:
+            self.__factory = VteWindowFactory(self.__windowklass, {}, self)
+        return self.__factory
     
     def on_shutdown(self, factory):
+        pass
+    
+    def save_session(self):
+        _logger.debug("noop session save")
         pass
     
 class VteMain(object):

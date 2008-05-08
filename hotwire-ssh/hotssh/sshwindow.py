@@ -146,6 +146,25 @@ class OpenSSHKnownHostsDB(object):
 
 _openssh_hosts_db = OpenSSHKnownHostsDB()
 
+class RestoreSessionDialog(gtk.Dialog):
+    def __init__(self, parent, sessiondata):
+        super(RestoreSessionDialog, self).__init__(title=_('Load saved session'),
+                                                   parent=parent,
+                                                   flags=gtk.DIALOG_DESTROY_WITH_PARENT,
+                                                   buttons=(_('Skip'), gtk.RESPONSE_CANCEL))
+        button = self.add_button(_('_Reconnect'), gtk.RESPONSE_ACCEPT)
+        button.set_property('image', gtk.image_new_from_stock('gtk-connect', gtk.ICON_SIZE_BUTTON))
+        self.set_default_response(gtk.RESPONSE_ACCEPT)
+                
+        self.set_has_separator(False)
+        self.set_border_width(5)
+        
+        self.__vbox = vbox =gtk.VBox()
+        self.vbox.add(self.__vbox)   
+        self.vbox.set_spacing(6)
+        
+        
+
 class ConnectDialog(gtk.Dialog):
     def __init__(self, parent=None, history=None):
         super(ConnectDialog, self).__init__(title=_("New SSH Connection"),
@@ -595,8 +614,6 @@ class SshWindow(VteWindow):
 
         self._get_notebook().connect('switch-page', self.__on_page_switch)
 
-        self.__sessionpath = os.path.expanduser('~/.hotwire/hotwire-ssh.session')    
-
         try:
             self.__nm_proxy = dbus.SystemBus().get_object('org.freedesktop.NetworkManager', '/org/freedesktop/NetworkManager')
             self.__nm_proxy.connect_to_signal('StateChange', self.__on_nm_state_change)
@@ -634,62 +651,6 @@ class SshWindow(VteWindow):
             self.__add_to_history(args)
             term = SshTerminalWidget(args=args, cwd=cwd, actions=self.__action_group)
             self.append_widget(term)
-            
-    def _load_session(self):
-        try:
-            f = open(self.__sessionpath)
-        except:
-            return None
-        doc = xml.dom.minidom.parse(f)
-        connections = []
-        for child in doc.documentElement.childNodes:
-            if not (child.nodeType == child.ELEMENT_NODE and child.nodeName == 'connection'): 
-                continue
-            host = child.getAttribute('host')
-            iscurrent = child.getAttribute('current')
-            options = []
-            for options_elt in child.childNodes:
-                if not (options_elt.nodeType == child.ELEMENT_NODE and options_elt.nodeName == 'options'): 
-                    continue
-                for option_elt in child.childNodes:
-                    if not (option_elt.nodeType == child.ELEMENT_NODE and options_elt.nodeName == 'option'): 
-                        continue
-                    options.append(option.firstChild.nodeValue)
-            kwopts = {}
-            if iscurrent:
-                kwopts['iscurrent'] = True
-            if len(options) > 0:
-                kwopts['options'] = options
-            connections.append((host, kwopts))
-        return connections
-        
-    #override
-    @log_except(_logger)    
-    def _save_session(self):
-        notebook = self._get_notebook()
-        current = notebook.get_nth_page(notebook.get_current_page())
-        tempf_path = tempfile.mktemp('.session.tmp', 'hotwire-session', os.path.dirname(self.__sessionpath))
-        f = open(tempf_path, 'w')
-        state = []
-        doc = xml.dom.minidom.getDOMImplementation().createDocument(None, "session", None)
-        root = doc.documentElement
-        for widget in notebook:
-            connection = doc.createElement('connection')
-            root.appendChild(connection)
-            connection.setAttribute('host', widget.get_host())
-            if current == widget:
-                connection.setAttribute('current', 'true')
-            options = widget.get_options()
-            if options:
-                options_elt = doc.createElement('options')
-                connection.appendChild(options_elt)
-                for option in options:
-                    opt = doc.createElement('option')
-                    options_elt.appendChild(opt)                    
-                    opt.appendChild(doc.createTextNode(option))
-        f.write(doc.toprettyxml())
-        f.close()
-        os.rename(tempf_path, self.__sessionpath)
         
     def __on_nm_state_change(self, *args):
         self.__sync_nm_state()
@@ -808,12 +769,14 @@ class SshWindow(VteWindow):
 class SshApp(VteApp):
     def __init__(self):
         super(SshApp, self).__init__(SshWindow)
+        self.__sessionpath = os.path.expanduser('~/.hotwire/hotwire-ssh.session')            
         
     @staticmethod
     def get_name():
         return 'HotSSH'         
                 
     def on_shutdown(self, factory):
+        super(SshApp, self).on_shutdown(factory)
         cp = get_controlpath(create=False)
         if cp is not None:
             try:
@@ -821,3 +784,70 @@ class SshApp(VteApp):
                 shutil.rmtree(cp)
             except:
                 pass
+            
+    #override
+    @log_except(_logger)
+    def _load_session(self):
+        factory = self.get_factory()
+        try:
+            f = open(self.__sessionpath)
+        except:
+            return None
+        doc = xml.dom.minidom.parse(f)
+        connections = []
+        current_widget = None
+        for window_child in doc.documentElement.childNodes:
+            if not (window_child.nodeType == window_child.ELEMENT_NODE and window_child.nodeName == 'window'): 
+                continue
+            window = factory.create_window()
+            for child in window_child:
+                if not (child.nodeType == child.ELEMENT_NODE and child.nodeName == 'connection'): 
+                    continue
+                host = child.getAttribute('host')
+                iscurrent = child.getAttribute('current')
+                options = []
+                for options_elt in child.childNodes:
+                    if not (options_elt.nodeType == child.ELEMENT_NODE and options_elt.nodeName == 'options'): 
+                        continue
+                    for option_elt in child.childNodes:
+                        if not (option_elt.nodeType == child.ELEMENT_NODE and options_elt.nodeName == 'option'): 
+                            continue
+                        options.append(option.firstChild.nodeValue)
+                args = [host]
+                args.extend(options)
+                widget = window.new_tab(args)
+                if iscurrent:
+                    current_widget = widget
+        
+    #override
+    @log_except(_logger)    
+    def save_session(self):
+        _logger.debug("doing session save")
+        tempf_path = tempfile.mktemp('.session.tmp', 'hotwire-session', os.path.dirname(self.__sessionpath))
+        f = open(tempf_path, 'w')
+        state = []
+        doc = xml.dom.minidom.getDOMImplementation().createDocument(None, "session", None)
+        root = doc.documentElement
+        factory = self.get_factory()
+        for window in factory._get_windows():
+            notebook = window._get_notebook()
+            current = notebook.get_nth_page(notebook.get_current_page())
+            window_node = doc.createElement('window')
+            root.appendChild(window_node)            
+            for widget in notebook:
+                connection = doc.createElement('connection')
+                window_node.appendChild(connection)
+                connection.setAttribute('host', widget.get_host())
+                if current == widget:
+                    connection.setAttribute('current', 'true')
+                options = widget.get_options()
+                if options:
+                    options_elt = doc.createElement('options')
+                    connection.appendChild(options_elt)
+                    for option in options:
+                        opt = doc.createElement('option')
+                        options_elt.appendChild(opt)                    
+                        opt.appendChild(doc.createTextNode(option))
+        f.write(doc.toprettyxml())
+        f.close()
+        os.rename(tempf_path, self.__sessionpath)            
