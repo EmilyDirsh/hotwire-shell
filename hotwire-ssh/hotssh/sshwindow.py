@@ -775,11 +775,12 @@ class SshApp(VteApp):
             
     def offer_load_session(self):
         savedsession = self._parse_saved_session()
-        allhosts = set()
-        for window in savedsession:
-            for connection in window:
-                allhosts.add(connection['userhost'])
-        if savedsession and len(allhosts) > 0:
+        allhosts = set()        
+        if savedsession:
+            for window in savedsession:
+                for connection in window:
+                    allhosts.add(connection['userhost'])
+        if len(allhosts) > 0:
             dlg = gtk.MessageDialog(parent=None, flags=0, type=gtk.MESSAGE_QUESTION, 
                                     buttons=gtk.BUTTONS_CANCEL,
                                     message_format=_("Restore saved session?"))
