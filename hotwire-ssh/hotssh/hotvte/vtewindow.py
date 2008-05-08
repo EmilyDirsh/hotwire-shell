@@ -343,6 +343,9 @@ class VteWindowFactory(gobject.GObject):
             _factory = VteWindowFactory()
         return _factory
 
+    def offer_load_session(self):
+        dlg = Load
+
     def create_initial_window(self, *args, **kwargs):
         win = self.create_window(is_initial=True, *args, **kwargs)
         self.__recentwindow = win
@@ -467,6 +470,9 @@ class VteApp(object):
             self.__factory = VteWindowFactory(self.__windowklass, {}, self)
         return self.__factory
     
+    def offer_load_session(self):
+        pass
+    
     def on_shutdown(self, factory):
         pass
     
@@ -520,14 +526,17 @@ widget "*hotwire-tab-close" style "hotwire-tab-close"
     
         factory = app.get_factory()
         factory.connect('shutdown', app.on_shutdown)
-        w = factory.create_initial_window()
-        w.new_tab(sys.argv[1:], os.getcwd())
+        args = sys.argv[1:]
+        if len(args) == 0:
+            app.offer_load_session()
+        else:
+            w = factory.create_initial_window()
+            w.new_tab(args, os.getcwd())
+            w.show_all()
+            w.present()
     
         uiproxy = remote.get_proxy(factory)    
- 
-        w.show_all()
-        w.present()
-    
+
         _logger.debug('entering mainloop')
         gtk.gdk.threads_enter()
         gtk.main()

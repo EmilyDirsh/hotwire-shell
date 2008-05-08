@@ -106,6 +106,12 @@ class SshConnectionHistory(object):
         cursor.execute('''BEGIN TRANSACTION''')
         cursor.execute('''INSERT INTO Colors VALUES (NULL, ?, ?, ?, ?)''', (host, fg, bg, datetime.datetime.now()))
         cursor.execute('''COMMIT''')
+_history_instance = None
+def get_history():
+    global _history_instance
+    if _history_instance is None:
+        _history_instance = SshConnectionHistory()
+    return _history_instance
 
 class OpenSSHKnownHostsDB(object):
     def __init__(self):
@@ -145,25 +151,6 @@ class OpenSSHKnownHostsDB(object):
         return self.__hostcache
 
 _openssh_hosts_db = OpenSSHKnownHostsDB()
-
-class RestoreSessionDialog(gtk.Dialog):
-    def __init__(self, parent, sessiondata):
-        super(RestoreSessionDialog, self).__init__(title=_('Load saved session'),
-                                                   parent=parent,
-                                                   flags=gtk.DIALOG_DESTROY_WITH_PARENT,
-                                                   buttons=(_('Skip'), gtk.RESPONSE_CANCEL))
-        button = self.add_button(_('_Reconnect'), gtk.RESPONSE_ACCEPT)
-        button.set_property('image', gtk.image_new_from_stock('gtk-connect', gtk.ICON_SIZE_BUTTON))
-        self.set_default_response(gtk.RESPONSE_ACCEPT)
-                
-        self.set_has_separator(False)
-        self.set_border_width(5)
-        
-        self.__vbox = vbox =gtk.VBox()
-        self.vbox.add(self.__vbox)   
-        self.vbox.set_spacing(6)
-        
-        
 
 class ConnectDialog(gtk.Dialog):
     def __init__(self, parent=None, history=None):
@@ -626,7 +613,7 @@ class SshWindow(VteWindow):
         self.connect("notify::is-active", self.__on_is_active_changed)
         _hostmonitor.connect('host-status', self.__on_host_status)
 
-        self.__connhistory = SshConnectionHistory()
+        self.__connhistory = get_history()
         
         self.__merge_ssh_ui()
 
@@ -769,7 +756,8 @@ class SshWindow(VteWindow):
 class SshApp(VteApp):
     def __init__(self):
         super(SshApp, self).__init__(SshWindow)
-        self.__sessionpath = os.path.expanduser('~/.hotwire/hotwire-ssh.session')            
+        self.__sessionpath = os.path.expanduser('~/.hotwire/hotwire-ssh.session')
+        self.__connhistory = get_history()          
         
     @staticmethod
     def get_name():
@@ -784,6 +772,27 @@ class SshApp(VteApp):
                 shutil.rmtree(cp)
             except:
                 pass
+            
+    def offer_load_session(self):
+        if self._have_saved_session():
+            dlg = gtk.MessageDialog(parent=None, flags=0, type=gtk.MESSAGE_QUESTION, 
+                                    buttons=gtk.BUTTONS_CANCEL,
+                                    message_format=_("Restore saved session?"))
+            button = dlg.add_button(_('_Reconnect'), gtk.RESPONSE_ACCEPT)
+            button.set_property('image', gtk.image_new_from_stock('gtk-connect', gtk.ICON_SIZE_BUTTON))
+            dlg.set_default_response(gtk.RESPONSE_ACCEPT)         
+            resp = dlg.run()
+            dlg.destroy()
+            if resp == gtk.RESPONSE_ACCEPT:
+                self._load_session()
+                return
+        w = self.get_factory().create_initial_window()
+        w.new_tab([], os.getcwd())
+        w.show_all()
+        w.present()
+            
+    def _have_saved_session(self):
+        return os.path.exists(self.__sessionpath)      
             
     #override
     @log_except(_logger)
@@ -800,7 +809,7 @@ class SshApp(VteApp):
             if not (window_child.nodeType == window_child.ELEMENT_NODE and window_child.nodeName == 'window'): 
                 continue
             window = factory.create_window()
-            for child in window_child:
+            for child in window_child.childNodes:
                 if not (child.nodeType == child.ELEMENT_NODE and child.nodeName == 'connection'): 
                     continue
                 host = child.getAttribute('host')
@@ -815,9 +824,11 @@ class SshApp(VteApp):
                         options.append(option.firstChild.nodeValue)
                 args = [host]
                 args.extend(options)
-                widget = window.new_tab(args)
+                widget = window.new_tab(args, os.getcwd())
                 if iscurrent:
                     current_widget = widget
+            window.show_all()
+        return True
         
     #override
     @log_except(_logger)    
