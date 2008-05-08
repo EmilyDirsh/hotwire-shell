@@ -774,41 +774,55 @@ class SshApp(VteApp):
                 pass
             
     def offer_load_session(self):
-        if self._have_saved_session():
+        savedsession = self._parse_saved_session()
+        allhosts = set()
+        for window in savedsession:
+            for connection in window:
+                allhosts.add(connection['userhost'])
+        if savedsession:
             dlg = gtk.MessageDialog(parent=None, flags=0, type=gtk.MESSAGE_QUESTION, 
                                     buttons=gtk.BUTTONS_CANCEL,
                                     message_format=_("Restore saved session?"))
             button = dlg.add_button(_('_Reconnect'), gtk.RESPONSE_ACCEPT)
             button.set_property('image', gtk.image_new_from_stock('gtk-connect', gtk.ICON_SIZE_BUTTON))
-            dlg.set_default_response(gtk.RESPONSE_ACCEPT)         
+            dlg.set_default_response(gtk.RESPONSE_ACCEPT)
+            dlg.format_secondary_markup(_('Connected to %d hosts') % (len(allhosts),))         
             resp = dlg.run()
             dlg.destroy()
             if resp == gtk.RESPONSE_ACCEPT:
-                self._load_session()
+                self._load_session(savedsession)
                 return
         w = self.get_factory().create_initial_window()
         w.new_tab([], os.getcwd())
         w.show_all()
         w.present()
-            
-    def _have_saved_session(self):
-        return os.path.exists(self.__sessionpath)      
-            
+        
+    def _load_session(self, session):
+        factory = self.get_factory()        
+        for window in session:
+            window_impl = factory.create_window()
+            for connection in window:
+                args = [connection['userhost']]
+                if 'options' in connection:
+                    args.extend(connection['options'])
+                widget = window_impl.new_tab(args, os.getcwd())
+            window_impl.show_all()
+                
     #override
     @log_except(_logger)
-    def _load_session(self):
+    def _parse_saved_session(self):
         factory = self.get_factory()
         try:
             f = open(self.__sessionpath)
         except:
             return None
         doc = xml.dom.minidom.parse(f)
-        connections = []
+        saved_windows = []
         current_widget = None
         for window_child in doc.documentElement.childNodes:
             if not (window_child.nodeType == window_child.ELEMENT_NODE and window_child.nodeName == 'window'): 
                 continue
-            window = factory.create_window()
+            connections = []
             for child in window_child.childNodes:
                 if not (child.nodeType == child.ELEMENT_NODE and child.nodeName == 'connection'): 
                     continue
@@ -822,13 +836,14 @@ class SshApp(VteApp):
                         if not (option_elt.nodeType == child.ELEMENT_NODE and options_elt.nodeName == 'option'): 
                             continue
                         options.append(option.firstChild.nodeValue)
-                args = [host]
-                args.extend(options)
-                widget = window.new_tab(args, os.getcwd())
+                kwargs = {'userhost': host}
+                if len(options) > 0:
+                    kwargs['options'] = options
                 if iscurrent:
-                    current_widget = widget
-            window.show_all()
-        return True
+                    kwargs['current'] = True
+                connections.append(kwargs)
+            saved_windows.append(connections)
+        return saved_windows
         
     #override
     @log_except(_logger)    
