@@ -374,11 +374,12 @@ def get_controlpath(create=True):
         _CONTROLPATH = tempfile.mkdtemp('', 'hotssh')
     return _CONTROLPATH
 
-def get_sshcmd():
-    # FIXME - disabled because it's too buggy
-    #return ['ssh']
+def get_base_sshcmd():
+    return ['ssh']
+
+def get_connection_sharing_args():
     # TODO - openssh should really do this out of the box    
-    return ['ssh', '-oControlMaster=auto', '-oControlPath=' + os.path.join(get_controlpath(), 'master-%r@%h:%p')]
+    return ['-oControlMaster=auto', '-oControlPath=' + os.path.join(get_controlpath(), 'master-%r@%h:%p')]
 
 class HostConnectionMonitor(gobject.GObject):
     __gsignals__ = {
@@ -409,7 +410,7 @@ class HostConnectionMonitor(gobject.GObject):
     def __check_host(self, host):
         _logger.debug("performing check for %s", host)
         del self.__host_monitor_ids[host]
-        cmd = list(get_sshcmd())
+        cmd = list(get_base_sshcmd())
         starttime = time.time()
         # This is a hack.  Blame Adam Jackson.
         cmd.extend(['-oBatchMode=true', host, '/bin/true'])
@@ -462,18 +463,23 @@ class SshTerminalWidget(gtk.VBox):
         super(SshTerminalWidget, self).__init__()
         self.__init_state()
         self.__args = args        
-        self.__sshcmd = list(get_sshcmd())
+        self.__sshcmd = list(get_base_sshcmd())
         self.__sshcmd.extend(args)
         self.__cwd = cwd
         self.__host = None
         self.__sshopts = []
         self.__actions = actions
+        enable_connection_sharing = True
         for arg in args:
             if not arg.startswith('-'):
                 if self.__host is None:                 
                     self.__host = arg
             else:
+                if arg == '-oControlPath=none':
+                    enable_connection_sharing = False
                 self.__sshopts.append(arg)
+        if enable_connection_sharing:
+            self.__sshcmd.extend(get_connection_sharing_args())
         
         header = gtk.VBox()
         self.__msg = gtk.Label()
