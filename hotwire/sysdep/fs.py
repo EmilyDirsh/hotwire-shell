@@ -199,6 +199,9 @@ class File(object):
         self._permstring = None
         self.target_stat = None
         self.stat_error = None
+        
+    def __cmp__(self, o):
+        return cmp(self.path, o.path)
 
     def test_directory(self, follow_link=True):
         if not self.stat:
