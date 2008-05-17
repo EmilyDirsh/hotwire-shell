@@ -66,7 +66,9 @@ class Process(object):
         raise NotImplementedError()
 
     def __cmp__(self, o):
-        return cmp(self.pid, o.pid)
+        if isinstance(o, Process):
+            return cmp(self.pid, o.pid)
+        return cmp(self.pid, o)
 
     def __str__(self):
         return "Process '%s' (%s) of %s" % (self.cmd, self.pid, self.owner_name)
