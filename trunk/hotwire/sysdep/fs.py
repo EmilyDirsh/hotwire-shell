@@ -201,7 +201,9 @@ class File(object):
         self.stat_error = None
         
     def __cmp__(self, o):
-        return cmp(self.path, o.path)
+        if isinstance(o, File):
+            return cmp(self.path, o.path)
+        return cmp(self.path, o)
 
     def test_directory(self, follow_link=True):
         if not self.stat:
