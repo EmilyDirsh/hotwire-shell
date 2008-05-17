@@ -1664,7 +1664,8 @@ class HotWindowFactory(Singleton):
             for k,v in kwargs.iteritems():
                 if self.__sticky_keywords.has_key(k):
                     self.__sticky_keywords[k] = v
-            kwargs['initcmd'] = 'help'
+            if 'initcmd' not in kwargs:
+                kwargs['initcmd'] = 'help'
         for k,v in self.__sticky_keywords.iteritems():
             if not kwargs.has_key(k):
                 kwargs[k] = v
