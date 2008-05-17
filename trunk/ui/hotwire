@@ -192,8 +192,12 @@ widget "*hotwire-tab-close" style "hotwire-tab-close"
         _logger.debug("appending to icon theme: %s", imgpath)
         theme.prepend_search_path(imgpath)
         theme.rescan_if_needed()
+        
+    startdir = None
+    if len(args) > 0:
+        startdir = args[0]
 
-    w = HotWindowFactory.getInstance().create_initial_window(subtitle=(new_process and _(' (Unshared)') or ''))
+    w = HotWindowFactory.getInstance().create_initial_window(subtitle=(new_process and _(' (Unshared)') or ''), initcwd=startdir)
     w.show()
     if ipc_avail and (not new_process):
         ipc.register_window(w)
