@@ -162,10 +162,8 @@ class HelpItemRenderer(UnicodeRenderer):
             self._buf.insert_markup('<tt>' + gobject.markup_escape_text(argstr) + '</tt>')
             self._buf.insert_markup('\n')                
         
-    def __help_items(self, items):
-        builtins = BuiltinRegistry.getInstance()        
-        for name in items:
-            builtin = builtins[name]
+    def __help_items(self, items):   
+        for builtin in items:
             self.__append_builtin_base_help(builtin)
             self.__append_builtin_aliases(builtin)
             self.__append_builtin_arghelp(builtin)

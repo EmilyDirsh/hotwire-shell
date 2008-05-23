@@ -37,8 +37,9 @@ class HelpBuiltin(Builtin):
     def get_completer(self, context, args, i):
         return BuiltinCompleter()
 
-    def execute(self, context, args):    
-        yield HelpItem(args)
+    def execute(self, context, args):
+        builtins = BuiltinRegistry.getInstance()        
+        yield HelpItem([builtins[x] for x in args])
             
     
 BuiltinRegistry.getInstance().register_hotwire(HelpBuiltin())
