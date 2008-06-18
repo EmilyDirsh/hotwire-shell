@@ -3,7 +3,7 @@
 = Status of Hotwire on Unix/Linux systems =
 
  * Fedora: You should be able to *yum install hotwire* on Fedora 8 and 7
- * Ubuntu: Gutsy: [http://www.getdeb.net/app.php?name=Hotwire Getdeb] Hardy: official packages in [http://packages.ubuntu.com/hardy/gnome/hotwire Universe] (version 0.620), more up to date packages (0.721) in [https://launchpad.net/~mishd/+archive this PPA]
+ * Ubuntu: Gutsy: [http://www.getdeb.net/app.php?name=Hotwire Getdeb] Hardy: official packages in [http://packages.ubuntu.com/hardy/gnome/hotwire Universe] (version 0.620), more up to date packages (0.721) in a [http://groups.google.com/group/hotwire-shell/browse_thread/thread/6966f82b392022e3# PPA]
  * OpenSUSE: [http://packman.links2linux.de/package/hotwire PackMan]
  * Debian: [http://packages.debian.org/sid/hotwire sid package] (*apt-get install hotwire*)
  * Mandriva: Cooker users can just install the `hotwire` package. 2007 Spring users need to [http://wiki.mandriva.com/en/Docs/Basic_tasks/Installing_and_removing_software#Advanced_use:_Backports_and_candidate_updates enable the /contrib/backports repository], then they can install the `hotwire` package.
