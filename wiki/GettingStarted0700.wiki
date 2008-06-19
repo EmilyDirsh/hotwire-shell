@@ -297,6 +297,6 @@ You've now had your first twenty minutes or so with a hypershell.  There is a hu
 
 = Further Resources =
 
-You may be interested in HotwirePipeExamples for some more commands to try, and ExtendingHotwire for how to add custom Python to Hotwire.
+You may be interested in HotwirePipeExamples for some more commands to try, and ExtendingHotwire for how to add custom Python to Hotwire.  You could also review the KeyboardShortcuts and CommandLineOptions .
 
 See also HotwireArchitecture for a more technical overview of how things work.
