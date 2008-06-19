@@ -2,8 +2,16 @@
 
 _Eventually this may form the basis of a man page_
 
-= Hotwire keyboard shortcuts =
+= Hotwire command line options =
 
--n New instance of Hotwire, useful for testing new code.
+|| Short Form || Long Form || Meaning ||
+|| -d || --debug || Set the debug flag for extra output ||
+|| -h || --help || show usage and exit ||
+|| -n || --no-persist || New instance of Hotwire, useful for testing new code. ||
+|| -u || --unsaved || Don't save commands to history ||
 
-= Hotssh keyboard shortcuts =
+After these commands, you can put in the path to a directory.  Hotwire will start in that directory.  It defaults to your home directory.
+
+For more advanced command line debug options see the code in ui/hotwire
+
+= Hotssh command line options =
