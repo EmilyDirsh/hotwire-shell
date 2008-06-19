@@ -1,0 +1,9 @@
+#summary This page collects together the command line options you can use when launching Hotwire.
+
+_Eventually this may form the basis of a man page_
+
+= Hotwire keyboard shortcuts =
+
+-n New instance of Hotwire, useful for testing new code.
+
+= Hotssh keyboard shortcuts =
