@@ -4,6 +4,8 @@ _Eventually this may form the basis of a man page_
 
 = Hotwire command line options =
 
+*Synopsis* {{{ hotwire [-dhnu] [dir-path] }}}
+
 || Short Form || Long Form || Meaning ||
 || -d || --debug || Set the debug flag for extra output ||
 || -h || --help || show usage and exit ||
