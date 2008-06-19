@@ -1,0 +1,19 @@
+#summary This page collects together the keyboard shortcuts in Hotwire.
+
+= Keyboard Shortcuts =
+
+== Interacting with commands and output buffers ==
+
+|| *Shortcut*   || *Action* ||
+|| Ctrl-Shift-C || Kill the currently running command. ||
+|| Ctrl-Shift-K || Remove Pipeline - this deletes the currently selected buffer ||
+
+== Tabs and terminal windows ==
+
+|| *Shortcut*   || *Action* ||
+|| Ctrl-T       || Create new hotwire tab ||
+|| Ctrl-Shift-T || Create new terminal tab ||
+
+== Copy, Paste etc ==
+
+These use the standard keyboard shortcuts - Ctrl-C, Ctrl-V etc
