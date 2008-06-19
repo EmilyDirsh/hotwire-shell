@@ -32,7 +32,7 @@ Notable bugfixes:
 
  * Avoid hang if pipeline takes 'any' as input
  * Don't crash on in-use-files on Windows (Zeng.Shixin, issue 131)
- * Avoid GTK+ bug causing crash on right-click in HotSSH/HotSudo (issue 1510
+ * Avoid GTK+ bug causing crash on right-click in HotSSH/HotSudo (issue 151)
  * *fsearch* ignores non-Unicode files
  * Use system webbrowser.py on Windows (issue 145)
 
