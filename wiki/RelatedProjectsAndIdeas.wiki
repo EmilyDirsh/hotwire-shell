@@ -63,10 +63,12 @@ probably code.  Might want to look at their "distributed computing" stuff - mayb
 
 [http://www.boddie.org.uk/david/Projects/Python/KDE/khpython/index.html KHPython] - Python worksheet program
 
+[http://pash.sourceforge.net/ Pash] is a cross platform version of [http://en.wikipedia.org/wiki/Windows_PowerShell Microsoft Powershell] that runs on the [http://www.mono-project.com/Main_Page Mono] runtime as well as standard .NET
+
 = Articles =
 
 [http://polylithic.net/cli/ CLI] - Website devoted to the CLI.
 
 [http://www.advogato.org/article/242.html Advogato entry] - Someone wondering why the Unix shell isn't better.
  
- 
+[http://www.freesoftwaremagazine.com/columns/why_cant_free_software_guis_be_empowering_instead_limiting Free Software Magazine] has an article asking "If CLIs are so impenetrable, why don’t we use some GUI technology to make them less so?"
