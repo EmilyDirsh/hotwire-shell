@@ -1,0 +1,25 @@
+#summary External plugins available for hotwire
+
+A number of people have written and published plugins for Hotwire.  Mostly these are at a fairly early stage of development.
+
+= Hotwire Plugins =
+
+== Mercurial Plugin ==
+
+The [http://www.cl.cam.ac.uk/~maw48/hotwire-hg/ mercurial plugin] introduces a number of commands to help with managing [http://www.selenic.com/mercurial/wiki/ Mercurial] (aka hg) repositories.  There is some discussion of it in the [announcement http://groups.google.com/group/hotwire-shell/browse_thread/thread/dbe56cb65bc3bbb9#].
+
+== Beagle Search ==
+
+This is at a fairly early stage.  For more info, [http://groups.google.com/group/hotwire-shell/browse_thread/thread/f4301f1086d86222# read the discussion] and [http://hotwire-shell.googlegroups.com/web/bsearch\ (2).py download the plugin].
+
+== Shell Alias Import Plugin ==
+
+This is a simple plugin to import your shell aliases and convert them to hotwire aliases.  Read the [http://groups.google.com/group/hotwire-shell/browse_thread/thread/aebbeb6556097361# announcement] and [http://hotwire-shell.googlegroups.com/web/get_alias.py download the plugin].
+
+= Other Plugin Code =
+
+Some code can be seen in [http://groups.google.com/group/hotwire-shell/browse_thread/thread/333f810bf338079d# this discussion].
+
+= Write your own plugin =
+
+To write your own, start by reading the ExtendingHotwire page.
