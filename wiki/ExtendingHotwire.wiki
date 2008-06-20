@@ -31,7 +31,7 @@ AliasRegistry.getInstance().insert('la', 'ls -a')
 
 = Adding a new builtin =
 
-You can also create and register new builtins.  Looking at existing ones such as [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/builtins/ls.py LsBuiltin (ls)] is a good way to learn by example.
+You can also create and register new builtins.  Looking at existing ones such as [http://hotwire-shell.googlecode.com/svn/trunk/hotwire/builtins/ls.py LsBuiltin (ls)] is a good way to learn by example. You can also look at existing ExternalPlugins .
 
 Also, below is a heavily-commented sample file called `fruit.py` which demonstrates many of Hotwire's current extension points:
 
