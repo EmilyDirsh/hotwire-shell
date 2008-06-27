@@ -22,12 +22,11 @@
 import os,sys,shutil,stat,logging,tempfile,urllib
 from cStringIO import StringIO
 
-import gobject
-
 import hotwire
 from hotwire.fs import unix_basename, FilePath, path_expanduser, path_fromurl, path_tourl, atomic_rename, iterd_sorted
 from hotwire.async import MiniThreadPool
 from hotwire.logutil import log_except
+from hotwire.gutil import call_idle
 from hotwire.sysdep import is_windows, is_unix
 from hotwire.externals.singletonmixin import Singleton
 import hotwire.sysdep.fs_impl
@@ -321,7 +320,7 @@ class File(object):
     @log_except(_logger)
     def __get_stat_signal(self):
         self.get_stat_sync()
-        gobject.idle_add(self.__idle_emit_changed, priority=gobject.PRIORITY_LOW)        
+        call_idle(self.__idle_emit_changed, priority=gobject.PRIORITY_LOW)        
         
     @log_except(_logger)
     def __idle_emit_changed(self):
