@@ -74,6 +74,7 @@ class HotwireContext(gobject.GObject):
         os.stat(newcwd) # lose on nonexistent
         self.__cwd = newcwd
         self.emit("cwd", newcwd)
+        dispatcher.send('cwd', self)
         return self.__cwd
 
     def get_cwd(self):
@@ -233,7 +234,10 @@ class Command(gobject.GObject):
         #for schema in self.builtin.get_aux_outputs():
         #    self.context.attach_auxstream(CommandAuxStream(self, schema))
         if self.builtin.hasmeta:
-            self.context.set_metadata_handler(lambda *args: self.emit("metadata", *args))
+            def on_meta(*args):
+                self.emit("metadata", *args)
+                dispatcher.send('metadata', self, *args)
+            self.context.set_metadata_handler(on_meta)
         self.input = None
         self.output = CommandQueue()
         self.map_fn = lambda x: x
@@ -355,7 +359,8 @@ class Command(gobject.GObject):
                         if self._cancelled and not self.builtin.hasstatus:
                             _logger.debug("%s cancelled, returning", self)
                             self.output.put(self.map_fn(None))
-                            self.emit("complete")                        
+                            self.emit("complete")
+                            dispatcher.send('complete', self)
                             return
                         if outfile and (result is not None):
                             result = unicode(result)
@@ -372,8 +377,10 @@ class Command(gobject.GObject):
                 raise
             else:
                 self.emit("exception", e)
+                dispatcher.send('exception', self, e)
         self.output.put(self.map_fn(None))
-        self.emit("complete")  
+        self.emit("complete")
+        dispatcher.send('complete', self)
         
     def get_executing_sync(self):
         return self.__executing_sync      
@@ -577,6 +584,7 @@ class Pipeline(gobject.GObject):
         if self.is_complete():
             self.__completion_time = time.time()         
         self.emit('state-changed')
+        dispatcher.send('state-changed', self)
 
     def execute(self, **kwargs):
         self.__execute_internal(False, **kwargs)
@@ -623,6 +631,7 @@ class Pipeline(gobject.GObject):
         self.__cmd_metadata_lock.release()
         for (cmd,cmdidx,key),(flags,meta) in meta_ref.iteritems():
             self.emit("metadata", cmdidx, cmd, key, flags, meta)
+            dispatcher.send('metadata', self, cmdidx, cmd, key, flags, meta)
 
     def __on_cmd_complete(self, cmd):
         _logger.debug("command complete: %s", cmd)
@@ -645,6 +654,7 @@ class Pipeline(gobject.GObject):
             _logger.exception("Nested exception while cancelling")
             pass
         self.emit("exception", e, cmd)
+        dispatcher.send('exception', self, e, cmd)
         self.__exception_info = (e.__class__, str(e), cmd, traceback.format_exc())
         self.__set_state('exception')
         
