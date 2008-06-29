@@ -533,8 +533,8 @@ class Pipeline(gobject.GObject):
         for i,cmd in enumerate(self.__components):
             if assert_all_threaded and not cmd.builtin.threaded:
                 raise ValueError("assert_all_threaded is enabled but trying to execute non-threaded builtin %s" % (cmd.builtin,))
-            cmd.connect("complete", self.__on_cmd_complete)
-            cmd.connect("exception", self.__on_cmd_exception)            
+            dispatcher.connect(self.__on_cmd_complete, 'complete', cmd)
+            cmd.connect("exception", self.__on_cmd_exception)
             # Here we record which commands include metadata, and
             # pass in the index in the pipeline for them.
             if cmd.builtin.hasmeta:
@@ -633,7 +633,8 @@ class Pipeline(gobject.GObject):
             self.emit("metadata", cmdidx, cmd, key, flags, meta)
             dispatcher.send('metadata', self, cmdidx, cmd, key, flags, meta)
 
-    def __on_cmd_complete(self, cmd):
+    def __on_cmd_complete(self, sender=None):
+        cmd = sender
         _logger.debug("command complete: %s", cmd)
         if cmd.get_executing_sync():
             self.__idle_handle_cmd_complete(cmd)
