@@ -23,8 +23,6 @@ import os, sys, threading, Queue, logging, string, re, time, traceback
 import posixpath, locale
 from StringIO import StringIO
 
-import gobject
-
 import hotwire.fs
 from hotwire.fs import path_normalize, unix_basename, FilePath, open_text_file
 from hotwire.sysdep.fs import Filesystem, File
@@ -32,6 +30,7 @@ from hotwire.async import IterableQueue, MiniThreadPool
 from hotwire.builtin import BuiltinRegistry, Builtin, ArgSpec, MultiArgSpec
 import hotwire.util
 from hotwire.util import quote_arg, assert_strings_equal, class_is_assignable
+from hotwire.gutil import call_idle,call_timeout
 import hotwire.script
 import hotwire.externals.shlex as shlex
 from hotwire.externals.singletonmixin import Singleton
@@ -211,14 +210,8 @@ class CommandArgument(unicode):
         inst.isquoted = quoted
         return inst
 
-class Command(gobject.GObject):
+class Command(object):
     """Represents a complete executable object in a pipeline."""
-
-    __gsignals__ = {
-        "complete" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, []),                    
-        "metadata" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT, gobject.TYPE_STRING, gobject.TYPE_PYOBJECT)),
-        "exception" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,)),
-    }
 
     def __init__(self, builtin, args, options, hotwire, tokens=None, in_redir=None, out_redir=None, 
                   out_append=False):
@@ -230,7 +223,6 @@ class Command(gobject.GObject):
         #    self.context.attach_auxstream(CommandAuxStream(self, schema))
         if self.builtin.hasmeta:
             def on_meta(*args):
-                self.emit("metadata", *args)
                 dispatcher.send('metadata', self, *args)
             self.context.set_metadata_handler(on_meta)
         self.input = None
@@ -354,7 +346,6 @@ class Command(gobject.GObject):
                         if self._cancelled and not self.builtin.hasstatus:
                             _logger.debug("%s cancelled, returning", self)
                             self.output.put(self.map_fn(None))
-                            self.emit("complete")
                             dispatcher.send('complete', self)
                             return
                         if outfile and (result is not None):
@@ -371,10 +362,8 @@ class Command(gobject.GObject):
             if self.__executing_sync:
                 raise
             else:
-                self.emit("exception", e)
                 dispatcher.send('exception', self, e)
         self.output.put(self.map_fn(None))
-        self.emit("complete")
         dispatcher.send('complete', self)
         
     def get_executing_sync(self):
@@ -476,16 +465,10 @@ class BaseCommandResolver(object):
         if isinstance(target, File):
             return (BuiltinRegistry.getInstance()['sys'], [target.path])       
 
-class Pipeline(gobject.GObject):
+class Pipeline(object):
     """A sequence of Commands."""
     
     is_singlevalue = property(lambda self: self._is_singlevalue)
-
-    __gsignals__ = {
-        "state-changed" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, []),
-        "metadata" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_UINT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)),        
-        "exception" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,gobject.TYPE_PYOBJECT)),        
-    }
 
     __ws_re = re.compile(r'\s+')
 
@@ -580,7 +563,6 @@ class Pipeline(gobject.GObject):
         self.__state = state
         if self.is_complete():
             self.__completion_time = time.time()         
-        self.emit('state-changed')
         dispatcher.send('state-changed', self)
 
     def execute(self, **kwargs):
@@ -617,7 +599,7 @@ class Pipeline(gobject.GObject):
         cmdidx = self.__cmd_metaidx[cmd]
         self.__cmd_metadata_lock.acquire()
         if self.__idle_emit_cmd_metadata_id == 0:
-            self.__idle_emit_cmd_metadata_id = gobject.timeout_add(200, self.__idle_emit_cmd_metadata, priority=gobject.PRIORITY_LOW)
+            self.__idle_emit_cmd_metadata_id = call_timeout(200, self.__idle_emit_cmd_metadata)
         self.__cmd_metadata[(cmd, cmdidx, key)] = (flags, meta)
         self.__cmd_metadata_lock.release()
 
@@ -629,7 +611,6 @@ class Pipeline(gobject.GObject):
         self.__cmd_metadata = {}
         self.__cmd_metadata_lock.release()
         for (cmd,cmdidx,key),(flags,meta) in meta_ref.iteritems():
-            self.emit("metadata", cmdidx, cmd, key, flags, meta)
             dispatcher.send('metadata', self, cmdidx, cmd, key, flags, meta)
 
     def __on_cmd_complete(self, sender=None):
@@ -638,7 +619,7 @@ class Pipeline(gobject.GObject):
         if cmd.get_executing_sync():
             self.__idle_handle_cmd_complete(cmd)
         else:  
-            gobject.idle_add(lambda: self.__idle_handle_cmd_complete(cmd))
+            call_idle(lambda: self.__idle_handle_cmd_complete(cmd))
         
     def __idle_handle_cmd_complete(self, cmd):
         self.__cmd_complete_count += 1
@@ -654,7 +635,6 @@ class Pipeline(gobject.GObject):
         except:
             _logger.exception("Nested exception while cancelling")
             pass
-        self.emit("exception", e, cmd)
         dispatcher.send('exception', self, e, cmd)
         self.__exception_info = (e.__class__, str(e), cmd, traceback.format_exc())
         self.__set_state('exception')
@@ -854,7 +834,7 @@ Otherwise, return arg."""
                         (b, cmdargs) = resolver.resolve(builtin_token.text, context)
                         _logger.debug("resolved: %r to %r %r", builtin_token.text, b, cmdargs)
                         if not b:
-                            raise PipelineParseException(_('No matches for %s') % (gobject.markup_escape_text(builtin_token.text),))
+                            raise PipelineParseException(_('No matches for %s') % (builtin_token.text,))
                     else:
                         b = BuiltinRegistry.getInstance()['sys']
                         cmdargs = [ParsedToken(builtin_token.text, builtin_token.start, end=builtin_token.end)]
