@@ -381,7 +381,7 @@ class Hotwire(gtk.VBox):
         self.context = HotwireClientContext(self, initcwd=initcwd)
         self.context.history = History.getInstance()
         self.__tabhistory = []
-        self.context.connect("cwd", self.__on_cwd)
+        dispatcher.connect(self.__on_cwd, 'cwd', self.context)
 
         self.__cwd = self.context.get_cwd()
         
@@ -676,10 +676,14 @@ class Hotwire(gtk.VBox):
         self.emit('new-window-cmd', cmdview)
 
     @defer_idle_func(timeout=0) # commands can invoke the cwd signal from a thread context
-    def __on_cwd(self, ctx, cwd):
+    def __on_cwd_idle(self,cwd):
         self.__cwd = cwd
         self.__sync_cwd()
         self.__update_status()
+
+    def __on_cwd(self, cwd, sender=None):
+        ctx = sender
+        self.__on_cwd_idle(cwd)
 
     def __on_recentdir_selected(self, *args):
         if self.__doing_recentdir_sync:

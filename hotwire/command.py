@@ -49,11 +49,7 @@ class PipelineTypeData(object):
         self._type = pipeline.get_output_type()
         self._single = pipeline.is_singlevalue
 
-class HotwireContext(gobject.GObject):
-    __gsignals__ = {
-        "cwd" : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_STRING,)),
-    }
-    
+class HotwireContext(object):
     cwd = property(lambda self: self.get_cwd(), doc="""Current working directory for this context.""")
     
     """The interface to manipulating a Hotwire execution shell.  Item
@@ -73,8 +69,7 @@ class HotwireContext(gobject.GObject):
         _logger.debug("chdir: %s    post-normalize: %s", dpath, newcwd)
         os.stat(newcwd) # lose on nonexistent
         self.__cwd = newcwd
-        self.emit("cwd", newcwd)
-        dispatcher.send('cwd', self)
+        dispatcher.send('cwd', self, newcwd)
         return self.__cwd
 
     def get_cwd(self):
@@ -514,6 +509,7 @@ class Pipeline(gobject.GObject):
         self.__undo = []
         self.__cmd_metadata_lock = threading.Lock()
         self.__idle_emit_cmd_metadata_id = 0
+        self.__cmd_metaidx = {} # cmd -> int
         self.__cmd_metadata = {}
         self.__cmd_complete_count = 0
         self.__state = 'waiting'
@@ -534,12 +530,13 @@ class Pipeline(gobject.GObject):
             if assert_all_threaded and not cmd.builtin.threaded:
                 raise ValueError("assert_all_threaded is enabled but trying to execute non-threaded builtin %s" % (cmd.builtin,))
             dispatcher.connect(self.__on_cmd_complete, 'complete', cmd)
-            cmd.connect("exception", self.__on_cmd_exception)
+            dispatcher.connect(self.__on_cmd_exception, "exception", cmd)
             # Here we record which commands include metadata, and
             # pass in the index in the pipeline for them.
             if cmd.builtin.hasmeta:
                 _logger.debug("connecting to metadata on cmd %s, idx=%s", cmd, meta_idx)
-                cmd.connect("metadata", self.__on_cmd_metadata, meta_idx)
+                dispatcher.connect(self.__on_cmd_metadata, 'metadata', cmd)
+                self.__cmd_metaidx[cmd] = meta_idx
                 meta_idx += 1                
         prev_opt_formats = []
         for cmd in self.__components:
@@ -615,7 +612,9 @@ class Pipeline(gobject.GObject):
             if cmd.builtin.hasstatus:
                 yield cmd.builtin.name
 
-    def __on_cmd_metadata(self, cmd, key, flags, meta, cmdidx):
+    def __on_cmd_metadata(self, key, flags, meta, sender=None):
+        cmd = sender
+        cmdidx = self.__cmd_metaidx[cmd]
         self.__cmd_metadata_lock.acquire()
         if self.__idle_emit_cmd_metadata_id == 0:
             self.__idle_emit_cmd_metadata_id = gobject.timeout_add(200, self.__idle_emit_cmd_metadata, priority=gobject.PRIORITY_LOW)
@@ -646,7 +645,8 @@ class Pipeline(gobject.GObject):
         if self.__cmd_complete_count == len(self.__components):
             self.__set_state('complete')
 
-    def __on_cmd_exception(self, cmd, e):
+    def __on_cmd_exception(self, e, sender=None):
+        cmd = sender
         if not self.__state == 'executing':
             return        
         try:

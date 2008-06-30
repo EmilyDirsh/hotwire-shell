@@ -28,6 +28,7 @@ from hotwire.command import CommandQueue
 from hotwire.async import QueueIterator
 from hotwire.logutil import log_except
 from hotwire_ui.oinspect import InspectWindow, ObjectInspectLink, ClassInspectorSidebar
+from hotwire.externals.dispatch import dispatcher
 
 _logger = logging.getLogger("hotwire.ui.Command")
 
@@ -77,9 +78,9 @@ class CommandExecutionHeader(gtk.VBox):
         self.__throbber_pixbuf_ani = PixbufCache.getInstance().get('throbber.gif', size=None, animation=True)
         
         self.__tooltips = gtk.Tooltips()
-
-        self.__pipeline.connect("state-changed", self.__on_pipeline_state_change)   
-        self.__pipeline.connect("metadata", self.__on_pipeline_metadata)
+        
+        dispatcher.connect(self.__on_pipeline_state_change, 'state-changed', self.__pipeline)
+        dispatcher.connect(self.__on_pipeline_metadata, 'metadata', self.__pipeline)
         
         self.__main_hbox = gtk.HBox()
         self.pack_start(self.__main_hbox, expand=True)
@@ -305,7 +306,8 @@ class CommandExecutionHeader(gtk.VBox):
             if otype is not None:
                 self.__otype_expander.get_property('label-widget').set_markup('<b>%s</b> %s' % (_('Type:'), gobject.markup_escape_text(otype.__name__)))
 
-    def __on_pipeline_metadata(self, pipeline, cmdidx, cmd, key, flags, meta):
+    def __on_pipeline_metadata(self, cmdidx, cmd, key, flags, meta, sender=None):
+        pipeline=sender
         _logger.debug("got pipeline metadata idx=%d key=%s flags=%s", cmdidx, key, flags)
         if key == 'hotwire.fileop.basedir':
             self.__handle_basedir(cmdidx, meta)
@@ -327,7 +329,8 @@ class CommandExecutionHeader(gtk.VBox):
         state = self.__pipeline.get_state()           
         return (state == 'executing' or (state == 'complete' and not self.__primary_complete))
     
-    def __on_pipeline_state_change(self, pipeline):
+    def __on_pipeline_state_change(self, signal=None, sender=None):
+        pipeline = sender
         state = self.__pipeline.get_state()        
         _logger.debug("state change to %s for pipeline %s", state, self.__pipeline_str)
         isexecuting = self.__isexecuting()
@@ -605,7 +608,7 @@ class CommandExecutionControl(gtk.VBox):
      
     def add_cmd_widget(self, cmd):
         pipeline = cmd.cmd_header.get_pipeline()
-        pipeline.connect('state-changed', self.__on_pipeline_state_change)        
+        dispatcher.connect(self.__on_pipeline_state_change, 'state-changed', pipeline)
         self.__cmd_overview.add_pipeline(pipeline, cmd.odisp)
         pgnum = self.__cmd_notebook.append_page(cmd)
         self.__cmd_notebook.set_current_page(pgnum)
@@ -615,7 +618,7 @@ class CommandExecutionControl(gtk.VBox):
         
     def add_pipeline(self, pipeline):
         _logger.debug("adding child %s", pipeline)
-        pipeline.connect('state-changed', self.__on_pipeline_state_change)
+        dispatcher.connect(self.__on_pipeline_state_change, 'state-changed', pipeline)
         odisp = MultiObjectsDisplay(self.__context, pipeline) 
         cmd = CommandExecutionDisplay(self.__context, pipeline, odisp)
         cmd.cmd_header.connect('action', self.__handle_cmd_action)
@@ -895,7 +898,8 @@ class CommandExecutionControl(gtk.VBox):
             self.__footer.show()
             
     @log_except(_logger)
-    def __on_pipeline_state_change(self, pipeline):
+    def __on_pipeline_state_change(self, signal=None, sender=None):
+        pipeline = sender
         _logger.debug("handling state change to %s", pipeline.get_state())
         if pipeline.is_complete():
             self.__complete_unseen_pipelines.add(pipeline)
