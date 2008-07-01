@@ -21,9 +21,9 @@
 
 import os, sys, traceback, shlex, string, platform
 import fnmatch, commands
-import unicodedata
-
-import gobject
+from xml.sax.saxutils import escape as escape_xml
+import hotwire.unicodeutils
+from hotwire.unicodeutils import get_unichar_category, is_category_letter, is_category_number
 
 try:
     import threadframe
@@ -41,9 +41,9 @@ def assert_strings_equal(x, y):
 
 def markup_for_match(text, start, end, matchtarget=None):
     source = matchtarget or text
-    return  '%s<b>%s</b>%s%s' % (gobject.markup_escape_text(source[0:start]),
-                                 gobject.markup_escape_text(source[start:end]),
-                                 gobject.markup_escape_text(source[end:]),
+    return  '%s<b>%s</b>%s%s' % (escape_xml(source[0:start]),
+                                 escape_xml(source[start:end]),
+                                 escape_xml(source[end:]),
                                  matchtarget and (' - <i>' + text + '</i>') or '')
     
 
@@ -98,9 +98,11 @@ def quote_arg(arg):
     safechars = '.,/~_-+:'
     safeonly = True
     safe_space_only = True
+    def is_letter_or_number(c):
+        return is_category_letter(c) or is_category_number(c)
     for c in arg:
-        ccat = unicodedata.category(c)
-        if ccat[0] not in ('L', 'N') and c not in safechars:
+        cat = get_unichar_category(c)
+        if (not is_letter_or_number(cat)) and c not in safechars:
             safeonly = False
             if c != ' ':
                 safe_space_only = False

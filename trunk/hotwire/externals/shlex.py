@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """A lexical analyzer class for simple shell-like syntaxes."""
 
 ## MODIFIED FROM UPSTREAM PYTHON, see:
@@ -13,8 +12,9 @@
 
 import os.path
 import sys
-import unicodedata
 from collections import deque
+
+from hotwire.unicodeutils import get_unichar_category, is_category_letter, is_category_number, is_category_whitespace
 
 try:
     from cStringIO import StringIO
@@ -43,10 +43,7 @@ class shlex:
         self.commenters = '#'
         self.wordchars = ('abcdfeghijklmnopqrstuvwxyz'
                           'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_')
-        if self.posix and not self.utf:
-            self.wordchars += ('ßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ'
-                               'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞ')
-        elif self.posix:
+        if self.posix:
             # We dynamically determine character classes below, except
             # by default _ is a word character
             self.wordchars = '_'
@@ -133,12 +130,12 @@ class shlex:
     def get_token(self):
         (raw, quoted) = self.get_token_info()
         return raw
-    
+
     def __is_whitespace(self, c, category):
-        return c in self.whitespace or (self.utf and category[0] == 'Z')        
+        return c in self.whitespace or (self.utf and is_category_whitespace(category))
     
     def __is_wordchar(self, c, category):
-        return c in self.wordchars or (self.utf and category[0] in ('L', 'N'))        
+        return c in self.wordchars or (self.utf and (is_category_number(category) or is_category_letter(category)))
 
     def read_token_info(self):
         quoted = False
@@ -146,7 +143,7 @@ class shlex:
         while True:
             nextchar = self.instream.read(1)
             if nextchar and self.utf:
-                nextcategory = unicodedata.category(nextchar)
+                nextcategory = get_unichar_category(nextchar)
             else:
                 nextcategory = None            
             if nextchar == '\n':
