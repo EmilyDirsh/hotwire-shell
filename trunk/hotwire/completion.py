@@ -22,8 +22,6 @@
 import os,sys,re,stat,logging
 import posixpath
 
-import gobject
-
 import hotwire
 from hotwire.builtin import BuiltinRegistry
 from hotwire.cmdalias import Alias, AliasRegistry
@@ -31,9 +29,9 @@ from hotwire.async import MiniThreadPool
 from hotwire.fs import FilePath,iterd,iterd_sorted,path_normalize,path_expanduser,unix_basename
 from hotwire.sysdep.fs import Filesystem
 from hotwire.externals.singletonmixin import Singleton
+from hotwire.gutil import call_idle
 from hotwire.util import quote_arg, tracefn
 from hotwire.logutil import log_except
-from hotwire.state import History
 from hotwire.sysdep.fs import Filesystem
 
 _logger = logging.getLogger("hotwire.Completion")
@@ -216,4 +214,4 @@ class CompletionSystem(object):
         def do_cb(*args):
             cb(*args)
             return False
-        gobject.idle_add(do_cb, completer, text, result)
+        call_idle(do_cb, completer, text, result)
