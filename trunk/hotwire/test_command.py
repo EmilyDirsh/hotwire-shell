@@ -618,6 +618,13 @@ class PipelineRunTests(PipelineRunTestFramework):
         p.execute_sync()
         results = list(p.get_output())
         self.assertEquals([0,2,5,7,8,10], results)
+
+    def testUniq1(self):
+        self._setupTree1()
+        p = Pipeline.parse("py-eval '[1,1,2,4,5,4]' | iter | uniq")
+        p.execute_sync()
+        results = list(p.get_output())
+        self.assertEquals([1,2,4,5], results)
         
 def suite():
     loader = unittest.TestLoader()

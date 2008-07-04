@@ -281,5 +281,6 @@ def load():
     import hotwire.builtins.stringify    
     import hotwire.builtins.sys_builtin    
     import hotwire.builtins.term
+    import hotwire.builtins.uniq
     import hotwire.builtins.walk    
     import hotwire.builtins.write
