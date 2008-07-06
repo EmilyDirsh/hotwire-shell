@@ -4,7 +4,7 @@
 
   * [http://hotwire-shell.org/ Main project page]
   * WhatIsHotwire
-  * Screenshots
+  * [Screenshots]
   * HotwireVsBinSh
   * HotwireVsPowerShell
   * HotwireNotLanguage
@@ -22,9 +22,9 @@
 
 == Platform Specific ==
 
-  * HotwireKDE
+  * [HotwireKDE]
   * HotwireWindows
-  * HotwireMacOSX
+  * [HotwireMacOSX]
 
 = Developing Hotwire =
 
