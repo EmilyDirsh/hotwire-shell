@@ -12,11 +12,11 @@
 
 = Using Hotwire =
 
-  * FAQ
+  * [FAQ]
   * GettingStarted0700
   * HotwirePipeExamples
   * KeyboardShortcuts
-  * CommandLineShortcuts
+  * CommandLineOptions
   * ExternalPlugins
   * Support can be found on the [http://groups.google.com/group/hotwire-shell google group] and the IRC channel (#hotwire on irc.freenode.net)
 
@@ -32,5 +32,5 @@
   * ExtendingHotwire
   * HotwireArchitecture - pipelines, the sys builtin and renderers
   * CodingStyle
-  * Contributing
+  * [Contributing]
   * RoadMap
