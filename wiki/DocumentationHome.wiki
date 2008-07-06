@@ -1,4 +1,5 @@
 #summary Organised guide to documentation.
+#labels Featured
 
 = About Hotwire =
 
