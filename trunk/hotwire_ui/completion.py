@@ -102,17 +102,16 @@ class MatchView(gtk.VBox):
             uniqueresults.add(completion)
             i += 1
             if reverse:
-                iter = model.prepend([completion])
+                itr = model.prepend([completion])
             else:
-                iter = model.append([completion])
+                itr = model.append([completion])
         self.__model = model
         self.__view.set_model(model)
         nchildren = self.__model.iter_n_children(None)
         if results and do_select:
-            i = self.__model.iter_nth_child(None, nchildren-1)
-            self.__selection.select_iter(i)
-            path = self.__model.get_path(i)
-            self.__view.scroll_to_cell(path)
+            self.__selection.unselect_all()
+            itr = self.__model.iter_nth_child(None, nchildren-1)
+            self.__selection.select_iter(itr)
         if results:
             self.__none_label.hide()
         else:
@@ -120,7 +119,7 @@ class MatchView(gtk.VBox):
         self.set_total(nchildren)
             
     def set_total(self, total):
-        self.__label.set_markup(' %s - <b>%d</b> total ' % \
+        self.__label.set_markup(_(' %s - <b>%d</b> total ') % \
                                 (gobject.markup_escape_text(self.__title),
                                  total))
 
@@ -153,11 +152,15 @@ class MatchView(gtk.VBox):
     
     def get_total(self):        
         return self.__model.iter_n_children(None) 
-    
+
+    @log_except(_logger)
     def __on_selection_changed(self, sel):
-        (model, iter) = sel.get_selected()
-        if iter:
-            self.__view.scroll_to_cell(model.get_path(iter))
+        (model, itr) = sel.get_selected()
+        _logger.debug("selection changed: %r %r", model, itr)
+        if itr is not None:
+            path = model.get_path(itr)
+            _logger.debug("scrolling to path: %r", path)
+            self.__view.scroll_to_cell(path)
 
 class MatchPopup(hotwidgets.TransientPopup):
     __gsignals__ = {
@@ -216,8 +219,8 @@ class MatchPopup(hotwidgets.TransientPopup):
         #self.set_size_request((int(ref_w*0.75)), -1)
 
     def get_selected_path(self):
-        (model, iter) = self.__selection.get_selected()
-        return iter and model.get_path(iter)
+        (model, itr) = self.__selection.get_selected()
+        return itr and model.get_path(itr)
         
     def select_next(self):
         path = self.get_selected_path()
@@ -250,17 +253,17 @@ class MatchPopup(hotwidgets.TransientPopup):
         self.__view.page_down()   
         
     def emit_itemselected(self):
-        (model, iter) = self.__selection.get_selected()
-        if not iter:
+        (model, itr) = self.__selection.get_selected()
+        if not itr:
             self.emit('item-selected', None)
             return
-        self.emit('item-selected', model.get_value(iter, 0))
+        self.emit('item-selected', model.get_value(itr, 0))
         
     def __on_row_activated(self, tv, path, vc):
         _logger.debug("row activated: %s", path)
         model = self.__view.get_model()
-        iter = model.get_iter(path)
-        self.emit('item-selected', model.get_value(iter, 0))
+        itr = model.get_iter(path)
+        self.emit('item-selected', model.get_value(itr, 0))
 
 class MatchingHistoryView(MatchView):
     def __init__(self, *args, **kwargs):
@@ -274,8 +277,8 @@ class MatchingHistoryView(MatchView):
         self.__matchtext = text
         self.get_model().foreach(gtk.TreeModel.row_changed)
  
-    def _render_item(self, col, cell, model, iter):
-        (lang, histitem) = model.get_value(iter, 0)
+    def _render_item(self, col, cell, model, itr):
+        (lang, histitem) = model.get_value(itr, 0)
         if self.__matchtext:
             idx = histitem.find(self.__matchtext)
             if idx >= 0:
@@ -285,8 +288,8 @@ class MatchingHistoryView(MatchView):
         cell.set_property('text', histitem)
         
     @log_except(_logger)
-    def __render_item_icon(self, col, cell, model, iter):
-        (lang, histitem) = model.get_value(iter, 0)
+    def __render_item_icon(self, col, cell, model, itr):
+        (lang, histitem) = model.get_value(itr, 0)
         langs = PipelineLanguageRegistry.getInstance()
         pbcache = PixbufCache.getInstance()
         pixbuf = pbcache.get(langs[lang].icon, size=16, trystock=True, stocksize=gtk.ICON_SIZE_MENU)        
@@ -312,8 +315,8 @@ class TabCompletionView(MatchView):
         else:
             return None
 
-    def __render_icon(self, col, cell, model, iter):
-        compl = model.get_value(iter, 0)
+    def __render_icon(self, col, cell, model, itr):
+        compl = model.get_value(itr, 0)
         icon_name = compl.icon
         if (not icon_name) and compl.target:
             ifunc = self.__get_icon_func_for_klass(compl.target)
@@ -332,13 +335,13 @@ class TabCompletionView(MatchView):
         model  = self.get_model()
         iter = model.get_iter_first()
         while iter:
-            val = model.get_value(iter, 0)
+            val = model.get_value(itr, 0)
             if val is obj:
                 return iter
-            iter = model.iter_next(iter)
+            iter = model.iter_next(itr)
 
-    def _render_item(self, col, cell, model, iter):
-        compl = model.get_value(iter, 0)
+    def _render_item(self, col, cell, model, itr):
+        compl = model.get_value(itr, 0)
         if compl.matchbase:
             cell.set_property('text', compl.matchbase)
         else:
@@ -475,6 +478,7 @@ class CompletionStatusDisplay(hotwidgets.TransientPopup):
     def popup_tab_history(self):
         if self.__tab_history_visible:
             return
+        _logger.debug("doing tab history popup")
         self.hide()
         self.__tab_history_display.set_content(self.__tabhistory, uniquify=False)         
         self.__tab_history_display.reposition()
