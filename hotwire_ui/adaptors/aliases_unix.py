@@ -23,12 +23,10 @@ import os,sys
 
 from hotwire.cmdalias import AliasRegistry
 
-default_aliases = {'sudo': 'term sudo',
-                   'su': 'term su',                   
+default_aliases = {'su': 'term su',                   
                    'vi': 'term vi',
                    'vim': 'term vim',
                    'gdb': 'term gdb',                   
-                   'ssh': 'term ssh',
                    'man': 'term man',
                    'info': 'term info',
                    'most': 'term most',                   
