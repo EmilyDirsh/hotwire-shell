@@ -625,6 +625,14 @@ class PipelineRunTests(PipelineRunTestFramework):
         p.execute_sync()
         results = list(p.get_output())
         self.assertEquals([1,2,4,5], results)
+
+    def testHead1(self):
+        self._setupTree1()
+        p = Pipeline.parse("py-eval '[5,2,7,8,10,0,34]' | iter | head -5")
+        p.execute_sync()
+        results = list(p.get_output())
+        self.assertEquals([5,2,7,8,10], results)
+
         
 def suite():
     loader = unittest.TestLoader()
