@@ -343,7 +343,10 @@ class UnicodeRenderer(ObjectsRenderer):
         have_eof_or_err = (condition & gobject.IO_HUP) or (condition & gobject.IO_ERR)
         if (condition & gobject.IO_IN):
             buf = os.read(src, 8192)
-            self.__append_locale_chunk(buf, flush=have_eof_or_err)
+            try:
+                self.__append_locale_chunk(buf, flush=have_eof_or_err)
+            except:
+                pass
         if have_eof_or_err:
             try:
                 os.close(src)
