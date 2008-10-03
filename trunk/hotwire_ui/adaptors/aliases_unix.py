@@ -41,6 +41,7 @@ default_aliases = {'su': 'term su',
                    'pico': 'term pico',
                    'irssi': 'term irssi',
                    'mutt': 'term mutt',
+                   'nethack': 'term nethack',
                   }
 aliases = AliasRegistry.getInstance()
 for name,value in default_aliases.iteritems():
