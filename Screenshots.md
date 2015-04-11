@@ -1,0 +1,1 @@
+There are up-to-date and full size screenshots in [Colin's Picasa Gallery](http://picasaweb.google.com/cgwalters/HotwireScreenshots).
